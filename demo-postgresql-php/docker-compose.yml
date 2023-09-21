@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    app:
+        build: ./docker/apache
+        ports:
+            - 8080:80
+        volumes:
+            - ./site:/var/www/html
+        links:
+            - db:postgres
+
+    db:
+        image: postgres:15.4-bullseye
+        volumes:
+            - ./docker/data/postgres/logs:/var/log/postgresql
+            - ./docker/data/postgres/data:/var/lib/postgresql/data
+            - ./simple-course.sql:/docker-entrypoint-initdb.d/simple-course.sql
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_PASSWORD=changeme
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=simple-course
+
+            
+    pgadmin:
+        container_name: pgadmin_container
+        image: dpage/pgadmin4:7.6
+        environment:
+            PGADMIN_DEFAULT_EMAIL: postgres@local.int
+            PGADMIN_DEFAULT_PASSWORD: changeme
+            PG_DATABASE: simple-course
+            PG_USER: postgres
+            PG_PASSWORD: changeme
+        volumes:
+            - ./docker/pgadmin:/root/.pgadmin
+        ports:
+            - 8081:80
+        links:
+            - db:postgres
