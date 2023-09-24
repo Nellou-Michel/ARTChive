@@ -1,2 +1,5 @@
-Structuration de l'application selon le patron Modèle-Vue-Controlleur.
+/*Structuration de l'application selon le patron Modèle-Vue-Controlleur.
 À implanter...
+
+
+Index.php -> 'Router.php' (vérifie quel controller appeler) -> Controller va appeler le model associé ainsi que sa vue*/

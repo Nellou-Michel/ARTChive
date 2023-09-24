@@ -1,5 +1,5 @@
 <?php
-include ('../config.php');
+//include ('../config.php');
 
 function getCourses() {
 	$req = DB::get()->query('select * from course');
@@ -7,4 +7,4 @@ function getCourses() {
 	return $courses;
 }	
 
-<?
+?>

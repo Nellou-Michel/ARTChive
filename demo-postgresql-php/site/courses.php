@@ -77,6 +77,47 @@ error_reporting(E_ALL);
 
 
 
+ <div class="container">
+        <div class="row">
+    <?php
+    // On récupère les données en utilisant une jointure entre COURSE et COURSE_TEACHER
+    $query = getCourses();
+    $request = DB::get()->query($query);
+
+    while ($data = $request->fetch()) {
+    ?>
+
+                <div class="col-md-4 col-sm-6 col-12"> <!-- 3 colonnes sur grand écran, 2 colonnes sur tablette, 1 colonne sur mobile -->
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <h5 class="card-title"><?php echo $data['name']; ?></h5>
+                            <p class="card-text">
+                                <br>
+                                code du cours : <?php echo $data['code']; ?><br>
+                                description du cours :
+                                <?php echo $data['description']; ?><br></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ajouter autant de blocs que nécessaire avec la même structure -->
+
+
+
+        <?php
+    }
+    $request->closeCursor();
+    ?>
+
+        </div>
+    </div>
+
+
+
+
+
 
     <!-- Formulaire Bootstrap -->
     <form method="post" action="insertCourse.php" class="mt-4">
