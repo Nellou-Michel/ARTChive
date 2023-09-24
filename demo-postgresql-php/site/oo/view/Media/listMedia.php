@@ -13,6 +13,12 @@
             width: 100%; /* Largeur de l'image à 100% de la largeur du conteneur */
             height: auto; /* La hauteur est automatiquement ajustée pour conserver les proportions de l'image */
         }
+
+        .leftObj{
+            left:0;
+        }
+
+        
     </style>
 
 <div class="row mb-2">
@@ -21,6 +27,7 @@
     <?php
 
     foreach ($medias as $media): ?>
+
 
     <div class="col-md-6">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -31,11 +38,20 @@
                 <p class="card-text mb-auto"><?= $media->getDescription() ?></p>
                 <p ><?= $media->getAverage_Note() ?>/10</p>
 
+                <form method="post" action="?url=media&action=delete">
+                <div class="leftObj">
+                    <button type=submit class="btn btn-outline-secondary rounded-pill">- supprimer -</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
+                    <input type='hidden' id='id_media' name='id_media' value=<?= $media->getId_media()?>>
+                </div>
+                </form>
+
             </div>
             
             <div class="image-container">                              
                     <img  src=<?= $media->getFile_path() ?> alt='img'>
             </div>
+
+
         </div>
     </div>
       

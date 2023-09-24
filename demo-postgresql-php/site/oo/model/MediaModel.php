@@ -124,6 +124,40 @@ class MediaModel{
     }
 
 
+    public static function getMediaById($id){
+        $req = DB::get()->prepare("SELECT * FROM Media WHERE id_media = :id_media");
+        $values = array("id_media" => $id);
+        $req->execute($values);
+        
+        $mediaData = $req->fetch(PDO::FETCH_ASSOC);
+    
+        // Attention, si il n'y a pas de résultat, on renvoie false
+        if (!$mediaData) {
+            echo "Pas de média trouvé";
+            return false;
+        }
+    
+        // Créez une instance de MediaModel et initialisez-la avec les données du média
+        $media = new MediaModel($mediaData);
+      
+    
+        return $media;
+       
+    }
+
+
+    public function delete(){
+        $req = DB::get()->prepare("DELETE FROM Media Where id_media = :id_media");
+
+       $values = array(
+        "id_media" => $this->id,
+       );
+
+        $req->execute($values);
+
+    }
+
+
 
 
 

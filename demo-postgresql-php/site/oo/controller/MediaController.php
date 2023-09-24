@@ -29,6 +29,10 @@ class MediaController {
                       
                         $this->createdMedia();
                         break;
+                    case 'delete':
+                      
+                        $this->deleteMedia();
+                        break;
                 }
               
            
@@ -89,6 +93,28 @@ class MediaController {
         $this->_view->generate(array(null));
 
    
+    }
+
+
+    public function deleteMedia(){
+
+       
+
+        $id = $_POST['id_media'];
+
+       
+
+
+        $media = MediaModel::getMediaById($id);
+
+        
+        $media->delete();
+
+        $this->_view = new View('deleted','Media');
+        $this->_view->generate(array(null));
+
+
+        
     }
 
 
