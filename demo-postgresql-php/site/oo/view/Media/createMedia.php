@@ -1,7 +1,7 @@
 <?php $this->_t="Créer Média"?>
 
 <h2>Créer un Nouveau Média</h2>
-    <form action="?url=media&action=created" method="post">
+    <form action="?controller=media&action=created" method="post">
         <label for="name_media">Nom du Média :</label>
         <input type="text" id="name_media" name="name_media" required><br><br>
 

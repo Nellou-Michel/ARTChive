@@ -16,7 +16,7 @@ class MediaModel{
     }
 
 
-    //Va faire les setter de chaque donéé
+    //Va faire les setter de chaque donnéé
     //Attention le nom de la méthode si un attribut est : attribut_type => setAttribut_type($attribut_type)
     //ça permet de ne pas se faire chier à associer les setters aux attributs à la mano.
     public function hydrate(array $data){

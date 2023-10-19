@@ -2,7 +2,7 @@
 
 <?php $this->_t="Medias"?>
 
-<a href="?url=media&action=create" class="btn btn-primary">+ Ajouter un media</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
+<a href="?controller=media&action=create" class="btn btn-primary">+ Ajouter un media</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 
 <style>
         .image-container {
@@ -38,7 +38,7 @@
                 <p class="card-text mb-auto"><?= $media->getDescription() ?></p>
                 <p ><?= $media->getAverage_Note() ?>/10</p>
 
-                <form method="post" action="?url=media&action=delete">
+                <form method="post" action="?controller=media&action=delete">
                 <div class="leftObj">
                     <button type=submit class="btn btn-outline-secondary rounded-pill">- supprimer -</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
                     <input type='hidden' id='id_media' name='id_media' value=<?= $media->getId_media()?>>
