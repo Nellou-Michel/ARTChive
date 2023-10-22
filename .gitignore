@@ -117,4 +117,7 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
+#docker datas
+demo-postgresql-php/docker/data/postgres/data/
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij
