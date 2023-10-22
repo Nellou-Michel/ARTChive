@@ -33,6 +33,7 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <h3 class="mb-0"><?= $media->getName_media() ?></h3>
+                <h5 class="mb-0">Auteur : <?= $media->getName_author() ?></h5>
                 <strong class="d-inline-block mb-2 text-primary-emphasis"><?= $media->getLength() . ' ' . $media->getUnite(); ?></strong>
                 <div class="mb-1 text-body-secondary">Date de publication : <?= $media->getPublication_date() ?></div>
                 <p class="card-text mb-auto"><?= $media->getDescription() ?></p>

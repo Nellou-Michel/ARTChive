@@ -5,7 +5,7 @@ class ControllerAccueil {
     private $_view;
 
     public function __construct(){
-             
+      
     }
 
     public function readAll(){

@@ -41,7 +41,8 @@ class ControllerMedia {
             'length' => $_POST['length'],
             'unite' => $_POST['unite'],
             'average_note' => $_POST['average_note'],
-            'file_path' => $_POST['file_path']
+            'file_path' => $_POST['file_path'],
+            'id_author' =>    $_POST['id_author']
         ];
     
         // Créer un nouvel objet Media

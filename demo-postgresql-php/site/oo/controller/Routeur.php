@@ -11,7 +11,7 @@ class Router{
 
     
     public function routeReq(){
-
+       
         if(isset($_GET['action'])){
 
             $action=$_GET['action'];
@@ -36,7 +36,9 @@ class Router{
             else  $action='error';
         }
         else {
-            new ControllerAccueil();
+             $accueil = new ControllerAccueil();
+             $accueil->readAll();
+
         }
 
 
