@@ -21,6 +21,13 @@ CREATE TABLE Media (
     file_path VARCHAR(255)
 );
 
+-- Table pour la music
+CREATE TABLE Music (
+    id_music PRIMARY KEY,
+    album VARCHAR(255),
+    FOREIGN KEY (id_media) REFERENCES Media(id_media)
+);
+
 -- Table pour les livres
 CREATE TABLE Book (
     id_media INT PRIMARY KEY,
