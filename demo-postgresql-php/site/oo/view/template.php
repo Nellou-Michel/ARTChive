@@ -96,16 +96,16 @@
         </div>
     </header>
 
-	<?php $currentURL = isset($_GET['url']) ? $_GET['url'] : 'accueil'; // Valeur par défaut : accueil ?>
+	<?php $currentURL = isset($_GET['controller']) ? $_GET['controller'] : 'accueil'; // Valeur par défaut : accueil ?>
 
 
     <div class="nav-scroller py-1 mb-3 border-bottom">
         <nav class="nav nav-underline justify-content-between">
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'accueil') ? 'active' : '' ?>" href="?url=accueil">Accueil</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'media') ? 'active' : '' ?>" href="?url=media">Livres</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'film') ? 'active' : '' ?>" href="?url=film">Films</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'jeu') ? 'active' : '' ?>" href="?url=jeu">Jeux</a>
-			<a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'profil') ? 'active' : '' ?>" href="?url=profil">Mon Profil</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'accueil') ? 'active' : '' ?>" href="?controller=accueil">Accueil</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'media') ? 'active' : '' ?>" href="?controller=media">Livres</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'film') ? 'active' : '' ?>" href="?controller=film">Films</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'jeu') ? 'active' : '' ?>" href="?controller=jeu">Jeux</a>
+			<a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'profil') ? 'active' : '' ?>" href="?controller=profil">Mon Profil</a>
         </nav>
     </div>
 

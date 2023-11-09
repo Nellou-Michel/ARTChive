@@ -1,14 +1,15 @@
 <?php
 require_once FILE::build_path(array('view','View.php'));
-class AccueilController {
+class ControllerAccueil {
 
     private $_view;
 
-    public function __construct($url){
-     
-       
-            $this->afficheAccueil();
-        
+    public function __construct(){
+      
+    }
+
+    public function readAll(){
+        $this->afficheAccueil();
     }
 
 
@@ -19,10 +20,5 @@ class AccueilController {
 
         //require_once FILE::build_path(array('view','Accueil','accueil.php'));
     }
-
-
-
-
-
 }
 ?>

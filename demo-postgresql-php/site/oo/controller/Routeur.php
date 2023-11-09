@@ -1,12 +1,50 @@
 <?php
 
+require_once File::build_path(array("controller","ControllerAccueil.php"));
+require_once File::build_path(array("controller","ControllerMedia.php"));
+
+
+
 class Router{
     private $_controller;
     private $_view;
 
     
     public function routeReq(){
-        try{
+       
+        if(isset($_GET['action'])){
+
+            $action=$_GET['action'];
+            $class_methods = get_class_methods('ControllerMedia');
+            if(!in_array($action, $class_methods)){
+                $action='error';
+            }
+        
+        }
+        else {
+            $action='readAll';
+        }
+        
+        if(isset($_GET['controller'])) {
+            $controller = $_GET['controller'];
+            $controller_class = "Controller".ucfirst($controller);
+            if(class_exists($controller_class)) {
+               
+                $this->_controller = new $controller_class;
+                $this->_controller->$action();
+            }
+            else  $action='error';
+        }
+        else {
+             $accueil = new ControllerAccueil();
+             $accueil->readAll();
+
+        }
+
+
+
+
+        /*try{
          
             //chargement automatique des classes
             spl_autoload_register(function($class){
@@ -14,9 +52,11 @@ class Router{
             });
 
             $url='';
+
+            
          
             //Le controller est inclus selon l'action de l'utilisateur;
-            if(isset($_GET['url'])){
+            if(isset($_GET['action'])){
                
                 $url= explode('/', filter_var($_GET['url'],FILTER_SANITIZE_URL));
 
@@ -52,11 +92,7 @@ class Router{
         }
         //Gestion des erreurs;
         catch(Exception $e){
-
-
             require_once FILE::build_path(array("view","errorView.php"));
-
-            
-        }
+        }*/
     }
 }

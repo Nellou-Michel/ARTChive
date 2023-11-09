@@ -2,7 +2,7 @@
 
 <?php $this->_t="Medias"?>
 
-<a href="?url=media&action=create" class="btn btn-primary">+ Ajouter un media</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
+<a href="?controller=media&action=create" class="btn btn-primary">+ Ajouter un media</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 
 <style>
         .image-container {
@@ -33,12 +33,13 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <h3 class="mb-0"><?= $media->getName_media() ?></h3>
+                <h5 class="mb-0">Auteur : <?= $media->getName_author() ?></h5>
                 <strong class="d-inline-block mb-2 text-primary-emphasis"><?= $media->getLength() . ' ' . $media->getUnite(); ?></strong>
                 <div class="mb-1 text-body-secondary">Date de publication : <?= $media->getPublication_date() ?></div>
                 <p class="card-text mb-auto"><?= $media->getDescription() ?></p>
                 <p ><?= $media->getAverage_Note() ?>/10</p>
 
-                <form method="post" action="?url=media&action=delete">
+                <form method="post" action="?controller=media&action=delete">
                 <div class="leftObj">
                     <button type=submit class="btn btn-outline-secondary rounded-pill">- supprimer -</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
                     <input type='hidden' id='id_media' name='id_media' value=<?= $media->getId_media()?>>
