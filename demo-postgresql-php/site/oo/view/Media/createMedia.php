@@ -46,6 +46,11 @@
             height: 100vh;
         }
 
+        .uwu {
+            background-color: rgba(169, 169, 169, 0.4);
+            color: black    ;
+        }
+
         .bi {
             vertical-align: -.125em;
             fill: currentColor;
@@ -223,6 +228,11 @@
                                     Selectionnez un url valide
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-4">
+                            <br>
+                            <input type="submit" value="Créer" class="form-control btn-bd uwu"> </input>
                         </div>
 
                         <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
