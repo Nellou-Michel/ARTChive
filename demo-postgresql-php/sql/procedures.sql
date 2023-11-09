@@ -11,6 +11,7 @@ BEGIN
             WHEN EXISTS (SELECT 1 FROM Book WHERE id_media = :NEW.id_media) THEN 'Book'
             WHEN EXISTS (SELECT 1 FROM Movie WHERE id_media = :NEW.id_media) THEN 'Movie'
             WHEN EXISTS (SELECT 1 FROM Game WHERE id_media = :NEW.id_media) THEN 'Game'
+            WHEN EXISTS (SELECT 1 FROM Music WHERE id_media = :NEW.id_media) THEN 'Music'
             ELSE NULL
         END
     INTO media_type
@@ -40,15 +41,3 @@ BEGIN
 END;
 
 
-
-CREATE OR REPLACE FUNCTION FUNCTION VerifyMediaGenreCategory
-    si media est book
-        si le genre  est de category book
-                ok
-    si media est movie
-        si le genre  est de category Movie
-                    ok
-    si media est Game
-        si le genre est de category Game 
-
-INSERT INTO Book VALUES(id_media, 'Roman')
