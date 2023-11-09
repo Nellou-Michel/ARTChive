@@ -1,4 +1,7 @@
-CREATE OR REPLACE PROCEDURAL LANGUAGE plpgsql; 
+CREATE OR REPLACE PROCEDURAL LANGUAGE plpgsql;
+DROP IF EXISTS Media;
+DROP IF EXISTS MediaAuthor;
+
 CREATE TABLE "User" (
     id_user INT PRIMARY KEY,
     pseudo_user VARCHAR(255),
@@ -13,12 +16,14 @@ CREATE TABLE "User" (
 CREATE TABLE Media (
     id_media INT PRIMARY KEY,
     name_media VARCHAR(255),
+    id_author INT,
     publication_date DATE,
     description VARCHAR(255),
     length INT,
     unite VARCHAR(255),
     average_note DECIMAL(3, 2),
-    file_path VARCHAR(255)
+    file_path VARCHAR(255),
+    FOREIGN KEY (id_author) REFERENCES Author(id_author)
 );
 
 -- Table pour la music
@@ -98,14 +103,6 @@ CREATE TABLE Author (
     name_author VARCHAR(255)
 );
 
--- Table pour les auteurs des médias
-CREATE TABLE MediaAuthor (
-    id_media INT,
-    id_author INT,
-    PRIMARY KEY (id_media, id_author),
-    FOREIGN KEY (id_media) REFERENCES Media(id_media),
-    FOREIGN KEY (id_author) REFERENCES Author(id_author)
-);
 
 -- Table pour les amis des utilisateurs
 CREATE TABLE Friend (

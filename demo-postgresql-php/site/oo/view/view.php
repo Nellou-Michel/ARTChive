@@ -3,9 +3,9 @@ class View{
     private $_file;
     private $_t;
 
-    public function __construct($action, $type){
+    public function __construct($arrayPath){
 
-        $this->_file = File::build_path(array('view',$type,$action.''.$type.'.php'));
+        $this->_file = File::build_path($arrayPath);
 
     }
 
