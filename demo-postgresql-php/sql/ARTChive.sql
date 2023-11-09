@@ -1,5 +1,5 @@
-CREATE DATABASE Artchive;
-CREATE TABLE User (
+CREATE OR REPLACE PROCEDURAL LANGUAGE plpgsql; 
+CREATE TABLE "User" (
     id_user INT PRIMARY KEY,
     pseudo_user VARCHAR(255),
     name_user VARCHAR(255),
@@ -23,9 +23,17 @@ CREATE TABLE Media (
 
 -- Table pour la music
 CREATE TABLE Music (
-    id_music PRIMARY KEY,
+    id_media INT PRIMARY KEY,
     album VARCHAR(255),
     FOREIGN KEY (id_media) REFERENCES Media(id_media)
+);
+
+CREATE TABLE MovieType (
+    movie_type VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE BookType (
+    book_type VARCHAR(255) PRIMARY KEY
 );
 
 -- Table pour les livres
@@ -33,7 +41,7 @@ CREATE TABLE Book (
     id_media INT PRIMARY KEY,
     book_type VARCHAR(255),
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
-    FOREIGN KEY (id_type) REFERENCES BookType(book_type)
+    FOREIGN KEY (book_type) REFERENCES BookType(book_type)
     --CONSTRAINT CHK_type_book CHECK type IN ('BD', 'roman', 'poesie', 'essai', 'conte', 'manuel', 'encyclopedie', 'guide', 'magazine', 'theatre', 'nouvelles', 'album')
 );
 
@@ -43,7 +51,7 @@ CREATE TABLE Movie (
     actors VARCHAR(500),
     movie_type VARCHAR(255),
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
-    FOREIGN KEY (id_type) REFERENCES MovieType(movie_type)
+    FOREIGN KEY (movie_type) REFERENCES MovieType(movie_type)
     --CONSTRAINT CHK_type_genre CHECK type IN ('long-metrage', 'documentaire', 'court-metrage', 'serie')
 );
 
@@ -53,20 +61,12 @@ CREATE TABLE Game (
     FOREIGN KEY (id_media) REFERENCES Media(id_media)
 );
 
-CREATE TABLE MovieType (
-    movie_type VARCHAR(255) PRIMARY KEY
-)
-
-CREATE TABLE BookType (
-    book_type VARCHAR(255) PRIMARY KEY
-)
-
 -- Table pour les genres
 CREATE TABLE Genre (
     id_genre INT PRIMARY KEY,
     genre VARCHAR(255),
     category VARCHAR(255),
-    CONSTRAINT CHK_category_genre CHECK category IN ('Book', 'Movie', 'Game', 'Music')
+    CONSTRAINT CHK_category_genre CHECK (category IN ('Book', 'Movie', 'Game', 'Music'))
 );
 
 -- Table pour les genres des media
@@ -74,32 +74,22 @@ CREATE TABLE GenreMedia (
     id_genre INT,
     id_media INT,
     PRIMARY KEY (id_genre, id_media),
-    FOREIGN KEY (id_game) REFERENCES Game(id_media),
+    FOREIGN KEY (id_media) REFERENCES Media(id_media)
     --CONSTRAINT CHK_genre_game CHECK genre IN ('combat', 'plateforme', 'tir', 'aventure', 'action-aventure', 
     --'rpg', 'reflexion', 'simulation', 'strategie', 'sport', 'course', 'rythme', 'moba')
 );
 
 -- Table pour les plates-formes de jeux
 CREATE TABLE Platform (
-    id_platform INT,
-    name_platform VARCHAR(255),
-    PRIMARY KEY (id_game, plateform),
+    platform VARCHAR(255) PRIMARY KEY
 );
 
 CREATE TABLE PlayableOn (
     id_game INT,
-    id_platform VARCHAR(255),
-    PRIMARY KEY (id_game, pid_lateform),
+    platform VARCHAR(255),
+    PRIMARY KEY (id_game, platform),
     FOREIGN KEY (id_game) REFERENCES Game(id_media),
-    FOREIGN KEY (id_platform) REFERENCES Platform(id_platform)
-);
-
--- Table pour les auteurs des médias
-CREATE TABLE MediaAuthor (
-    id_media INT PRIMARY KEY,
-    id_author INT PRIMARY KEY,
-    FOREIGN KEY (id_media) REFERENCES Media(id_media),
-    FOREIGN KEY (id_author) REFERENCES Author(id_author)
+    FOREIGN KEY (platform) REFERENCES Platform(platform)
 );
 
 -- Table pour les auteurs
@@ -108,14 +98,23 @@ CREATE TABLE Author (
     name_author VARCHAR(255)
 );
 
+-- Table pour les auteurs des médias
+CREATE TABLE MediaAuthor (
+    id_media INT,
+    id_author INT,
+    PRIMARY KEY (id_media, id_author),
+    FOREIGN KEY (id_media) REFERENCES Media(id_media),
+    FOREIGN KEY (id_author) REFERENCES Author(id_author)
+);
+
 -- Table pour les amis des utilisateurs
 CREATE TABLE Friend (
     id_user INT,
     id_friend INT,
     PRIMARY KEY (id_user, id_friend),
-    FOREIGN KEY (id_user) REFERENCES User(id_user),
-    FOREIGN KEY (id_friend) REFERENCES User(id_user),
-    CONSTRAINT CHK_user_friend_diff CHECK id_user != id_friend
+    FOREIGN KEY (id_user) REFERENCES "User"(id_user),
+    FOREIGN KEY (id_friend) REFERENCES "User"(id_user),
+    CONSTRAINT CHK_user_friend_diff CHECK (id_user != id_friend)
 );
 
 -- Table pour les posts
@@ -127,7 +126,7 @@ CREATE TABLE Post (
     date_post DATE,
     id_user INT,
     id_media INT,
-    FOREIGN KEY (id_user) REFERENCES User(id_user),
+    FOREIGN KEY (id_user) REFERENCES "User"(id_user),
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
     CONSTRAINT CHK_note_range CHECK (note BETWEEN 0 AND 10)
 );
