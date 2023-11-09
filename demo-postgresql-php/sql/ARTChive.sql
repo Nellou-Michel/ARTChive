@@ -66,7 +66,7 @@ CREATE TABLE Genre (
     id_genre INT PRIMARY KEY,
     genre VARCHAR(255),
     category VARCHAR(255),
-    CONSTRAINT CHK_category_genre CHECK category IN ('Book', 'Movie', 'Game')
+    CONSTRAINT CHK_category_genre CHECK category IN ('Book', 'Movie', 'Game', 'Music')
 );
 
 -- Table pour les genres des media
