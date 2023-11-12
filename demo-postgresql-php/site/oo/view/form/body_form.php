@@ -19,42 +19,38 @@
                     
                         <div class="col-12">
                             <label for="id_author" class="form-label">Auteur</label>
-                            <select class="form-control" name="id_author" id="auteur" onchange="showInput(this);">
-                                <option  value="">Sélectionnez un auteur</option>
-                                <option value="ajouter">+</option>
-                                <?php
-                              
-                              require_once FILE::build_path(array('model','AuthorModel.php'));
-                            
-                               $authors = AuthorModel::getAll("author","AuthorModel"); // Appel de la fonction statique
+                            <div id="auteur-container">
+                                <select class="form-control" name="id_author" id="auteur" onchange="showInput(this);">
+                                    <option value="">--Sélectionnez un auteur--</option>
+                                    <option value="+">+</option>
+                                    <?php
+                                    require_once FILE::build_path(array('model','AuthorModel.php'));
+                                    $authors = AuthorModel::getAll("author","AuthorModel");
 
-                              foreach ($authors as $author) {
-                                   echo '<option value="' . $author->getId_author() . '">' . $author->getName_author() . '</option>';
-                               }
-                              ?>
-                            </select>
-
-                            <!--<input type="text" name="nouvel_auteur" id="nouvel_auteur" style="display:none;">
-                           <button type="button" id="ajouter_auteur" style="display:none;">Ajouter</button>-->
-
+                                    foreach ($authors as $author) {
+                                        echo '<option value="' . $author->getId_author() . '">' . $author->getName_author() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <input type="text" name="nouvel_auteur" id="nouvel_auteur" style="display:none;">
+                            </div>
 
                             <script>
                                 function showInput(select) {
                                     var nouvelAuteurInput = document.getElementById("nouvel_auteur");
-                                    var ajouterAuteurButton = document.getElementById("ajouter_auteur");
 
-                                    if (select.value === "ajouter") {
+                                    if (select.value === "+") {
+                                        // Affiche l'input s'il est caché
                                         nouvelAuteurInput.style.display = "block";
-                                        ajouterAuteurButton.style.display = "block";
-                                        select.style.display = "none";
                                     } else {
+                                        // Cache l'input s'il est visible
                                         nouvelAuteurInput.style.display = "none";
-                                        ajouterAuteurButton.style.display = "none";
-                                        select.style.display = "block";
                                     }
                                 }
                             </script>
                         </div>
+
+
 
                         <div class="col-12">
                             <label for="publication_date" class="form-label">Date de publication</label>

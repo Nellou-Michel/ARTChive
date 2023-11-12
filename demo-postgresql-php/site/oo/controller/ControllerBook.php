@@ -12,11 +12,11 @@ class ControllerBook {
 
 
     public function readAll(){
-        $books = BookModel::getAllBooks();
+        $arrayAll = BookModel::getAllBooks();
 
         //Appel de la vue 'list Book'
         $this->_view = new View(array('view','Media','Book','listBook.php'));
-        $this->_view->generate(array('books' => $books));
+        $this->_view->generate(array('arrayAll' => $arrayAll));
 
     }
 

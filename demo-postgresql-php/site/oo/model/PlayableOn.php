@@ -27,8 +27,9 @@ class PlayableOn extends Model{
     public static function getPlatformsByIdGame($idMedia){
         $var = [];
         $req = DB::get()->prepare('SELECT * FROM PlayableOn
-        WHERE id_game = '.$idMedia);
-        $req->execute();
+        WHERE id_game = :id_media');
+        $values = array("id_media" => $idMedia);
+        $req->execute($values);
         while($data = $req->fetch(PDO::FETCH_ASSOC)){
             $var[] = new PlayableOn($data);
           

@@ -1,5 +1,7 @@
 <?php
 require_once File::build_path(array("model","Model.php"));//Model.php
+require_once File::build_path(array("model","GenreMediaModel.php"));//Model.php
+
 
 class MediaModel extends Model{
     private $id;
@@ -152,6 +154,12 @@ class MediaModel extends Model{
        
     }
 
+
+    public function getGenres(){
+
+        return GenreMediaModel::getGenresByIdMedia($this->getId_media());
+
+    }
 
     public function delete(){
         $req = DB::get()->prepare("DELETE FROM Media Where id_media = :id_media");
