@@ -79,14 +79,6 @@
 
                         </div>
 
-                        <div class="col-12">
-                            <label for="name_media" class="form-label" >Nom du Média</label>
-                            <input type="text" class="form-control" id="firstName" name="name_media" required>
-                            <div class="invalid-feedback">
-                                Selectionnez un nom de média valid
-                            </div>
-                        </div>
-
                         <div class="col-sm-6">
                             <label class="form-label" for="length">Durée</label>
                             <input type="text" class="form-control" name="length">
