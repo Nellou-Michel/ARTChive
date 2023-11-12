@@ -20,5 +20,11 @@ class ControllerBook {
 
     }
 
+    public  function create() {
+
+        $this->_view = new View(array('view','Media','Book','createBook.php'));
+        $this->_view->generate(array(null));
+    }
+
 }
 ?>

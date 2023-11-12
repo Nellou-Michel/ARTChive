@@ -20,5 +20,11 @@ class ControllerGame {
 
     }
 
+    public  function create() {
+
+        $this->_view = new View(array('view','Media','Game','createGame.php'));
+        $this->_view->generate(array(null));
+    }
+
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model","Model.php"));//Model.php
-
+require_once File::build_path(array("model","PlayableOn.php"));//Model.php
 class GameModel extends MediaModel{
 
     private $idMedia;
@@ -27,6 +27,13 @@ class GameModel extends MediaModel{
         }
         return $var;
         $req->closeCursor();
+    }
+
+    //return toutes les platforms pour lequel ce jeu est jouable
+    public function getPlatforms(){
+
+        return PlayableOn::getPlatformsByIdGame($this->getId_media());
+
     }
 
 

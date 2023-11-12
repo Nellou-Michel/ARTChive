@@ -1,3 +1,4 @@
+
 <body class="bg-body-tertiary">
 <div class="container-md">
     <div class="col-lg-12">
@@ -15,18 +16,22 @@
                             </div>
                         </div>
 
+                    
                         <div class="col-12">
                             <label for="id_author" class="form-label">Auteur</label>
                             <select class="form-control" name="id_author" id="auteur" onchange="showInput(this);">
                                 <option  value="">Sélectionnez un auteur</option>
                                 <option value="ajouter">+</option>
                                 <?php
-                                $authors = AuthorModel::getAllAuthors(); // Appel de la fonction statique
+                              
+                              require_once FILE::build_path(array('model','AuthorModel.php'));
+                            
+                               $authors = AuthorModel::getAll("author","AuthorModel"); // Appel de la fonction statique
 
-                                foreach ($authors as $author) {
-                                    echo '<option value="' . $author->getId_author() . '">' . $author->getName_author() . '</option>';
-                                }
-                                ?>
+                              foreach ($authors as $author) {
+                                   echo '<option value="' . $author->getId_author() . '">' . $author->getName_author() . '</option>';
+                               }
+                              ?>
                             </select>
 
                             <!--<input type="text" name="nouvel_auteur" id="nouvel_auteur" style="display:none;">
@@ -120,20 +125,3 @@
                             </div>
                         </div>
 
-                        <div class="col-4">
-                            <br>
-                            <input type="submit" value="Créer" class="form-control btn-bd uwu"> </input>
-                        </div>
-
-                        <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-                        <script src="checkout.js"></script>
-
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-<footer></footer>
-</body>
