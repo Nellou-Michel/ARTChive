@@ -26,8 +26,6 @@ class ControllerMedia {
 
     public  function create() {
 
-       $this->_view = new View('create','Media');
-       $this->_view->generate(array(null));
     }
 
     // Ajoutez ici d'autres fonctions pour gérer les actions CRUD
