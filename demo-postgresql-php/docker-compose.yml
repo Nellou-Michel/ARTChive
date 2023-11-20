@@ -13,7 +13,6 @@ services:
     db:
         image: postgres:15.4-bullseye
         volumes:
-            - ./docker/data/postgres/logs:/var/log/postgresql
             - ./docker/data/postgres/data:/var/lib/postgresql/data
             - ./sql/ARTChive.sql:/docker-entrypoint-initdb.d/ARTChive.sql
             - ./sql/procedures.sql:/docker-entrypoint-initdb.d/procedures.sql

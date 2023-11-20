@@ -2,6 +2,10 @@
 
 require_once File::build_path(array("controller","ControllerAccueil.php"));
 require_once File::build_path(array("controller","ControllerMedia.php"));
+require_once File::build_path(array("controller","ControllerBook.php"));
+require_once File::build_path(array("controller","ControllerGame.php"));
+require_once File::build_path(array("controller","ControllerMovie.php"));
+require_once File::build_path(array("controller","ControllerMusic.php"));
 
 
 

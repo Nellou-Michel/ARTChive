@@ -67,9 +67,10 @@
     <div class="nav-scroller py-1 mb-3 border-bottom">
         <nav class="nav nav-underline justify-content-between">
             <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'accueil') ? 'active' : '' ?>" href="?controller=accueil">Accueil</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'media') ? 'active' : '' ?>" href="?controller=media">Livres</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'film') ? 'active' : '' ?>" href="?controller=film">Films</a>
-            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'jeu') ? 'active' : '' ?>" href="?controller=jeu">Jeux</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'book') ? 'active' : '' ?>" href="?controller=book">Livres</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'movie') ? 'active' : '' ?>" href="?controller=movie">Films</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'game') ? 'active' : '' ?>" href="?controller=game">Jeux</a>
+            <a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'music') ? 'active' : '' ?>" href="?controller=music">Musiques</a>
 			<a class="nav-item nav-link link-body-emphasis <?= ($currentURL === 'profil') ? 'active' : '' ?>" href="?controller=profil">Mon Profil</a>
         </nav>
     </div>

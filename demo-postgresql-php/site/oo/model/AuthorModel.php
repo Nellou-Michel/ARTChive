@@ -10,11 +10,11 @@ class AuthorModel extends Model{
         $this->hydrate($data);
     }
 
-    private function setId_author($id_author){
+    public function setId_author($id_author){
         $this->id_author=$id_author;
     }
 
-    private function setName_author($name_author){
+    public function setName_author($name_author){
         $this->name_author=$name_author;
     }
 
@@ -26,20 +26,10 @@ class AuthorModel extends Model{
         return $this->name_author;
     } 
 
-    public function hydrate(array $data){
-        foreach($data as $key => $value){
-            $method = 'set'.ucfirst($key);
-            if(method_exists($this, $method)){
-                $this->$method($value);
-            }
-            else{
-                echo "[methode introuvable : ". $method."]__";
-            }
-        }
-    }
+  
 
 
-    public static function getAllAuthors(){
+   /* public static function getAllAuthors(){
         echo"getall";
          $var = [];
          $req =  DB::get()->query('SELECT name_author FROM Author');
@@ -52,7 +42,7 @@ class AuthorModel extends Model{
          $req->closeCursor();
        
          
-    }
+    }*/
 
     public static function addAuthor($name) {
         $req = DB::get()->prepare("INSERT INTO Author (name_author) VALUES (:name_author)");

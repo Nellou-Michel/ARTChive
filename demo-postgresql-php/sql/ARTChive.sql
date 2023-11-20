@@ -2,6 +2,7 @@ CREATE OR REPLACE PROCEDURAL LANGUAGE plpgsql;
 DROP TABLE IF EXISTS Media;
 DROP TABLE IF EXISTS MediaAuthor;
 
+
 CREATE TABLE "User" (
     id_user INT PRIMARY KEY,
     pseudo_user VARCHAR(255),
@@ -102,6 +103,12 @@ CREATE TABLE PlayableOn (
     PRIMARY KEY (id_game, platform),
     FOREIGN KEY (id_game) REFERENCES Game(id_media),
     FOREIGN KEY (platform) REFERENCES Platform(platform)
+);
+
+-- Table pour les auteurs
+CREATE TABLE Author (
+    id_author INT PRIMARY KEY,
+    name_author VARCHAR(255)
 );
 
 
