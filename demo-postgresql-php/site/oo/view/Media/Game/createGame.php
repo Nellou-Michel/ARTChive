@@ -15,23 +15,25 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
         <input type="text" name="category" value=<?= $category?> style="display:none;">
         <label name="category" value="Game"></label>
 
-        <label for="platform" class="form-label">Platforme</label>
-        <select class="form-control" name="platform" id="platform" onchange="showInputGame(this);">
-            <option  value="">Sélectionnez une Platform</option>
-            <option value="+">+</option>
-          
-            <?php
-            
-            require_once FILE::build_path(array('model','PlatformModel.php'));
-        
-            $arrayType = PlatformModel::getAll("platform","PlatformModel"); // Appel de la fonction statique
+        <label for="platform" class="form-label">Plateforme</label>
+        <?php
+        require_once FILE::build_path(array('model', 'PlatformModel.php'));
 
-            foreach ($arrayType as $type) {
-                echo '<option value="' . $type->getPlatform() . '">' . $type->getPlatform() . '</option>';
-            }
-            ?>
-         </select>
-        <input type="text" name="newGameType" id="newGameType" style="display:none;">
+        $arrayPlatforms = PlatformModel::getAll("platform", "PlatformModel");
+
+        foreach ($arrayPlatforms as $platform) {
+            echo '<div class="form-check">';
+            echo '<input class="form-check-input" type="checkbox" name="platform[]" id="platform_' . $platform->getPlatform() . '" value="' . $platform->getPlatform() . '">';
+            echo '<label class="form-check-label" for="platform_' . $platform->getPlatform() . '">' . $platform->getPlatform() . '</label>';
+            echo '</div>';
+        }
+
+        echo '<div class="form-check">';
+        echo '<input class="form-check-input" type="checkbox" name="newPlatform" id="newPlatform">';
+        echo '<label class="form-check-label" for="newPlatform">Ajouter une nouvelle plateforme</label>';
+        echo '</div>';
+        ?>
+        <input type="text" name="newPlatformName" id="newPlatformName" style="display:none;">
 
         </div>
         <script>

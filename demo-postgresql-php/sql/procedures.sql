@@ -176,20 +176,22 @@ CREATE OR REPLACE FUNCTION CreateNewMedia(
     media_author_id INT,
     media_average_note DECIMAL(3, 2),
     media_file_path VARCHAR(255),
-    media_genre_id INT,
+    media_genre_ids INT[],
     media_category VARCHAR(255),
     media_type VARCHAR(255),
     media_actors VARCHAR(500),
     media_album VARCHAR (255),
-    media_platform VARCHAR (255)
+    media_platforms VARCHAR[]
 )
 RETURNS VOID AS $$
 DECLARE
     media_id INT;
+    genre_id INT;
+    platform VARCHAR;
 BEGIN
     -- Étape 1: Insérer le média
-    INSERT INTO Media ( name_media, publication_date, description, length, unite, id_author, average_note, file_path)
-    VALUES ( media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
+    INSERT INTO Media (name_media, publication_date, description, length, unite, id_author, average_note, file_path)
+    VALUES (media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
     RETURNING id_media INTO media_id;
 
     -- Étape 2: Insérer le type spécifique de média (livre, film, jeu)
@@ -207,12 +209,18 @@ BEGIN
             RAISE EXCEPTION 'Catégorie de média non gérée : %', media_category;
     END CASE;
 
-    -- Étape 3: Insérer le genre du média
-    INSERT INTO GenreMedia (id_genre, id_media) VALUES (media_genre_id, media_id);
+    -- Étape 3: Insérer les genres du média
+    FOREACH genre_id IN ARRAY media_genre_ids
+    LOOP
+        INSERT INTO GenreMedia (id_genre, id_media) VALUES (genre_id, media_id);
+    END LOOP;
 
-    -- Étape 4: Si c'est un jeu, insérer la plate-forme jouable
+    -- Étape 4: Si c'est un jeu, insérer les plateformes jouables
     IF media_category = 'Game' THEN
-        INSERT INTO PlayableOn (id_game, platform) VALUES (media_id, media_platform);
+        FOREACH platform IN ARRAY media_platforms
+        LOOP
+            INSERT INTO PlayableOn (id_game, platform) VALUES (media_id, platform);
+        END LOOP;
     END IF;
 END;
 $$ LANGUAGE plpgsql;

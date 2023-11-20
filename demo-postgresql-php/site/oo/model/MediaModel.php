@@ -179,7 +179,8 @@ class MediaModel extends Model{
     // }
 
 
-    public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors = null, $album = null ,$platformId = null) {
+    public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreIdArray, $category, $type, $actors = null, $album = null ,$platforms = null) {
+        
         // Préparez la requête SQL pour appeler la procédure stockée
        $req = DB::get()->prepare("Select CreateNewMedia(
             :name_media, 
@@ -190,12 +191,12 @@ class MediaModel extends Model{
             :author_id, 
             :average_note, 
             :file_path, 
-            :genre_id, 
+            :genre_idArray, 
             :category, 
             :type, 
             :actors, 
             :album,
-            :platform
+            :platforms
         )");
     
         // Définir les valeurs à passer à la procédure stockée
@@ -208,12 +209,14 @@ class MediaModel extends Model{
             "author_id" => $authorId,
             "average_note" => $averageNote,
             "file_path" => $filePath,
-            "genre_id" => $genreId,
+            "genre_idArray" => '{' . implode(',', $genreIdArray) . '}', // Convertissez le tableau d'ID de genre en une chaîne formatée
             "category" => $category,
             "type" => $type,
             "actors" => $actors,
             "album" => $album,
-            "platform" => $platformId,
+            "platforms" => '{' . implode(',', array_map(function($platform) {
+                return '"' . $platform . '"';
+            }, $platforms)) . '}',
         );
         // Afficher la requête SQL exécutée
         // Exécution de la requête avec les valeurs

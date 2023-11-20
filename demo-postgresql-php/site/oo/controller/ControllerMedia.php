@@ -31,7 +31,6 @@ class ControllerMedia {
     // Ajoutez ici d'autres fonctions pour gérer les actions CRUD
 
     public function created(){
-       
             // Supposons que les données du formulaire sont envoyées via POST
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Récupérez les données du formulaire
@@ -43,15 +42,20 @@ class ControllerMedia {
             $authorId = $_POST["id_author"];
             $averageNote = $_POST["average_note"];
             $filePath = $_POST["file_path"];
-            $genreId = $_POST["genre_id"];
+            // Récupérez le tableau d'ID de genre depuis le formulaire
+            // Récupérez le tableau d'ID de genre depuis le formulaire
+            $genreIdArray = isset($_POST["genre_id"]) ? $_POST["genre_id"] : array();
+            
+
             $category = $_POST["category"];
             $type = isset($_POST["type"]) ? $_POST["type"] : null;
             $album = isset($_POST["album"]) ? $_POST["album"] : null;
             $actors = isset($_POST["actors"]) ? $_POST["actors"] : null;
-            $platformId = isset($_POST["platform"]) ? $_POST["platform"] : null;
+            $platforms = isset($_POST["platform"]) ? $_POST["platform"] :array();
 
+ 
             // Appelez la fonction create avec les données du formulaire
-            MediaModel::create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors,  $album, $platformId);
+            MediaModel::create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreIdArray, $category, $type, $actors,  $album, $platforms);
         }
 
 

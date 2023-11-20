@@ -51,23 +51,20 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="platform" class="form-label">Genres</label>
-                            <select class="form-control" name="genre_id" id="genre_id" onchange="showInputGame(this);">
-                                <option  value="">Sélectionnez un Genre</option>
-                                <!-- <option value="+">+</option> -->
+                            <label class="form-label">Genres</label>
+                            <?php
+                            require_once FILE::build_path(array('model', 'MediaModel.php'));
                             
-                                <?php
-                                
-                                require_once FILE::build_path(array('model','MediaModel.php'));
+                            $arrayType = MediaModel::getAllGenresByCategory($category); // Appel de la fonction statique
                             
-                                $arrayType = MediaModel::getAllGenresByCategory($category); // Appel de la fonction statique
-
-                                foreach ($arrayType as $type) {
-                                    echo '<option value="' . $type->getId_genre() . '">' . $type->getGenre() . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div> 
+                            foreach ($arrayType as $type) {
+                                echo '<div class="form-check">';
+                                echo '<input class="form-check-input" type="checkbox" name="genre_id[]" id="genre_' . $type->getId_genre() . '" value="' . $type->getId_genre() . '">';
+                                echo '<label class="form-check-label" for="genre_' . $type->getId_genre() . '">' . $type->getGenre() . '</label>';
+                                echo '</div>';
+                            }
+                            ?>
+                        </div>
 
 
 
