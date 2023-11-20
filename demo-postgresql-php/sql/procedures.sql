@@ -168,7 +168,6 @@
 
 
 CREATE OR REPLACE FUNCTION CreateNewMedia(
-    media_id INT,
     media_name VARCHAR(255),
     media_publication_date DATE,
     media_description VARCHAR(255),
@@ -185,12 +184,13 @@ CREATE OR REPLACE FUNCTION CreateNewMedia(
     media_platform VARCHAR (255)
 )
 RETURNS VOID AS $$
-
+DECLARE
+    media_id INT;
 BEGIN
     -- Étape 1: Insérer le média
-    INSERT INTO Media (id_media, name_media, publication_date, description, length, unite, id_author, average_note, file_path)
-    VALUES (media_id, media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
-    ;
+    INSERT INTO Media ( name_media, publication_date, description, length, unite, id_author, average_note, file_path)
+    VALUES ( media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
+    RETURNING id_media INTO media_id;
 
     -- Étape 2: Insérer le type spécifique de média (livre, film, jeu)
     CASE media_category

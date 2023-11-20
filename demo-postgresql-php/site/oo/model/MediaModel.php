@@ -181,9 +181,7 @@ class MediaModel extends Model{
 
     public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors = null, $album = null ,$platformId = null) {
         // Préparez la requête SQL pour appeler la procédure stockée
-       $id= 23; //Temporaire
        $req = DB::get()->prepare("Select CreateNewMedia(
-            :id_media,
             :name_media, 
             :publication_date, 
             :description, 
@@ -202,7 +200,6 @@ class MediaModel extends Model{
     
         // Définir les valeurs à passer à la procédure stockée
         $values = array(
-            "id_media" => $id, // Temporaire
             "name_media" => $name,
             "publication_date" => $publicationDate,
             "description" => $description,

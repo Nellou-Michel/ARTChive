@@ -13,8 +13,14 @@ CREATE TABLE "user" (
     is_admin BOOLEAN
 );
 
+-- Table pour les auteurs
+CREATE TABLE Author (
+    id_author SERIAL PRIMARY KEY,
+    name_author VARCHAR(255)
+);
 
--- Table pour les mÃ©dias
+
+-- Table pour les medias
 CREATE TABLE Media (
     id_media SERIAL PRIMARY KEY,
     name_media VARCHAR(255),
@@ -99,11 +105,6 @@ CREATE TABLE PlayableOn (
     FOREIGN KEY (platform) REFERENCES Platform(platform)
 );
 
--- Table pour les auteurs
-CREATE TABLE Author (
-    id_author SERIAL PRIMARY KEY,
-    name_author VARCHAR(255)
-);
 
 
 -- Table pour les amis des utilisateurs
@@ -129,3 +130,126 @@ CREATE TABLE Post (
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
     CONSTRAINT CHK_note_range CHECK (note BETWEEN 0 AND 10)
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Valeurs de bases
+INSERT INTO MovieType (movie_type) VALUES 
+('Long Métrage'),
+('Documentaire'),
+('Court-métrage'),
+('Série'),
+('Animation'),
+('Film d action'),
+('Comédie'),
+('Drame'),
+('Horreur'),
+('Science-fiction'),
+('Fantasy'),
+('Mystère'),
+('Thriller'),
+('Crime'),
+('Romance'),
+('Aventure'),
+('Animation pour adultes'),
+('Historique'),
+('Guerre'),
+('Biographie');
+
+
+
+INSERT INTO Genre (genre, category) VALUES ('Action', 'Game');
+INSERT INTO Genre (genre, category) VALUES ('Aventure', 'Game');
+INSERT INTO Genre (genre, category) VALUES ('Stratégie', 'Game');
+INSERT INTO Genre (genre, category) VALUES ('RPG', 'Game');
+
+-- Pour les films
+INSERT INTO Genre (genre, category) VALUES ('Action', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Drame', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Science-fiction', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Comédie', 'Movie');
+
+-- Pour la musique
+INSERT INTO Genre (genre, category) VALUES ('Pop', 'Music');
+INSERT INTO Genre (genre, category) VALUES ( 'Rock', 'Music');
+INSERT INTO Genre (genre, category) VALUES ( 'Jazz', 'Music');
+INSERT INTO Genre (genre, category) VALUES ( 'Classique', 'Music');
+
+-- Pour les livres
+INSERT INTO Genre (genre, category) VALUES ( 'Roman', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Science-fiction', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Mystère', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Non-fiction', 'Book');
+
+
+
+
+-- Auteurs de livres
+INSERT INTO Author (name_author) VALUES ('J.K. Rowling'), ('Stephen King'), ('George R.R. Martin'), ('Agatha Christie'), ('J.R.R. Tolkien');
+
+-- Acteurs de films
+INSERT INTO Author (name_author) VALUES ('Leonardo DiCaprio'), ('Meryl Streep'), ('Denzel Washington'), ('Scarlett Johansson'), ('Tom Hanks');
+
+-- Musiciens
+INSERT INTO Author (name_author) VALUES ('Beyoncé'), ('Ed Sheeran'), ('Taylor Swift'), ('Kendrick Lamar'), ('Adele');
+
+-- Créateurs de jeux vidéo
+INSERT INTO Author (name_author) VALUES ('Shigeru Miyamoto'), ('Hideo Kojima'), ('Gabe Newell'), ('Tim Schafer'), ('Jade Raymond');
+
+
+
+INSERT INTO BookType (book_type) VALUES
+    ('Science-fiction'),
+    ('Romance'),
+    ('Mystère'),
+    ('Horreur'),
+    ('Fantasy'),
+    ('Drame'),
+    ('Aventure'),
+    ('Biographie'),
+    ('Thriller'),
+    ('Historique'),
+    ('Poésie'),
+    ('Humour'),
+    ('Science'),
+    ('Éducatif'),
+    ('Auto-assistance'),
+    ('Cuisine'),
+    ('Art'),
+    ('Jeunesse'),
+    ('Informatique'),
+    ('Manga');
+
+
+-- Plateformes de jeux
+INSERT INTO Platform (platform) VALUES
+    ('PlayStation 5'),
+    ('Xbox Series X'),
+    ('Nintendo Switch'),
+    ('PlayStation 4'),
+    ('Xbox One'),
+    ('PC'),
+    ('Nintendo Wii U'),
+    ('PlayStation 3'),
+    ('Xbox 360'),
+    ('Nintendo Wii'),
+    ('Nintendo DS'),
+    ('PlayStation 2'),
+    ('Xbox'),
+    ('GameCube'),
+    ('PlayStation Portable (PSP)'),
+    ('Nintendo 3DS'),
+    ('PlayStation Vita'),
+    ('Game Boy Advance'),
+    ('Sega Genesis'),
+    ('Super Nintendo Entertainment System (SNES)');
