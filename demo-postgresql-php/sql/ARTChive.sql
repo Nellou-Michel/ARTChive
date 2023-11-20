@@ -1,6 +1,7 @@
 CREATE OR REPLACE PROCEDURAL LANGUAGE plpgsql;
-DROP IF EXISTS Media;
-DROP IF EXISTS MediaAuthor;
+DROP TABLE IF EXISTS Media;
+DROP TABLE IF EXISTS MediaAuthor;
+
 
 CREATE TABLE "User" (
     id_user INT PRIMARY KEY,
@@ -12,7 +13,14 @@ CREATE TABLE "User" (
     is_admin BOOLEAN
 );
 
--- Table pour les médias
+-- Table pour les auteurs
+CREATE TABLE Author (
+    id_author INT PRIMARY KEY,
+    name_author VARCHAR(255)
+);
+
+
+-- Table pour les mÃ©dias
 CREATE TABLE Media (
     id_media INT PRIMARY KEY,
     name_media VARCHAR(255),
