@@ -11,6 +11,8 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du MovieType et des acteurs listé pour créer un Film -->
 <div class="col-12">
+        <label name="category" value="Movie"></label>
+
         <label for="actors" class="form-label">(Acteurs)</label>
         <input type="text" class="form-control" id="actors" name="actors">
             <div class="invalid-feedback">
@@ -18,8 +20,8 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
 </div>
 
     <div class="col-12">
-        <label for="movie_type" class="form-label">Type</label>
-        <select class="form-control" name="movie_type" id="movie_type" onchange="showInputMovie(this);">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" name="type" id="type" onchange="showInputMovie(this);">
             <option  value="">Sélectionnez un Type</option>
             <option value="+">+</option>
           

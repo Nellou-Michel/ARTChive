@@ -173,28 +173,65 @@ class MediaModel extends Model{
     }
 
 
+    public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors = null, $platformId = null) {
+        // Préparez la requête SQL pour appeler la procédure stockée
+        $req = DB::get()->prepare("SELECT CreateNewMedia(
+            :name_media, 
+            :publication_date, 
+            :description, 
+            :length, 
+            :unite, 
+            :author_id, 
+            :average_note, 
+            :file_path, 
+            :genre_id, 
+            :category, 
+            :type, 
+            :actors, 
+            :platform_id
+        )");
+    
+        // Définir les valeurs à passer à la procédure stockée
+        $values = array(
+            "name_media" => $name,
+            "publication_date" => $publicationDate,
+            "description" => $description,
+            "length" => $length,
+            "unite" => $unit,
+            "author_id" => $authorId,
+            "average_note" => $averageNote,
+            "file_path" => $filePath,
+            "genre_id" => $genreId,
+            "category" => $category,
+            "type" => $type,
+            "actors" => $actors,
+            "platform_id" => $platformId,
+        );
+    
+        // Exécution de la requête avec les valeurs
+        $req->execute($values);
+    }
 
 
-
-    public function save(){
-      // Préparez la requête SQL pour insérer dans la table "Media"
-      $req = DB::get()->prepare("INSERT INTO Media (name_media, publication_date, description, length, unite, average_note, file_path) VALUES (:name_media, :publication_date, :description, :length, :unite, :average_note, :file_path)");
+    // public function save(){
+    //   // Préparez la requête SQL pour insérer dans la table "Media"
+    //   $req = DB::get()->prepare("INSERT INTO Media (name_media, publication_date, description, length, unite, average_note, file_path) VALUES (:name_media, :publication_date, :description, :length, :unite, :average_note, :file_path)");
 
      
-      // Définir les valeurs à insérer dans la base de données
-      $values = array(
-          "name_media" => $this->name,
-          "publication_date" => $this->publicationDate,
-          "description" => $this->description,
-          "length" => $this->length,
-          "unite" => $this->unit,
-          "average_note" => $this->averageNote,
-          "file_path" => $this->filePath,
-      );
+    //   // Définir les valeurs à insérer dans la base de données
+    //   $values = array(
+    //       "name_media" => $this->name,
+    //       "publication_date" => $this->publicationDate,
+    //       "description" => $this->description,
+    //       "length" => $this->length,
+    //       "unite" => $this->unit,
+    //       "average_note" => $this->averageNote,
+    //       "file_path" => $this->filePath,
+    //   );
       
-      // Exécution de la requête avec les valeurs
-      $req->execute($values);
-    }
+    //   // Exécution de la requête avec les valeurs
+    //   $req->execute($values);
+    // }
 
 
 

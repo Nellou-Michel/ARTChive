@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS Media;
 DROP TABLE IF EXISTS MediaAuthor;
 
 
-CREATE TABLE "User" (
-    id_user INT PRIMARY KEY,
+CREATE TABLE "user" (
+    id_user SERIAL PRIMARY KEY,
     pseudo_user VARCHAR(255),
     name_user VARCHAR(255),
     lastname_user VARCHAR(255),
@@ -13,16 +13,10 @@ CREATE TABLE "User" (
     is_admin BOOLEAN
 );
 
--- Table pour les auteurs
-CREATE TABLE Author (
-    id_author INT PRIMARY KEY,
-    name_author VARCHAR(255)
-);
-
 
 -- Table pour les mÃ©dias
 CREATE TABLE Media (
-    id_media INT PRIMARY KEY,
+    id_media SERIAL PRIMARY KEY,
     name_media VARCHAR(255),
     id_author INT,
     publication_date DATE,
@@ -76,7 +70,7 @@ CREATE TABLE Game (
 
 -- Table pour les genres
 CREATE TABLE Genre (
-    id_genre INT PRIMARY KEY,
+    id_genre SERIAL PRIMARY KEY,
     genre VARCHAR(255),
     category VARCHAR(255),
     CONSTRAINT CHK_category_genre CHECK (category IN ('Book', 'Movie', 'Game', 'Music'))
@@ -107,7 +101,7 @@ CREATE TABLE PlayableOn (
 
 -- Table pour les auteurs
 CREATE TABLE Author (
-    id_author INT PRIMARY KEY,
+    id_author SERIAL PRIMARY KEY,
     name_author VARCHAR(255)
 );
 
@@ -124,7 +118,7 @@ CREATE TABLE Friend (
 
 -- Table pour les posts
 CREATE TABLE Post (
-    id_post INT PRIMARY KEY,
+    id_post SERIAL PRIMARY KEY,
     title_post VARCHAR(255),
     description_post VARCHAR(255),
     note INT,

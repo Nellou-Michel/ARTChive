@@ -32,21 +32,29 @@ class ControllerMedia {
 
     public function created(){
        
-        $data = [
-            'name_media' => $_POST['name_media'],
-            'publication_date' => $_POST['publication_date'],
-            'description' => $_POST['description'],
-            'length' => $_POST['length'],
-            'unite' => $_POST['unite'],
-            'average_note' => $_POST['average_note'],
-            'file_path' => $_POST['file_path'],
-            'id_author' =>    $_POST['id_author']
-        ];
-    
-        // Créer un nouvel objet Media
-        $media = new MediaModel($data);   
-        // Enregistrer le média en base de données
-        $media->save();       
+            // Supposons que les données du formulaire sont envoyées via POST
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupérez les données du formulaire
+            $name = $_POST["name_media"];
+            $publicationDate = $_POST["publication_date"];
+            $description = $_POST["description"];
+            $length = $_POST["length"];
+            $unit = $_POST["unite"];
+            $authorId = $_POST["id_author"];
+            $averageNote = $_POST["average_note"];
+            $filePath = $_POST["file_path"];
+            $genreId = $_POST["genre_id"];
+            $category = $_POST["category"];
+            $type = isset($_POST["type"]) ? $_POST["type"] : null;
+            $album = isset($_POST["album"]) ? $_POST["album"] : null;
+            $actors = isset($_POST["actors"]) ? $_POST["actors"] : null;
+            $platformId = isset($_POST["platform_id"]) ? $_POST["platform_id"] : null;
+
+            // Appelez la fonction create avec les données du formulaire
+            MediaModel::create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors,  $album, $platformId);
+        }
+
+
         $this->_view = new View('created','Media');
         $this->_view->generate(array(null));
     }

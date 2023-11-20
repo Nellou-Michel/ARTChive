@@ -11,8 +11,12 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du BookType listé pour créer un livre -->
     <div class="col-12">
-        <label for="book_type" class="form-label">Type</label>
-        <select class="form-control" name="book_type" id="book_type" onchange="showInputBook(this);">
+        <input type="text" name="category" value="Book" style="display:none;">
+        <input type="text" name="genre_id" value=3 style="display:none;">
+
+
+        <label for="type" class="form-label">Type</label>
+        <select class="form-control" name="type" id="type" onchange="showInputBook(this);">
             <option  value="">--Sélectionnez un Type--</option>
             <option value="+">+</option>
           

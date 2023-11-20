@@ -11,6 +11,8 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du platform listé pour créer un jeu -->
     <div class="col-12">
+        <label name="category" value="Game"></label>
+
         <label for="platform" class="form-label">Platforme</label>
         <select class="form-control" name="platform" id="platform" onchange="showInputGame(this);">
             <option  value="">Sélectionnez une Platform</option>
