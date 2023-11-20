@@ -1,6 +1,7 @@
 <!-- Ajout du form de base d'un média -->
 <?php
     $this->_t="Créer Film";
+    $category = "Movie";
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -11,8 +12,7 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du MovieType et des acteurs listé pour créer un Film -->
 <div class="col-12">
-        <label name="category" value="Movie"></label>
-
+        <input type="text" name="category" value=<?= $category?> style="display:none;">
         <label for="actors" class="form-label">(Acteurs)</label>
         <input type="text" class="form-control" id="actors" name="actors">
             <div class="invalid-feedback">

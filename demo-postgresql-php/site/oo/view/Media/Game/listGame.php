@@ -2,6 +2,7 @@
 
 <?php $this->_t="Jeux";
 require FILE::build_path(array('view','styleList.php'));
+$category="Game";
 ?>
 
 <a href="?controller=game&action=create" class="btn btn-primary button_mode_top" id="btn_top">+ Ajouter un jeu</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->

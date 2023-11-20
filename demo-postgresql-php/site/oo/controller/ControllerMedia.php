@@ -48,23 +48,27 @@ class ControllerMedia {
             $type = isset($_POST["type"]) ? $_POST["type"] : null;
             $album = isset($_POST["album"]) ? $_POST["album"] : null;
             $actors = isset($_POST["actors"]) ? $_POST["actors"] : null;
-            $platformId = isset($_POST["platform_id"]) ? $_POST["platform_id"] : null;
+            $platformId = isset($_POST["platform"]) ? $_POST["platform"] : null;
 
             // Appelez la fonction create avec les données du formulaire
             MediaModel::create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors,  $album, $platformId);
         }
 
 
-        $this->_view = new View('created','Media');
+        $this->_view = new View(array('view','Media','createdMedia.php'));
         $this->_view->generate(array(null));
     }
 
 
     public function delete(){
-        $id = $_POST['id_media'];
-        $media = MediaModel::getMediaById($id);     
-        $media->delete();
-        $this->_view = new View('deleted','Media');
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $id = $_POST['id_media'];
+                $category = $_POST['category'];
+        }
+       
+        MediaModel::delete($id,$category);
+        $this->_view = new View(array('view','Media','deletedMedia.php'));
         $this->_view->generate(array(null));       
     }
 

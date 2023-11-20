@@ -1,6 +1,7 @@
 <!-- Ajout du form de base d'un média -->
 <?php
     $this->_t="Créer jeu";
+    $category = "Game";
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -11,6 +12,7 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du platform listé pour créer un jeu -->
     <div class="col-12">
+        <input type="text" name="category" value=<?= $category?> style="display:none;">
         <label name="category" value="Game"></label>
 
         <label for="platform" class="form-label">Platforme</label>

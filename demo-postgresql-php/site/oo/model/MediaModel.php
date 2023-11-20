@@ -161,21 +161,29 @@ class MediaModel extends Model{
 
     }
 
-    public function delete(){
-        $req = DB::get()->prepare("DELETE FROM Media Where id_media = :id_media");
 
-       $values = array(
-        "id_media" => $this->id,
-       );
-
-        $req->execute($values);
+    public static function getAllGenresByCategory($category){
+        return GenreModel::getAllGenresByCategory($category);
 
     }
 
+    // public function delete(){
+    //     $req = DB::get()->prepare("DELETE FROM Media Where id_media = :id_media");
 
-    public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors = null, $platformId = null) {
+    //    $values = array(
+    //     "id_media" => $this->id,
+    //    );
+
+    //     $req->execute($values);
+
+    // }
+
+
+    public static function create($name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreId, $category, $type, $actors = null, $album = null ,$platformId = null) {
         // Préparez la requête SQL pour appeler la procédure stockée
-        $req = DB::get()->prepare("SELECT CreateNewMedia(
+       $id= 23; //Temporaire
+       $req = DB::get()->prepare("Select CreateNewMedia(
+            :id_media,
             :name_media, 
             :publication_date, 
             :description, 
@@ -188,11 +196,13 @@ class MediaModel extends Model{
             :category, 
             :type, 
             :actors, 
-            :platform_id
+            :album,
+            :platform
         )");
     
         // Définir les valeurs à passer à la procédure stockée
         $values = array(
+            "id_media" => $id, // Temporaire
             "name_media" => $name,
             "publication_date" => $publicationDate,
             "description" => $description,
@@ -205,9 +215,28 @@ class MediaModel extends Model{
             "category" => $category,
             "type" => $type,
             "actors" => $actors,
-            "platform_id" => $platformId,
+            "album" => $album,
+            "platform" => $platformId,
         );
-    
+        // Afficher la requête SQL exécutée
+        // Exécution de la requête avec les valeurs
+        $req->execute($values);
+
+      
+    }
+
+
+    public static function delete($id,$category){
+        $req = DB::get()->prepare("Select DeleteMedia(
+            :id_media,
+            :category
+        )");
+
+        $values = array(
+            "id_media" => $id, // Temporaire
+            "category" => $category,
+        );
+
         // Exécution de la requête avec les valeurs
         $req->execute($values);
     }

@@ -2,6 +2,7 @@
 
 <?php $this->_t="Films";
 require FILE::build_path(array('view','styleList.php'));
+$category="Music";
 ?>
 
 <a href="?controller=music&action=create" class="btn btn-primary button_mode_top" id="btn_top">+ Ajouter une musique</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->

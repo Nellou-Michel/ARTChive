@@ -111,8 +111,8 @@ CREATE TABLE Friend (
     id_user INT,
     id_friend INT,
     PRIMARY KEY (id_user, id_friend),
-    FOREIGN KEY (id_user) REFERENCES "User"(id_user),
-    FOREIGN KEY (id_friend) REFERENCES "User"(id_user),
+    FOREIGN KEY (id_user) REFERENCES "user"(id_user),
+    FOREIGN KEY (id_friend) REFERENCES "user"(id_user),
     CONSTRAINT CHK_user_friend_diff CHECK (id_user != id_friend)
 );
 
@@ -125,7 +125,7 @@ CREATE TABLE Post (
     date_post DATE,
     id_user INT,
     id_media INT,
-    FOREIGN KEY (id_user) REFERENCES "User"(id_user),
+    FOREIGN KEY (id_user) REFERENCES "user"(id_user),
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
     CONSTRAINT CHK_note_range CHECK (note BETWEEN 0 AND 10)
 );

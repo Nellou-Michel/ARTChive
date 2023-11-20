@@ -50,6 +50,25 @@
                             </script>
                         </div>
 
+                        <div class="col-12">
+                            <label for="platform" class="form-label">Genres</label>
+                            <select class="form-control" name="genre_id" id="genre_id" onchange="showInputGame(this);">
+                                <option  value="">Sélectionnez un Genre</option>
+                                <!-- <option value="+">+</option> -->
+                            
+                                <?php
+                                
+                                require_once FILE::build_path(array('model','MediaModel.php'));
+                            
+                                $arrayType = MediaModel::getAllGenresByCategory($category); // Appel de la fonction statique
+
+                                foreach ($arrayType as $type) {
+                                    echo '<option value="' . $type->getId_genre() . '">' . $type->getGenre() . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div> 
+
 
 
                         <div class="col-12">

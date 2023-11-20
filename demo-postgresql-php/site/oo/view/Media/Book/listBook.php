@@ -2,6 +2,7 @@
 
 <?php $this->_t="Livres";
 require FILE::build_path(array('view','styleList.php'));
+$category="Book";
 ?>
 
 <a href="?controller=book&action=create" class="btn btn-primary button_mode_top" id="btn_top">+ Ajouter un livre</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->

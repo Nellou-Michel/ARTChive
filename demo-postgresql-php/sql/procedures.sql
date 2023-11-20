@@ -168,6 +168,7 @@
 
 
 CREATE OR REPLACE FUNCTION CreateNewMedia(
+    media_id INT,
     media_name VARCHAR(255),
     media_publication_date DATE,
     media_description VARCHAR(255),
@@ -181,16 +182,15 @@ CREATE OR REPLACE FUNCTION CreateNewMedia(
     media_type VARCHAR(255),
     media_actors VARCHAR(500),
     media_album VARCHAR (255),
-    media_platform_id INT
+    media_platform VARCHAR (255)
 )
 RETURNS VOID AS $$
-DECLARE
-    media_id INT;
+
 BEGIN
     -- Étape 1: Insérer le média
-    INSERT INTO Media (name_media, publication_date, description, length, unite, id_author, average_note, file_path)
-    VALUES (media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
-    RETURNING id_media INTO media_id;
+    INSERT INTO Media (id_media, name_media, publication_date, description, length, unite, id_author, average_note, file_path)
+    VALUES (media_id, media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
+    ;
 
     -- Étape 2: Insérer le type spécifique de média (livre, film, jeu)
     CASE media_category
@@ -201,7 +201,10 @@ BEGIN
         WHEN 'Game' THEN
             INSERT INTO Game (id_media) VALUES (media_id);
         WHEN 'Music' THEN
-            INSERT INTO Game (id_media, album) VALUES (media_id, album);
+            INSERT INTO Music (id_media, album) VALUES (media_id, media_album);
+        ELSE
+           -- Générer une exception personnalisée si media_category n'est pas géré
+            RAISE EXCEPTION 'Catégorie de média non gérée : %', media_category;
     END CASE;
 
     -- Étape 3: Insérer le genre du média
@@ -209,7 +212,41 @@ BEGIN
 
     -- Étape 4: Si c'est un jeu, insérer la plate-forme jouable
     IF media_category = 'Game' THEN
-        INSERT INTO PlayableOn (id_game, id_platform) VALUES (media_id, media_platform_id);
+        INSERT INTO PlayableOn (id_game, platform) VALUES (media_id, media_platform);
     END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION DeleteMedia(
+    media_id INT,
+    media_category VARCHAR(255)
+)
+RETURNS VOID AS $$
+BEGIN
+    -- Étape 1: Supprimer les entrées de la table GenreMedia
+    DELETE FROM GenreMedia WHERE id_media = media_id;
+
+    -- Étape 2: Si c'est un jeu, supprimer les entrées de la table PlayableOn
+    IF media_category = 'Game' THEN
+        DELETE FROM PlayableOn WHERE id_game = media_id;
+    END IF;
+
+    -- Étape 3: Supprimer les entrées spécifiques au type de média (Book, Movie, Game)
+    CASE media_category
+        WHEN 'Book' THEN
+            DELETE FROM Book WHERE id_media = media_id;
+        WHEN 'Movie' THEN
+            DELETE FROM Movie WHERE id_media = media_id;
+        WHEN 'Game' THEN
+            DELETE FROM Game WHERE id_media = media_id;
+        WHEN 'Music' THEN
+            DELETE FROM Music WHERE id_media = media_id;
+    END CASE;
+
+    -- Étape 4: Supprimer l'entrée de la table Media
+    DELETE FROM Media WHERE id_media = media_id;
+
 END;
 $$ LANGUAGE plpgsql;

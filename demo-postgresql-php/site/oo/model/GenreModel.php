@@ -34,4 +34,22 @@ class GenreModel extends Model{
     }
 
 
+    public static function getAllGenresByCategory($category){
+        $var = [];
+        echo $category;
+        $req = DB::get()->prepare("SELECT * FROM Genre
+        WHERE category =  :category");
+        $values = array("category" => $category);
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $var[] = new GenreModel($data);
+          
+        }
+        return $var;
+        $req->closeCursor();
+
+       
+
+    }
+
 }

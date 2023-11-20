@@ -1,6 +1,7 @@
 <!-- Ajout du form de base d'un média -->
 <?php
     $this->_t="Créer Livre";
+    $category = "Book";
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -11,8 +12,7 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
 
 <!-- AJout du BookType listé pour créer un livre -->
     <div class="col-12">
-        <input type="text" name="category" value="Book" style="display:none;">
-        <input type="text" name="genre_id" value=3 style="display:none;">
+        <input type="text" name="category" value=<?= $category?> style="display:none;">
 
 
         <label for="type" class="form-label">Type</label>
