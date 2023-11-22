@@ -8,7 +8,71 @@ $category="Movie";
 <a href="?controller=movie&action=create" class="btn btn-primary button_mode_top" id="btn_top">+ Ajouter un film</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 <a href="?controller=movie&action=create" class="button_mode_bot" id="btn_bot"><p>+</p></a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 
+<br>
+<button id="buttonFiltre">Filter > </button><br><br>
 
+<div id="formFiltreLivre" class="d-none">
+    <div  class="bg depop d-flex justify-content-around">
+        <div>
+        <h2>Filtrer les Films : </h2>
+        <form>
+            <label>Par Genre : </label>
+            <input type="checkbox" name="toggleGroup" value="genre"></input>
+            <input type="option"></input><br>
+
+            <label>Par type : </label>
+            <input type="checkbox" name="toggleGroup" value="type"></input>
+            <input type="option"></input><br>
+
+            <label>Par auteur : </label>
+            <input type="checkbox" name="toggleGroup" value="auteur"></input>
+            <input type="option"></input><br>
+
+
+       </div>
+       <div>
+            <h2>Classer les Films : </h2>
+
+            <label>Alphabetique : </label>
+            <input checked type="radio" name="toggleGroup2" value="Alphabetique"></input>
+            <br>
+
+            <label>Par date : </label>
+            <input type="radio" name="toggleGroup2" value="date"></input>
+            <br>
+
+            <label>Par Note : </label>
+            <input type="radio" name="toggleGroup2" value="Note"></input><br><br>
+
+            <span>Décroissant :</span> <input type="checkbox"></input>
+        </form>
+       </div>
+
+    </div>
+           <button type submit>Filtrer</button>
+</div>
+            <br>
+
+    <script>
+            var formFiltreLivre = document.getElementById('formFiltreLivre');
+            var buttonFiltre = document.getElementById('buttonFiltre');
+
+            buttonFiltre.addEventListener('click', depop);
+
+            function depop()
+            {
+                if (formFiltreLivre.classList.contains('d-none'))
+                {
+                    formFiltreLivre.classList.remove('d-none');
+                    buttonFiltre.innerHTML = " Filter <";
+                }
+                else
+                {
+                    formFiltreLivre.classList.add('d-none');
+                    buttonFiltre.innerHTML = " Filter >";
+                }
+            }
+    </script>
 
 <div class="row mb-2">
 
