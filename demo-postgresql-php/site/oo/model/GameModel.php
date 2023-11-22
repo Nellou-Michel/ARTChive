@@ -36,5 +36,20 @@ class GameModel extends MediaModel{
 
     }
 
+    public static function getAllGamesWithFilter($genre, $platform_game, $author, $sb_title, $sb_date, $sb_note) {
+        $req = DB::get()->prepare("select * from get_games_by_genre_platform_author_date_note(
+            :genre, :platform_game, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+        $values = array(
+        "genre" => $genre, 
+        "platform_game" => $platform_game, 
+        "author" => $author,
+        "sort_by_title" => $sb_title,
+        "sort_by_date" => $sb_date,
+        "sort_by_note" => $sb_note
+        );
+        $req->prepare($values);
+        return $req;
+    }
+
 
 }

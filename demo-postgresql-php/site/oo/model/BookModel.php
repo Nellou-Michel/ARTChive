@@ -38,5 +38,20 @@ class BookModel extends MediaModel{
         $req->closeCursor();
     }
 
+    public static function getAllBooksByFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note) {
+        $req = DB::get()->prepare("select * from get_books_by_genre_type_author_date_note(
+            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+        $values = array(
+        "genre" => $genre, 
+        "type" => $type, 
+        "author" => $author,
+        "sort_by_title" => $sb_title,
+        "sort_by_date" => $sb_date,
+        "sort_by_note" => $sb_note
+        );
+        $req->prepare($values);
+        return $req;
+    }
+
 
 }

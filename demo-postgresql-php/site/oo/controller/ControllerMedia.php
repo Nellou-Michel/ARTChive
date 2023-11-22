@@ -23,6 +23,13 @@ class ControllerMedia {
 
     }
 
+    public function readAllWithFilter() {
+        $medias = MediaModel::getAllMediasWithFilter();
+
+        $this->_view = new View('list','Media');
+        $this->_view->generate(array('medias' => $medias));
+    }
+
 
     public  function create() {
 
