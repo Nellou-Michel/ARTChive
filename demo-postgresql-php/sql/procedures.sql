@@ -1,169 +1,182 @@
--- CREATE TRIGGER Check_Media_Genre_Category 
--- BEFORE INSERT OR UPDATE ON GenreMedia 
--- FOR EACH ROW
--- declare
---     media_type VARCHAR(255);
---     category_genre VARCHAR(255);
--- BEGIN
---     -- Obtenir le type du média associé
---     SELECT
---         CASE
---             WHEN EXISTS (SELECT 1 FROM Book WHERE id_media = :NEW.id_media) THEN 'Book'
---             WHEN EXISTS (SELECT 1 FROM Movie WHERE id_media = :NEW.id_media) THEN 'Movie'
---             WHEN EXISTS (SELECT 1 FROM Game WHERE id_media = :NEW.id_media) THEN 'Game'
---             WHEN EXISTS (SELECT 1 FROM Music WHERE id_media = :NEW.id_media) THEN 'Music'
---             ELSE NULL
---         END
---     INTO media_type
---     FROM dual;
+ CREATE OR REPLACE FUNCTION func_Check_Media_Genre_Category()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS
+$$
+DECLARE
+   media_type VARCHAR(255);
+category_genre VARCHAR(255);
+BEGIN
+    SELECT
+        CASE
+            WHEN EXISTS (SELECT 1 FROM Book WHERE id_media = NEW.id_media) THEN 'Book'
+            WHEN EXISTS (SELECT 1 FROM Movie WHERE id_media = NEW.id_media) THEN 'Movie'
+            WHEN EXISTS (SELECT 1 FROM Game WHERE id_media = NEW.id_media) THEN 'Game'
+            WHEN EXISTS (SELECT 1 FROM Music WHERE id_media = NEW.id_media) THEN 'Music'
+            ELSE NULL
+        END
+    INTO media_type;
 
---     -- Obtenir la category du genre
---     SELECT category INTO category_genre
---     FROM Genre 
---     WHERE id_genre = :NEW.id_genre;
+    SELECT category INTO category_genre
+    FROM Genre 
+    WHERE id_genre = NEW.id_genre;
 
---     -- Vérifier si le genre correspond à la catégorie du média
---     IF category IS NOT NULL THEN 
---         IF media_type IS NOT NULL AND :NEW.category != media_type THEN
---             RAISE_APPLICATION_ERROR(-20001, 'Le genre ne correspond pas à la catégorie du média.');
---         END IF;
---         EXCEPTION
---             WHEN NO_DATA_FOUND THEN
---                 RAISE_APPLICATION_ERROR(-20002, 'Média introuvable.');
---             WHEN OTHERS THEN
---                 RAISE;
---     END IF;
---     EXCEPTION
---         WHEN NO_DATA_FOUND THEN
---             RAISE_APPLICATION_ERROR(-20002, 'Genre introuvable.');
---         WHEN OTHERS THEN
---             RAISE;
--- END;
+    IF category_genre IS NULL THEN 
+        RAISE EXCEPTION 'Genre introuvable.';
+    END IF;
 
--- CREATE OR REPLACE TRIGGER Update_Media_Avg_Note
--- AFTER INSERT OR UPDATE ON Post
--- FOR EACH ROW
--- begin
---   update Media
---   set average_note = (
---     select AVG(note)
---       from Post
---      where id_media= :new.id_media
---   )
---   where id_media = :new.id_media;
--- end;
+    RETURN NEW;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE EXCEPTION 'Média introuvable.';
+        WHEN OTHERS THEN
+            RAISE;
+END;
+$$;
+CREATE OR REPLACE TRIGGER Check_Media_Genre_Category 
+BEFORE INSERT OR UPDATE ON GenreMedia 
+FOR EACH ROW
+EXECUTE PROCEDURE func_Check_Media_Genre_Category();
 
-
--- CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
---     genre IN VARCHAR2 DEFAULT NULL,
---     type IN VARCHAR2 DEFAULT NULL,
---     author_name IN VARCHAR2 DEFAULT NULL,
---     sort_by_date IN VARCHAR2 DEFAULT NULL,
---     sort_by_note IN VARCHAR2 DEFAULT NULL
--- ) RETURN SYS_REFCURSOR AS
---     books SYS_REFCURSOR;
--- BEGIN
---     OPEN books FOR
---         SELECT b.*
---         FROM Book b
---         JOIN Media m ON b.id_media = m.id_media
---         JOIN GenreMedia gm ON m.id_media = gm.id_media
---         JOIN Genre g ON gm.id_genre = g.id_genre
---         JOIN Author a ON a.id_author = m.id_author
---         WHERE (genre IS NULL OR g.genre = genre)
---             AND (type IS NULL OR b.type = type)
---             AND (author_name IS NULL OR a.author_name = author_name)
---         ORDER BY 
---             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
---             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
---             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
---             CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
---     RETURN books;
--- END;
-
--- CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
---     genre IN VARCHAR2 DEFAULT NULL,
---     type IN VARCHAR2 DEFAULT NULL,
---     author_name IN VARCHAR2 DEFAULT NULL,
---     sort_by_date IN VARCHAR2 DEFAULT NULL,
---     sort_by_note IN VARCHAR2 DEFAULT NULL
--- ) RETURN SYS_REFCURSOR AS
---     movies SYS_REFCURSOR;
--- BEGIN
---     OPEN books FOR
---         SELECT mov.*
---         FROM Movie mov
---         JOIN Media m ON mov.id_media = m.id_media
---         JOIN GenreMedia gm ON m.id_media = gm.id_media
---         JOIN Genre g ON gm.id_genre = g.id_genre
---         JOIN Author a ON a.id_author = m.id_author
---         WHERE (genre IS NULL OR g.genre = genre)
---             AND (type IS NULL OR mov.type = type) 
---             AND (author_name IS NULL OR a.author_name LIKE '%' || author_name || '%')
---         ORDER BY 
---             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
---             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
---             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
---             CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
---     RETURN movies;
--- END;
+CREATE OR REPLACE FUNCTION func_Update_Media_Avg_Note()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS
+$$
+begin
+update Media
+set average_note = (
+    select AVG(note)
+    from Post
+    where id_media=new.id_media
+)
+where id_media =new.id_media;
+end;
+$$;
+CREATE OR REPLACE TRIGGER Update_Media_Avg_Note
+AFTER INSERT OR UPDATE ON Post
+FOR EACH ROW
+EXECUTE PROCEDURE func_Update_Media_Avg_Note();
 
 
--- CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
---     genre IN VARCHAR2 DEFAULT NULL,
---     platform IN VARCHAR2 DEFAULT NULL,
---     author_name IN VARCHAR2 DEFAULT NULL,
---     sort_by_date IN VARCHAR2 DEFAULT NULL,
---     sort_by_note IN VARCHAR2 DEFAULT NULL
--- ) RETURN SYS_REFCURSOR AS
---     games SYS_REFCURSOR;
--- BEGIN
---     OPEN games FOR
---         SELECT game.*
---         FROM Game game
---         JOIN Media m ON game.id_media = m.id_media
---         JOIN GenreMedia gm ON m.id_media = gm.id_media
---         JOIN Genre g ON gm.id_genre = g.id_genre
---         JOIN PlayableOn po ON po.id_game = game.id_media
---         JOIN Author a ON a.id_author = m.id_author
---         WHERE (genre IS NULL OR g.genre = genre)
---             AND (platform IS NULL OR po.platform = platform) 
---             AND (author_name IS NULL OR a.author_name LIKE '%' || author_name || '%')
---         ORDER BY 
---             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
---             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
---             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
---             CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
---     RETURN games;
--- END;
+CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
+    genre_media VARCHAR DEFAULT NULL,
+    type VARCHAR DEFAULT NULL,
+    author_name VARCHAR DEFAULT NULL,
+    sort_by_date VARCHAR DEFAULT NULL,
+    sort_by_note VARCHAR DEFAULT NULL
+) RETURNS SETOF Media AS 
+ $$
+ BEGIN
+    RETURN QUERY
+    SELECT DISTINCT  DISTINCT ON (m.id_media) m.*
+    FROM Media m
+    JOIN Book b ON b.id_media = m.id_media
+    LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
+    LEFT JOIN Genre g ON gm.id_genre = g.id_genre
+    JOIN Author a ON a.id_author = m.id_author
+    WHERE (genre_media IS NULL OR g.genre = genre_media)
+        AND (type IS NULL OR b.book_type = type)
+        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+    ORDER BY 
+        m.id_media,
+        CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
+        CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
+        CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
+        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+ END;
+ $$ 
+ LANGUAGE PLPGSQL;
+
+ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
+    genre_media VARCHAR DEFAULT NULL,
+    type VARCHAR DEFAULT NULL,
+    author_name VARCHAR DEFAULT NULL,
+    sort_by_date VARCHAR DEFAULT NULL,
+    sort_by_note VARCHAR DEFAULT NULL
+ ) RETURNS SETOF Media AS
+	 $$
+ BEGIN
+     RETURN QUERY
+	 SELECT DISTINCT  DISTINCT ON (m.id_media) m.*
+	 FROM Media m
+	 JOIN Movie mov ON mov.id_media = m.id_media
+	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
+	 LEFT JOIN Genre g ON gm.id_genre = g.id_genre
+	 JOIN Author a ON a.id_author = m.id_author
+	 WHERE (genre_media IS NULL OR g.genre = genre_media)
+		 AND (type IS NULL OR mov.movie_type = type) 
+		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+	 ORDER BY 
+        m.id_media,
+		 CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
+		 CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
+		 CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
+		 CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+ END;
+ $$
+ LANGUAGE PLPGSQL;
 
 
--- CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
---     genre IN VARCHAR2 DEFAULT NULL,
---     album IN VARCHAR2 DEFAULT NULL,
---     author_name IN VARCHAR2 DEFAULT NULL,
---     sort_by_date IN VARCHAR2 DEFAULT NULL,
---     sort_by_note IN VARCHAR2 DEFAULT NULL
--- ) RETURN SYS_REFCURSOR AS
---     musics SYS_REFCURSOR;
--- BEGIN
---     OPEN musics FOR
---         SELECT mus.*
---         FROM Music mus
---         JOIN Media m ON mus.id_media = m.id_media
---         JOIN GenreMedia gm ON m.id_media = gm.id_media
---         JOIN Genre g ON gm.id_genre = g.id_genre
---         JOIN Author a ON a.id_author = m.id_author
---         WHERE (genre IS NULL OR g.genre = genre)
---             AND (album IS NULL OR mus.album LIKE '%' || album || '%') 
---             AND (author_name IS NULL OR a.author_name LIKE '%' || author_name || '%')
---         ORDER BY 
---             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
---             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
---             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
---             CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
---     RETURN musics;
--- END;
+CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
+    genre_media VARCHAR DEFAULT NULL,
+    platform_game VARCHAR DEFAULT NULL,
+    author_name VARCHAR DEFAULT NULL,
+    sort_by_date VARCHAR DEFAULT NULL,
+    sort_by_note VARCHAR DEFAULT NULL
+) RETURNS SETOF Media AS
+$$
+BEGIN
+    RETURN QUERY
+    SELECT DISTINCT ON (m.id_media) m.*
+    FROM Media m
+    JOIN Game game ON game.id_media = m.id_media
+    JOIN GenreMedia gm ON m.id_media = gm.id_media
+    JOIN Genre g ON gm.id_genre = g.id_genre
+    JOIN PlayableOn po ON po.id_game = game.id_media
+    JOIN Author a ON a.id_author = m.id_author
+    WHERE (genre_media IS NULL OR g.genre = genre_media)
+        AND (platform_game IS NULL OR po.platform = platform_game) 
+        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+    ORDER BY 
+        m.id_media,
+        CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
+        CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
+        CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
+        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+
+CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
+    genre_media IN VARCHAR DEFAULT NULL,
+    album_music IN VARCHAR DEFAULT NULL,
+    author_name IN VARCHAR DEFAULT NULL,
+    sort_by_date IN VARCHAR DEFAULT NULL,
+    sort_by_note IN VARCHAR DEFAULT NULL
+) RETURNS SETOF Media AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT DISTINCT ON (m.id_media) m.*
+        FROM Media m
+        JOIN Music mus ON mus.id_media = m.id_media
+        JOIN GenreMedia gm ON m.id_media = gm.id_media
+        JOIN Genre g ON gm.id_genre = g.id_genre
+        JOIN Author a ON a.id_author = m.id_author
+        WHERE (genre_media IS NULL OR g.genre = genre_media)
+            AND (album_music IS NULL OR mus.album LIKE '%' || album_music || '%') 
+            AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+        ORDER BY
+			m.id_media,
+            CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
+            CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
+            CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
+            CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+END;
+$$
+LANGUAGE PLPGSQL;
 
 
 
@@ -189,7 +202,7 @@ DECLARE
     genre_id INT;
     platform VARCHAR;
 BEGIN
-    -- Étape 1: Insérer le média
+     --Étape 1: Insérer le média
     INSERT INTO Media (name_media, publication_date, description, length, unite, id_author, average_note, file_path)
     VALUES (media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
     RETURNING id_media INTO media_id;
@@ -205,17 +218,17 @@ BEGIN
         WHEN 'Music' THEN
             INSERT INTO Music (id_media, album) VALUES (media_id, media_album);
         ELSE
-           -- Générer une exception personnalisée si media_category n'est pas géré
+            --Générer une exception personnalisée si media_category n'est pas géré
             RAISE EXCEPTION 'Catégorie de média non gérée : %', media_category;
     END CASE;
 
-    -- Étape 3: Insérer les genres du média
+     --Étape 3: Insérer les genres du média
     FOREACH genre_id IN ARRAY media_genre_ids
     LOOP
         INSERT INTO GenreMedia (id_genre, id_media) VALUES (genre_id, media_id);
     END LOOP;
 
-    -- Étape 4: Si c'est un jeu, insérer les plateformes jouables
+     --Étape 4: Si c'est un jeu, insérer les plateformes jouables
     IF media_category = 'Game' THEN
         FOREACH platform IN ARRAY media_platforms
         LOOP
@@ -241,7 +254,7 @@ BEGIN
         DELETE FROM PlayableOn WHERE id_game = media_id;
     END IF;
 
-    -- Étape 3: Supprimer les entrées spécifiques au type de média (Book, Movie, Game)
+     Étape 3: Supprimer les entrées spécifiques au type de média (Book, Movie, Game)
     CASE media_category
         WHEN 'Book' THEN
             DELETE FROM Book WHERE id_media = media_id;
