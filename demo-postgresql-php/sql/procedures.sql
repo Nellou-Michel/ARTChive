@@ -70,7 +70,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
  $$
  BEGIN
     RETURN QUERY
-    SELECT DISTINCT  DISTINCT ON (m.id_media) m.*
+    SELECT DISTINCT ON (m.id_media) m.*
     FROM Media m
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -102,7 +102,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 	 $$
  BEGIN
      RETURN QUERY
-	 SELECT DISTINCT  DISTINCT ON (m.id_media) m.*
+	 SELECT DISTINCT ON (m.id_media) m.*
 	 FROM Media m
 	 JOIN Movie mov ON mov.id_media = m.id_media
 	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -277,7 +277,7 @@ BEGIN
         DELETE FROM PlayableOn WHERE id_game = media_id;
     END IF;
 
-     Étape 3: Supprimer les entrées spécifiques au type de média (Book, Movie, Game)
+    -- Étape 3: Supprimer les entrées spécifiques au type de média (Book, Movie, Game)
     CASE media_category
         WHEN 'Book' THEN
             DELETE FROM Book WHERE id_media = media_id;
