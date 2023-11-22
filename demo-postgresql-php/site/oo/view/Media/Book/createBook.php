@@ -21,19 +21,16 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
             <option value="+">+</option>
           
             <?php
-            
-            require_once FILE::build_path(array('model','BookTypeModel.php'));
-        
-            $arrayType = BookTypeModel::getAll("bookType","BookTypeModel"); // Appel de la fonction statique
+                require_once FILE::build_path(array('model','BookTypeModel.php'));
 
-            foreach ($arrayType as $type) {
-                echo '<option value="' . $type->getBook_type() . '">' . $type->getBook_type() . '</option>';
-            }
+                $arrayType = BookTypeModel::getAll("bookType","BookTypeModel"); // Appel de la fonction statique
+
+                foreach ($arrayType as $type) {
+                    echo '<option value="' . $type->getBook_type() . '">' . $type->getBook_type() . '</option>';
+                }
             ?>
-
-
-         
         </select>
+
         <input type="text" name="newBookType" id="newBookType" style="display:none;">
 
         </div>
@@ -56,5 +53,4 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
 <!-- Ajout du submit button, c'est la fin du formulaire -->
 <?php
     require FILE::build_path(array('view','form','submit_form.php'));
-
-    ?>
+?>

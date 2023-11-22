@@ -18,7 +18,7 @@ $category="Movie";
     foreach ($arrayAll as $obj): ?>
         
         <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative maxed-h">
             
                 <!-- Appel de la liste de base du média -->
                 <?php
