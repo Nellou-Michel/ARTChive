@@ -1,11 +1,26 @@
 <!-- Ajout du form de base d'un média -->
 <?php
-    $this->_t="Créer Livre";
+ 
     $category = "Book";
+
+    if(isset($mediaUpdate)){
+        $this->_t="Modifier livre";
+    }
+    else{
+        $this->_t="Créer livre";
+    }
+
+    
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
+    //FOR UPDATE ONLY
+  
+
+    
+
 ?>
+
 
 <!-- LA STRATEGIE POUR CREER UN NOUVEAU MEDIA EST D ABORD D AJOUTER LE MEDIA DANS MEDIA
 PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
@@ -26,10 +41,11 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
         
             $arrayType = BookTypeModel::getAll("bookType","BookTypeModel"); // Appel de la fonction statique
 
-            foreach ($arrayType as $type) {
-                echo '<option value="' . $type->getBook_type() . '">' . $type->getBook_type() . '</option>';
-            }
-            ?>
+            foreach ($arrayType as $type) : ?>
+                <option <?= (isset($mediaUpdate) && $mediaUpdate->getBook_type() == $type->getBook_type()) ? "selected" : "" ?> value="<?= $type->getBook_type() ?>">
+                    <?= $type->getBook_type() ?>
+                </option>
+            <?php endforeach; ?>
 
 
          

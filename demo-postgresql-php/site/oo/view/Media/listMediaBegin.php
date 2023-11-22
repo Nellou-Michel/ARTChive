@@ -1,4 +1,15 @@
 <div class="col p-4 d-flex flex-column position-static">
+
+                <!-- UpdateForm -->
+                <form method="post" action="?controller=<?=strtolower($category)?>&action=update">
+                    <input type="text" name="category" value=<?= $category?> style="display:none;">
+
+                    <div class="leftObj">
+                        <button type=submit class="btn btn-outline-secondary rounded-pill">- update -</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
+                        <input type='hidden' id='id_media' name='id_media' value=<?= $obj->getId_media()?>>
+                    </div>
+                </form>
+
                 <h3 class="mb-0"><?= $obj->getName_media() ?></h3>
               
                 <h5 class="mb-0">Auteur : <?= $obj->getName_author() ?></h5>

@@ -1,7 +1,14 @@
 <!-- Ajout du form de base d'un média -->
 <?php
-    $this->_t="Créer jeu";
     $category = "Game";
+
+    if(isset($mediaUpdate)){
+        $this->_t="Modifier jeu";
+    }
+    else{
+        $this->_t="Créer jeu";
+    }
+
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -21,12 +28,27 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
 
         $arrayPlatforms = PlatformModel::getAll("platform", "PlatformModel");
 
+        if(isset($mediaUpdate)){
+            $mediaUpdatePlatforms = array();
+            foreach ($mediaUpdate->getPlatforms() as $platform) {
+                $mediaUpdatePlatforms[] = $platform->getPlatform();
+            }
+        }
+
         foreach ($arrayPlatforms as $platform) {
             echo '<div class="form-check">';
-            echo '<input class="form-check-input" type="checkbox" name="platform[]" id="platform_' . $platform->getPlatform() . '" value="' . $platform->getPlatform() . '">';
+            // echo '<input class="form-check-input" type="checkbox" name="platform[]" id="platform_' . $platform->getPlatform() . '" value="' . $platform->getPlatform() . '">';
+            
+            echo '<input class="form-check-input" type="checkbox" name="platform[]" id="platform_' . $platform->getPlatform() . '" value="' . $platform->getPlatform() . '"';
+            echo (isset($mediaUpdate) && in_array($platform->getPlatform(), $mediaUpdatePlatforms) ? ' checked' : '');
+            echo '>';
+           
             echo '<label class="form-check-label" for="platform_' . $platform->getPlatform() . '">' . $platform->getPlatform() . '</label>';
             echo '</div>';
         }
+
+          // Récupérer les genres du mediaUpdate
+  
 
         echo '<div class="form-check">';
         echo '<input class="form-check-input" type="checkbox" name="newPlatform" id="newPlatform">';
@@ -54,5 +76,4 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
 <!-- Ajout du submit button, c'est la fin du formulaire -->
 <?php
     require FILE::build_path(array('view','form','submit_form.php'));
-
-    ?>
+?>

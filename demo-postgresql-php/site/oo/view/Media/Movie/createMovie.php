@@ -1,7 +1,15 @@
 <!-- Ajout du form de base d'un média -->
 <?php
-    $this->_t="Créer Film";
+
     $category = "Movie";
+
+    if(isset($mediaUpdate)){
+        $this->_t="Modifier Film";
+    }
+    else{
+        $this->_t="Créer Film";
+    }
+
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -14,7 +22,7 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
 <div class="col-12">
         <input type="text" name="category" value=<?= $category?> style="display:none;">
         <label for="actors" class="form-label">(Acteurs)</label>
-        <input type="text" class="form-control" id="actors" name="actors">
+        <input type="text" class="form-control" id="actors" name="actors" value="<?= (isset($mediaUpdate) != null) ? $mediaUpdate->getActors() : "" ?>" >
             <div class="invalid-feedback">
                     Selectionnez un nom d'acteur valide
 </div>
@@ -31,10 +39,11 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
         
             $arrayType = MovieTypeModel::getAll("movieType","MovieTypeModel"); // Appel de la fonction statique
 
-            foreach ($arrayType as $type) {
-                echo '<option value="' . $type->getMovie_type() . '">' . $type->getMovie_type() . '</option>';
-            }
-            ?>
+            foreach ($arrayType as $type) : ?>
+            <option <?= (isset($mediaUpdate) && $mediaUpdate->getMovie_type() == $type->getMovie_type()) ? "selected" : "" ?> value="<?= $type->getMovie_type() ?>">
+                <?= $type->getMovie_type() ?>
+            </option>
+            <?php endforeach; ?>
         </select>
         <input type="text" name="newMovieType" id="newMovieType" style="display:none;">
 

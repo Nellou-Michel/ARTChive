@@ -37,5 +37,23 @@ class MusicModel extends MediaModel{
         $req->closeCursor();
     }
 
+    public static function getMusicById($id){
+        $req = DB::get()->prepare("SELECT * FROM Media,Music WHERE Media.id_media = :id_media AND Music.id_media = :id_media");
+        $values = array("id_media" => $id);
+        $req->execute($values);
+        
+        $mediaData = $req->fetch(PDO::FETCH_ASSOC);
+    
+        // Attention, si il n'y a pas de résultat, on renvoie false
+        if (!$mediaData) {
+            echo "Pas de média trouvé";
+            return false;
+        }
+    
+        // Créez une instance de MediaModel et initialisez-la avec les données du média
+        $media = new MusicModel($mediaData);
+        return $media;
+    }
+
 
 }
