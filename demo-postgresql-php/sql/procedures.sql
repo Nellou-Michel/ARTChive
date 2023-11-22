@@ -173,7 +173,7 @@ CREATE OR REPLACE FUNCTION CreateNewMedia(
     media_description VARCHAR(255),
     media_length INT,
     media_unite VARCHAR(255),
-    media_author_id INT,
+    media_author_idname VARCHAR(255),
     media_average_note DECIMAL(3, 2),
     media_file_path VARCHAR(255),
     media_genre_ids INT[],
@@ -188,10 +188,21 @@ DECLARE
     media_id INT;
     genre_id INT;
     platform VARCHAR;
+    author_id INT;
 BEGIN
+
+  -- Étape 1: Vérifier si l'auteur existe déjà
+    SELECT id_author INTO author_id FROM Author WHERE name_author = media_author_idname;
+
+    -- Étape 2: Si l'auteur n'existe pas, insérer le nouvel auteur
+    IF author_id IS NULL THEN
+        INSERT INTO Author (name_author) VALUES (media_author_idname)
+        RETURNING id_author INTO author_id;
+    END IF;
+
     -- Étape 1: Insérer le média
     INSERT INTO Media (name_media, publication_date, description, length, unite, id_author, average_note, file_path)
-    VALUES (media_name, media_publication_date, media_description, media_length, media_unite, media_author_id, media_average_note, media_file_path)
+    VALUES (media_name, media_publication_date, media_description, media_length, media_unite, author_id, media_average_note, media_file_path)
     RETURNING id_media INTO media_id;
 
     -- Étape 2: Insérer le type spécifique de média (livre, film, jeu)

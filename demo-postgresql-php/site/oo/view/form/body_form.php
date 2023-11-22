@@ -17,38 +17,92 @@
                         </div>
 
                     
-                        <div class="col-12">
+                        <?php
+                        // Récupérez la liste complète d'auteurs une seule fois
+                        require_once FILE::build_path(array('model','AuthorModel.php'));
+                        $suggestedAuthors = AuthorModel::getAll("author","AuthorModel");
+                        foreach ($suggestedAuthors as $author) {
+                            $authorsHashMap[$author->getId_author()] = $author->getName_author();
+                            $authorsNames[] = $author->getName_author();
+                        }
+                        
+                        ?>
+
+                        <div id='author_selection' class="col-12">
                             <label for="id_author" class="form-label">Auteur</label>
-                            <div id="auteur-container">
-                                <select class="form-control" name="id_author" id="auteur" onchange="showInput(this);">
-                                    <option value="">--Sélectionnez un auteur--</option>
-                                    <option value="+">+</option>
-                                    <?php
-                                    require_once FILE::build_path(array('model','AuthorModel.php'));
-                                    $authors = AuthorModel::getAll("author","AuthorModel");
+                            <input list="list_author" name="id_author" textContent="ok"/>
+                        </div>
 
-                                    foreach ($authors as $author) {
-                                        echo '<option value="' . $author->getId_author() . '">' . $author->getName_author() . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                                <input type="text" name="nouvel_auteur" id="nouvel_auteur" style="display:none;">
-                            </div>
-
-                            <script>
-                                function showInput(select) {
-                                    var nouvelAuteurInput = document.getElementById("nouvel_auteur");
-
-                                    if (select.value === "+") {
-                                        // Affiche l'input s'il est caché
-                                        nouvelAuteurInput.style.display = "block";
-                                    } else {
-                                        // Cache l'input s'il est visible
-                                        nouvelAuteurInput.style.display = "none";
+                        <script>
+                            function trouverCleParValeur(objet, valeurRecherchee) {
+                                for (const cle in objet) {
+                                    if (objet[cle] === valeurRecherchee) {
+                                        return cle;
                                     }
                                 }
-                            </script>
+                                // Si la valeur n'est pas trouvée, vous pouvez retourner null ou une autre valeur par défaut.
+                                return null;
+                            }
+
+                            var listAuthorNames = <?php echo json_encode($authorsNames); ?>;
+                            var authorNameIdMap = <?php echo json_encode($authorsHashMap); ?>;
+                            var dataList = document.createElement('datalist');
+                            dataList.id = 'list_author';
+
+                            // Ajout d'options à la datalist
+                            
+                            for (var i = 0; i < listAuthorNames.length; i++) {
+                                var option = document.createElement('option');
+                                option.value = listAuthorNames[i];
+                                //option.textContent = listAuthorNames[i];
+                                //option.value = trouverCleParValeur(authorNameIdMap, listAuthorNames[i]);
+                                dataList.appendChild(option);
+
+                            document.getElementById('author_selection').appendChild(dataList);
+  }
+                            // function autocompleteAuthors(input) {
+                               
+                            // var inputValue = input.value.toLowerCase();
+                            // var autocompleteList = document.getElementById("autocomplete-list");
+                            // console.log(suggestedAuthors);
+                            // if (Array.isArray(suggestedAuthors)) {
+                            //     // Afficher la structure des objets
+                            //     suggestedAuthors.forEach(function (author) {
+                            //         console.log(author);
+
+                            //         // Accéder à la propriété name_author de chaque auteur
+                            //         var authorName = author.name_author;
+
+                            //         // Filtrer les auteurs en fonction de la saisie de l'utilisateur
+                            //         if (authorName.toLowerCase().includes(inputValue)) {
+                            //             // Faire quelque chose avec l'auteur filtré
+                            //             console.log(authorName);
+                            //         }
+                            //     });
+                            // }
+
+                            //     // Afficher les suggestions dans la liste d'autocomplétion
+                            //     autocompleteList.innerHTML = "";
+                            //     filteredAuthors.forEach(function (author) {
+                            //         var option = document.createElement("div");
+                            //         option.innerHTML = author.name_author;
+                            //         option.addEventListener("click", function () {
+                            //             // Remplir le champ d'entrée avec la suggestion sélectionnée
+                            //             input.value = author.name_author;
+                            //             // Cacher la liste d'autocomplétion
+                            //             autocompleteList.innerHTML = "";
+                            //         });
+                            //         autocompleteList.appendChild(option);
+                            //     });
+                            // }
+
+
+
+
+                        
+                        </script>
                         </div>
+                      
 
                         <div class="col-12">
                             <label class="form-label">Genres</label>

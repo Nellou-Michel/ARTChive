@@ -38,6 +38,7 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
 
         </div>
         <script>
+            
                 function showInputBook(select) {
                     var newInput = document.getElementById("newBookType");
 

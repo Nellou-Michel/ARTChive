@@ -51,5 +51,23 @@ class AuthorModel extends Model{
     }
 
 
+    public static function getSuggestedAuthors($query) {
+        // Utilisez la variable $query pour filtrer les résultats
+        $query = '%' . $query . '%';
+
+        // Exemple de requête SQL pour récupérer les auteurs suggérés
+        $sql = "SELECT * FROM author WHERE name_author LIKE :query";
+        $stmt = DB::get()->prepare($sql);
+        $stmt->bindParam(':query', $query, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Récupérer les résultats de la requête
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Retourner les résultats au format JSON
+        return $results;
+    }
+
+
 
 }
