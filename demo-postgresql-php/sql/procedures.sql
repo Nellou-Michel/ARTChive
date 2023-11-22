@@ -63,6 +63,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
     genre_media VARCHAR DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
+    sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
 ) RETURNS SETOF Media AS 
@@ -80,6 +81,8 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
         m.id_media,
+        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
@@ -92,6 +95,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
     genre_media VARCHAR DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
+    sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
  ) RETURNS SETOF Media AS
@@ -109,10 +113,12 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
 	 ORDER BY 
         m.id_media,
-		 CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
-		 CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
-		 CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
-		 CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
+		CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
+		CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
+		CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
+		CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
  END;
  $$
  LANGUAGE PLPGSQL;
@@ -122,6 +128,7 @@ CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
     genre_media VARCHAR DEFAULT NULL,
     platform_game VARCHAR DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
+    sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
 ) RETURNS SETOF Media AS
@@ -140,6 +147,8 @@ BEGIN
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
         m.id_media,
+        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
@@ -153,6 +162,7 @@ CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
     genre_media IN VARCHAR DEFAULT NULL,
     album_music IN VARCHAR DEFAULT NULL,
     author_name IN VARCHAR DEFAULT NULL,
+    sort_by_title IN VARCHAR DEFAULT NULL,
     sort_by_date IN VARCHAR DEFAULT NULL,
     sort_by_note IN VARCHAR DEFAULT NULL
 ) RETURNS SETOF Media AS
@@ -170,6 +180,8 @@ BEGIN
             AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
         ORDER BY
 			m.id_media,
+            CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
+            CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
