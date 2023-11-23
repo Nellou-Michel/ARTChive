@@ -34,13 +34,16 @@ class BookModel extends MediaModel{
             $var[] = new BookModel($data);
           
         }
+        var_dump($var);
         return $var;
         $req->closeCursor();
     }
 
     public static function getAllBooksByFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note) {
+        $media_list = [];
+        $book_list = [];
         $req = DB::get()->prepare("select * from get_books_by_genre_type_author_date_note(
-            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
         $values = array(
         "genre" => $genre, 
         "type" => $type, 
@@ -49,8 +52,19 @@ class BookModel extends MediaModel{
         "sort_by_date" => $sb_date,
         "sort_by_note" => $sb_note
         );
-        $req->prepare($values);
-        return $req;
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        foreach ($media_list as $media) {
+            $req_join = DB::get()->prepare("select * from Book b, Media where b.id_media = :id");
+            $values = array("id" => $media->getId_media());
+            $req_join->execute($values);
+            while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
+                $book_list[] = new BookModel($data);
+            }
+        }
+        return $book_list;
     }
 
 

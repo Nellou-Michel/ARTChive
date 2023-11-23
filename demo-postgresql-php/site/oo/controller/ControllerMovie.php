@@ -18,8 +18,13 @@ class ControllerMovie {
     }
 
     public function readAll(){
-       
-        $arrayAll = MovieModel::getAllMovies();
+        $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
+        $author = isset($_GET["author"]) ? $_GET["author"] : null;
+        $sb_title = isset($_GET["sort_by_title"]) ? $_GET["sort_by_title"] : null;
+        $sb_date = isset($_GET["sort_by_date"]) ? $_GET["sort_by_date"] : null;
+        $sb_note = isset($_GET["sort_by_note"]) ? $_GET["sort_by_note"] : null;
+        $type = isset($_GET["type"]) ? $_GET["type"] : null;
+        $arrayAll = MovieModel::getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
 
         //Appel de la vue 'list Book'
         $this->_view = new View(array('view','Media','Movie','listMovie.php'));

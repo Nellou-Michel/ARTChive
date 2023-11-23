@@ -75,14 +75,14 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
     LEFT JOIN Genre g ON gm.id_genre = g.id_genre
-    JOIN Author a ON a.id_author = m.id_author
+    LEFT JOIN Author a ON a.id_author = m.id_author
     WHERE (genre_media IS NULL OR g.genre = genre_media)
         AND (type IS NULL OR b.book_type = type)
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
         m.id_media,
-        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
-        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
+        CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
@@ -107,14 +107,14 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 	 JOIN Movie mov ON mov.id_media = m.id_media
 	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
 	 LEFT JOIN Genre g ON gm.id_genre = g.id_genre
-	 JOIN Author a ON a.id_author = m.id_author
+	 LEFT JOIN Author a ON a.id_author = m.id_author
 	 WHERE (genre_media IS NULL OR g.genre = genre_media)
 		 AND (type IS NULL OR mov.movie_type = type) 
 		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
 	 ORDER BY 
         m.id_media,
-        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
-        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
+        CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
 		CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
 		CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
 		CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
@@ -138,17 +138,17 @@ BEGIN
     SELECT DISTINCT ON (m.id_media) m.*
     FROM Media m
     JOIN Game game ON game.id_media = m.id_media
-    JOIN GenreMedia gm ON m.id_media = gm.id_media
-    JOIN Genre g ON gm.id_genre = g.id_genre
-    JOIN PlayableOn po ON po.id_game = game.id_media
-    JOIN Author a ON a.id_author = m.id_author
+    LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
+    LEFT JOIN Genre g ON gm.id_genre = g.id_genre
+    LEFT JOIN PlayableOn po ON po.id_game = game.id_media
+    LEFT JOIN Author a ON a.id_author = m.id_author
     WHERE (genre_media IS NULL OR g.genre = genre_media)
         AND (platform_game IS NULL OR po.platform = platform_game) 
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
         m.id_media,
-        CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
-        CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
+        CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
+        CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
@@ -172,16 +172,16 @@ BEGIN
         SELECT DISTINCT ON (m.id_media) m.*
         FROM Media m
         JOIN Music mus ON mus.id_media = m.id_media
-        JOIN GenreMedia gm ON m.id_media = gm.id_media
-        JOIN Genre g ON gm.id_genre = g.id_genre
-        JOIN Author a ON a.id_author = m.id_author
+        LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
+        LEFT JOIN Genre g ON gm.id_genre = g.id_genre
+        LEFT JOIN Author a ON a.id_author = m.id_author
         WHERE (genre_media IS NULL OR g.genre = genre_media)
             AND (album_music IS NULL OR mus.album LIKE '%' || album_music || '%') 
             AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
         ORDER BY
 			m.id_media,
-            CASE WHEN sort_by_title = 'asc' THEN m.title END ASC,
-            CASE WHEN sort_by_title = 'desc' THEN m.title END DESC,
+            CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
+            CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
             CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
             CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
