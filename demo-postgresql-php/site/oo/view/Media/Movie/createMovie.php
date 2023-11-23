@@ -45,22 +45,9 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
             </option>
             <?php endforeach; ?>
         </select>
-        <input type="text" name="newMovieType" id="newMovieType" style="display:none;">
 
         </div>
-        <script>
-                function showInputMovie(select) {
-                    var newInput = document.getElementById("newMovieType");
-
-                    if (select.value === "+") {
-                        // Affiche l'input s'il est caché
-                        newInput.style.display = "block";
-                    } else {
-                        // Cache l'input s'il est visible
-                        newInput.style.display = "none";
-                    }
-                }
-        </script>
+       
      
 
 <!-- Ajout du submit button, c'est la fin du formulaire -->

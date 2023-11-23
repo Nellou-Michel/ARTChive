@@ -33,7 +33,6 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
         <label for="type" class="form-label">Type</label>
         <select class="form-control" name="type" id="type" onchange="showInputBook(this);">
             <option  value="">--Sélectionnez un Type--</option>
-            <option value="+">+</option>
           
             <?php
             
@@ -50,24 +49,9 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
 
          
         </select>
-        <input type="text" name="newBookType" id="newBookType" style="display:none;">
 
         </div>
-        <script>
-            
-                function showInputBook(select) {
-                    var newInput = document.getElementById("newBookType");
 
-                    if (select.value === "+") {
-                        // Affiche l'input s'il est caché
-                        newInput.style.display = "block";
-                    } else {
-                        // Cache l'input s'il est visible
-                        newInput.style.display = "none";
-                    }
-                }
-        </script>
-     
 
 <!-- Ajout du submit button, c'est la fin du formulaire -->
 <?php

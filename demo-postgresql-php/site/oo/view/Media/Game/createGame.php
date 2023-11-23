@@ -50,26 +50,11 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
           // Récupérer les genres du mediaUpdate
   
 
-        echo '<div class="form-check">';
-        echo '<input class="form-check-input" type="checkbox" name="newPlatform" id="newPlatform">';
-        echo '<label class="form-check-label" for="newPlatform">Ajouter une nouvelle plateforme</label>';
-        echo '</div>';
+       
         ?>
-        <input type="text" name="newPlatformName" id="newPlatformName" style="display:none;">
 
         </div>
-        <script>
-                function showInputGame(select) {
-                    var newInput = document.getElementById("newGameType");
-
-                    if (select.value === "+") {
-                        // Affiche l'input s'il est caché
-                        newInput.style.display = "block";
-                    } else {
-                        // Cache l'input s'il est visible
-                        newInput.style.display = "none";
-                    }
-                }
+        
         </script>
      
 

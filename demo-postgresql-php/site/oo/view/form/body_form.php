@@ -73,44 +73,6 @@
 
                             document.getElementById('author_selection').appendChild(dataList);
   }
-                            // function autocompleteAuthors(input) {
-                               
-                            // var inputValue = input.value.toLowerCase();
-                            // var autocompleteList = document.getElementById("autocomplete-list");
-                            // console.log(suggestedAuthors);
-                            // if (Array.isArray(suggestedAuthors)) {
-                            //     // Afficher la structure des objets
-                            //     suggestedAuthors.forEach(function (author) {
-                            //         console.log(author);
-
-                            //         // Accéder à la propriété name_author de chaque auteur
-                            //         var authorName = author.name_author;
-
-                            //         // Filtrer les auteurs en fonction de la saisie de l'utilisateur
-                            //         if (authorName.toLowerCase().includes(inputValue)) {
-                            //             // Faire quelque chose avec l'auteur filtré
-                            //             console.log(authorName);
-                            //         }
-                            //     });
-                            // }
-
-                            //     // Afficher les suggestions dans la liste d'autocomplétion
-                            //     autocompleteList.innerHTML = "";
-                            //     filteredAuthors.forEach(function (author) {
-                            //         var option = document.createElement("div");
-                            //         option.innerHTML = author.name_author;
-                            //         option.addEventListener("click", function () {
-                            //             // Remplir le champ d'entrée avec la suggestion sélectionnée
-                            //             input.value = author.name_author;
-                            //             // Cacher la liste d'autocomplétion
-                            //             autocompleteList.innerHTML = "";
-                            //         });
-                            //         autocompleteList.appendChild(option);
-                            //     });
-                            // }
-
-
-
 
                         
                         </script>
