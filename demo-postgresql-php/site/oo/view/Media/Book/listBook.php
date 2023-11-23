@@ -10,70 +10,18 @@ $category="Book";
 
 
 
-<button id="buttonFiltre">Filter > </button><br><br>
-
-<div id="formFiltreLivre" class="d-none">
-    <div  class="bg depop d-flex justify-content-around">
-        <div>
-        <h2>Filtrer les livres : </h2>
-        <form>
-            <label>Par Genre : </label>
-            <input type="checkbox" name="toggleGroup" value="genre"></input>
-            <input type="option"></input><br>
-
-            <label>Par Auteur : </label>
-            <input type="checkbox" name="toggleGroup" value="auteur"></input>
-            <input type="option"></input><br>
-
+<!-- Appel du début du form des filtres -->
+<?php
+require FILE::build_path(array('view','form','header_form_filter.php'));
+?>
             <label>Par Type : </label>
-            <input type="checkbox" name="toggleGroup" value="type"></input>
-            <input type="option"></input><br>
+            <input type="option" name="typeFilter"><br>
 
 
-       </div>
-       <div>
-            <h2>Classer les livres : </h2>
-
-            <label>Alphabetique : </label>
-            <input checked type="radio" name="toggleGroup2" value="Alphabetique"></input>
-            <br>
-
-            <label>Par date : </label>
-            <input type="radio" name="toggleGroup2" value="date"></input>
-            <br>
-
-            <label>Par Note : </label>
-            <input type="radio" name="toggleGroup2" value="Note"></input><br><br>
-
-            <span>Décroissant :</span> <input type="checkbox"></input>
-        </form>
-       </div>
-
-    </div>
-           <button type submit>Filtrer</button>
-</div>
-            <br>
-
-    <script>
-            var formFiltreLivre = document.getElementById('formFiltreLivre');
-            var buttonFiltre = document.getElementById('buttonFiltre');
-
-            buttonFiltre.addEventListener('click', depop);
-
-            function depop()
-            {
-                if (formFiltreLivre.classList.contains('d-none'))
-                {
-                    formFiltreLivre.classList.remove('d-none');
-                    buttonFiltre.innerHTML = " Filter <";
-                }
-                else
-                {
-                    formFiltreLivre.classList.add('d-none');
-                    buttonFiltre.innerHTML = " Filter >";
-                }
-            }
-    </script>
+<!-- Fin du form des filtres -->
+<?php
+require FILE::build_path(array('view','form','ending_form_filter.php'));
+?>
 
 
 
