@@ -47,8 +47,10 @@ class MovieModel extends MediaModel{
     }
 
     public static function getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note) {
+        $media_list = [];
+        $movie_list = [];
         $req = DB::get()->prepare("select * from get_movies_by_genre_type_author_date_note(
-            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
         $values = array(
         "genre" => $genre, 
         "type" => $type, 
@@ -57,8 +59,19 @@ class MovieModel extends MediaModel{
         "sort_by_date" => $sb_date,
         "sort_by_note" => $sb_note
         );
-        $req->prepare($values);
-        return $req;
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        foreach ($media_list as $media) {
+            $req_join = DB::get()->prepare("select * from Movie m, Media where m.id_media = :id");
+            $values = array("id" => $media->getId_media());
+            $req_join->execute($values);
+            while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
+                $movie_list[] = new MovieModel($data);
+            }
+        }
+        return $movie_list;
     }
 
 

@@ -12,24 +12,8 @@ class ControllerMedia {
 
 
     public function readAll(){
-        $medias = MediaModel::getAllMedias();
-
-        //Marche mais pas sécurisé
-        //require_once FILE::build_path(array('view','Media','listMedia.php'));
-
-        //Appel de la vue 'list Media'
-        $this->_view = new View('list','Media');
-        $this->_view->generate(array('medias' => $medias));
-
+        
     }
-
-    public function readAllWithFilter() {
-        $medias = MediaModel::getAllMediasWithFilter();
-
-        $this->_view = new View('list','Media');
-        $this->_view->generate(array('medias' => $medias));
-    }
-
 
     public  function create() {
 

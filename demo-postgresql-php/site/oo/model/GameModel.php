@@ -37,8 +37,10 @@ class GameModel extends MediaModel{
     }
 
     public static function getAllGamesWithFilter($genre, $platform_game, $author, $sb_title, $sb_date, $sb_note) {
+        $media_list = [];
+        $game_list = [];
         $req = DB::get()->prepare("select * from get_games_by_genre_platform_author_date_note(
-            :genre, :platform_game, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+            :genre, :platform_game, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
         $values = array(
         "genre" => $genre, 
         "platform_game" => $platform_game, 
@@ -47,8 +49,20 @@ class GameModel extends MediaModel{
         "sort_by_date" => $sb_date,
         "sort_by_note" => $sb_note
         );
-        $req->prepare($values);
-        return $req;
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        foreach ($media_list as $media) {
+            $req_join = DB::get()->prepare("select * from Game g, Media where g.id_media = :id");
+            $values = array("id" => $media->getId_media());
+            $req_join->execute($values);
+            while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
+                $game_list[] = new GameModel($data);
+            }
+        }
+
+        return $game_list;
     }
 
 
