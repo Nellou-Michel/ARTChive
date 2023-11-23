@@ -14,15 +14,18 @@ class ControllerMusic {
 
     public function readAll(){
     
-        $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
-        $author = isset($_GET["author"]) ? $_GET["author"] : null;
-        $sb_title = isset($_GET["sort_by_title"]) ? $_GET["sort_by_title"] : null;
-        $sb_date = isset($_GET["sort_by_date"]) ? $_GET["sort_by_date"] : null;
-        $sb_note = isset($_GET["sort_by_note"]) ? $_GET["sort_by_note"] : null;
-        $album = isset($_GET["album"]) ? $_GET["album"] : null;
-        $arrayAll = MusicModel::getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note);
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $sb_title =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
+        $album = ControllerMedia::check_if_set_or_not_null_post("album");
 
-        //Appel de la vue 'list Book'
+        $arrayAll = MusicModel::getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note);
+        //$arrayAll = MusicModel::getAllMusics();
+
+
+        //Appel de la vue 'list Music'
         $this->_view = new View(array('view','Media','Music','listMusic.php'));
         $this->_view->generate(array('arrayAll' => $arrayAll));
 

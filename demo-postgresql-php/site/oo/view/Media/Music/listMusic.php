@@ -14,8 +14,10 @@ $category="Music";
 require FILE::build_path(array('view','form','header_form_filter.php'));
 ?>
 
-            <label>Par album : </label>
-            <input type="option" name="albumFilter"></input><br>
+<!-- Albums  -->
+<?php
+require FILE::build_path(array('view','form','form_get_album.php'));
+?>
 
 <!-- Fin du form des filtres -->
 <?php

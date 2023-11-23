@@ -55,6 +55,7 @@ class ControllerMedia {
     }
 
 
+
     public function delete(){
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -65,6 +66,35 @@ class ControllerMedia {
         MediaModel::delete($id,$category);
         $this->_view = new View(array('view','Media','deletedMedia.php'));
         $this->_view->generate(array(null));       
+    }
+
+
+    public static function check_if_set_or_not_null_post($var){
+       
+        if(isset($_POST[$var])){
+            if($_POST[$var]==""){
+                echo("(".$var ." = NULL\n)");
+                return null;
+            }
+            if(is_array($_POST[$var])){
+                echo ("(".$var." = liste... L'ERREUR EST DUE AU FAIT QUE LE MODEL RECUPERE UNE LISTE(genre[] ou platform[] et qu'il accèpte encore 1 genre ou 1 platforme, à changer...\n)");
+
+            }
+            else{
+                echo ("(".$var." = ".$_POST[$var]."\n)");
+
+            }
+            return $_POST[$var];
+        }
+        else{
+            echo("(".$var." not set\n)");
+            return null;
+        }
+    }
+
+    public static function check_if_set_or_not_null_post_and_equalsto($var, $value){
+       return ControllerMedia::check_if_set_or_not_null_post($var)==$value;
+      
     }
 
 

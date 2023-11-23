@@ -14,8 +14,11 @@ $category="Game";
 require FILE::build_path(array('view','form','header_form_filter.php'));
 ?>
 <!-- Filtre spécifique -->
-                <label>Par plateforme : </label>
-                <input type="text" name="platformFilter"><br>
+<!-- AJout du platform listé pour créer un jeu -->
+<?php
+    require FILE::build_path(array('view','form','form_get_platform.php'));
+?>
+     
 <!-- Fin du form des filtres -->
 <?php
 require FILE::build_path(array('view','form','ending_form_filter.php'));

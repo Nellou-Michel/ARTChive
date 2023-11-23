@@ -34,12 +34,11 @@ class BookModel extends MediaModel{
             $var[] = new BookModel($data);
           
         }
-        var_dump($var);
         return $var;
         $req->closeCursor();
     }
 
-    public static function getAllBooksByFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note) {
+    public static function getAllBooksWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note) {
         $media_list = [];
         $book_list = [];
         $req = DB::get()->prepare("select * from get_books_by_genre_type_author_date_note(

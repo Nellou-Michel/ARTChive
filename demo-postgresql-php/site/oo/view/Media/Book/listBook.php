@@ -14,9 +14,13 @@ $category="Book";
 <?php
 require FILE::build_path(array('view','form','header_form_filter.php'));
 ?>
-            <label>Par Type : </label>
-            <input type="option" name="typeFilter"><br>
 
+<!-- BOOK_TYPE_SELECTION -->
+<?php
+    require FILE::build_path(array('view','form','form_get_type_book.php'));
+    
+
+?>
 
 <!-- Fin du form des filtres -->
 <?php

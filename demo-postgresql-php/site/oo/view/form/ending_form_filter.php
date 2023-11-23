@@ -4,13 +4,13 @@
                 <h2>Classer les <?=$category?> : </h2>
 
                 <label>Alphabétique : </label>
-                <input checked type="radio" name="toggleGroup2" value="Alphabetique"><br>
+                <input checked type="radio" name="sort_by" value="title"><br>
 
                 <label>Par date : </label>
-                <input type="radio" name="toggleGroup2" value="date"><br>
+                <input type="radio" name="sort_by" value="date"><br>
 
                 <label>Par Note : </label>
-                <input type="radio" name="toggleGroup2" value="Note"><br><br>
+                <input type="radio" name="sort_by" value="note"><br><br>
 
                 <span>Décroissant :</span> <input type="checkbox" name="descending"><br>
             </div>

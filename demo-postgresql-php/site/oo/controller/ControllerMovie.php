@@ -18,15 +18,17 @@ class ControllerMovie {
     }
 
     public function readAll(){
-        $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
-        $author = isset($_GET["author"]) ? $_GET["author"] : null;
-        $sb_title = isset($_GET["sort_by_title"]) ? $_GET["sort_by_title"] : null;
-        $sb_date = isset($_GET["sort_by_date"]) ? $_GET["sort_by_date"] : null;
-        $sb_note = isset($_GET["sort_by_note"]) ? $_GET["sort_by_note"] : null;
-        $type = isset($_GET["type"]) ? $_GET["type"] : null;
-        $arrayAll = MovieModel::getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $sb_title =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
+        $type = ControllerMedia::check_if_set_or_not_null_post("type");
 
-        //Appel de la vue 'list Book'
+        $arrayAll = MovieModel::getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+       //$arrayAll = MovieModel::getAllMovies();
+
+        //Appel de la vue 'list Movie'
         $this->_view = new View(array('view','Media','Movie','listMovie.php'));
         $this->_view->generate(array('arrayAll' => $arrayAll));
 

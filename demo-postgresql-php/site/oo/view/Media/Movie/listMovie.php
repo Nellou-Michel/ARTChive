@@ -14,8 +14,10 @@ $category="Movie";
 require FILE::build_path(array('view','form','header_form_filter.php'));
 ?>
 
-            <label>Par type : </label>
-            <input type="option" name="typeFilter"></input><br>
+<!-- MOVIE_TYPE_SELECTION -->
+<?php
+    require FILE::build_path(array('view','form','form_get_type_movie.php'));
+?>
 
 <!-- Fin du form des filtres -->
 <?php

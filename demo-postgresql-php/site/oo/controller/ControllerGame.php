@@ -12,16 +12,19 @@ class ControllerGame {
 
 
     public function readAll(){
-        $arrayAll = [];
-        $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
-        $author = isset($_GET["author"]) ? $_GET["author"] : null;
-        $sb_title = isset($_GET["sort_by_title"]) ? $_GET["sort_by_title"] : null;
-        $sb_date = isset($_GET["sort_by_date"]) ? $_GET["sort_by_date"] : null;
-        $sb_note = isset($_GET["sort_by_note"]) ? $_GET["sort_by_note"] : null;
-        $platform_game = isset($_GET["platform"]) ? $_GET["platform"] : null;
-        $arrayAll = GameModel::getAllGamesWithFilter($genre, $platform_game, $author, $sb_title, $sb_date, $sb_note);
+        
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
+        $platform_game = ControllerMedia::check_if_set_or_not_null_post("platform");
 
-        //Appel de la vue 'list Book'
+        $arrayAll = GameModel::getAllGamesWithFilter($genre, $platform_game, $author, $sb_title, $sb_date, $sb_note);
+       //$arrayAll = GameModel::getAllGames();
+
+       
+        //Appel de la vue 'list Game'
         $this->_view = new View(array('view','Media','Game','listGame.php'));
         $this->_view->generate(array('arrayAll' => $arrayAll));
 
