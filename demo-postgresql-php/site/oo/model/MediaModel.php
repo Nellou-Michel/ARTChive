@@ -33,8 +33,38 @@ class MediaModel extends Model{
         
     }
 
+    public static function getAllMediasWithFilter() {
+        $media_list = [];
+        $kind = $_GET['controller'];
+        $genre = isset($_GET["genre"]) ? $_GET["genre"] : null;
+        $author = isset($_GET["author"]) ? $_GET["author"] : null;
+        $sb_title = isset($_GET["sort_by_title"]) ? $_GET["sort_by_title"] : null;
+        $sb_date = isset($_GET["sort_by_date"]) ? $_GET["sort_by_date"] : null;
+        $sb_note = isset($_GET["sort_by_note"]) ? $_GET["sort_by_note"] : null;
+        if ($kind == "Book") {
+            $type = isset($_GET["type"]) ? $_GET["type"] : null;
+            $req = BookModel::getAllBooksByFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+        }
+        if ($kind == "Movie") {
+            $type = isset($_GET["type"]) ? $_GET["type"] : null;
+            $req = MovieModel::getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+        }
+        if ($kind == "Game") {
+            $platform_game = isset($_GET["platform"]) ? $_GET["platform"] : null;
+            $req = GameModel::getAllGamesWithFilter($genre, $platform_game, $author, $sb_title, $sb_date, $sb_note);
+        }
+        if ($kind == "Music") {
+            $album = isset($_GET["album"]) ? $_GET["album"] : null;
+            $req = MusicModel::getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note);
+        }
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        return $media_list;
+    } 
+
      // Getter et Setter pour l'ID
-     public function getId_media() {
+    public function getId_media() {
         return $this->id;
     }
 

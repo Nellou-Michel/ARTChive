@@ -37,5 +37,20 @@ class MusicModel extends MediaModel{
         $req->closeCursor();
     }
 
+    public static function getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note) {
+        $req = DB::get()->prepare("select * from get_musics_by_genre_album_author_date_note(
+            :genre, :album, :author, :sort_by_title, :sort_by_date, :sort_by_note");
+        $values = array(
+        "genre" => $genre, 
+        "album" => $album, 
+        "author" => $author,
+        "sort_by_title" => $sb_title,
+        "sort_by_date" => $sb_date,
+        "sort_by_note" => $sb_note
+        );
+        $req->prepare($values);
+        return $req;
+    }
+
 
 }
