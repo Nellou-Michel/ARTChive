@@ -61,7 +61,10 @@ class MusicModel extends MediaModel{
             $values = array("id" => $media->getId_media());
             $req_join->execute($values);
             while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
-                $music_list[] = new MusicModel($data);
+                $music = new MusicModel($data);
+                if (!in_array($music, $music_list)) {
+                    $music_list[] = $music;
+                }
             }
         }
         return $music_list;

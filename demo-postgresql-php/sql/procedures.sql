@@ -80,13 +80,13 @@ BEGIN
         AND (type IS NULL OR b.book_type = type)
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
-        m.id_media,
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
-        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
+        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC,
+        m.id_media;
 END;
 $$ 
 LANGUAGE PLPGSQL;

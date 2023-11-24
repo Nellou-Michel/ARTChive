@@ -64,7 +64,10 @@ class BookModel extends MediaModel{
             $values = array("id" => $media->getId_media());
             $req_join->execute($values);
             while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
-                $book_list[] = new BookModel($data);
+                $book = new BookModel($data);
+                if (!in_array($book, $book_list)) {
+                    $book_list[] = new BookModel($data);
+                }
             }
         }
 

@@ -63,7 +63,10 @@ class GameModel extends MediaModel{
             $values = array("id" => $media->getId_media());
             $req_join->execute($values);
             while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
-                $game_list[] = new GameModel($data);
+                $game = new GameModel($data);
+                if (!in_array($game, $game_list)) {
+                    $game_list[] = $game;
+                }
             }
         }
 

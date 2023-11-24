@@ -70,7 +70,10 @@ class MovieModel extends MediaModel{
             $values = array("id" => $media->getId_media());
             $req_join->execute($values);
             while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
-                $movie_list[] = new MovieModel($data);
+                $movie = new MovieModel($data);
+                if (!in_array($movie, $movie_list)) {
+                    $movie_list[] = $movie;
+                }
             }
         }
         return $movie_list;
