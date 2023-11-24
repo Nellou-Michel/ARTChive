@@ -15,12 +15,10 @@ class ControllerBook {
       
         $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
         $author = ControllerMedia::check_if_set_or_not_null_post("author");
-        $sb_title =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
-        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
-        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
+        $sb_date = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
+        $sb_note = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
         $type = ControllerMedia::check_if_set_or_not_null_post("type");
-
-        
 
         $arrayAll = BookModel::getAllBooksWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
         // $arrayAll = BookModel::getAllBooks();

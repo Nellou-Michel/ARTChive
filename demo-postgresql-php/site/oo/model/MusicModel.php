@@ -37,13 +37,13 @@ class MusicModel extends MediaModel{
         $req->closeCursor();
     }
 
-    public static function getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note) {
+    public static function getAllMusicsWithFilter($genre_list, $album, $author, $sb_title, $sb_date, $sb_note) {
         $media_list = [];
         $music_list = [];
         $req = DB::get()->prepare("select * from get_musics_by_genre_album_author_date_note(
             :genre, :album, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
         $values = array(
-        "genre" => $genre, 
+        "genre" => $genre_list == NULL ? NULL : '{' . implode(',', $genre_list) . '}',
         "album" => $album, 
         "author" => $author,
         "sort_by_title" => $sb_title,
@@ -55,7 +55,9 @@ class MusicModel extends MediaModel{
             $media_list[] = new MediaModel($data);
         }
         foreach ($media_list as $media) {
-            $req_join = DB::get()->prepare("select * from Book b, Media where b.id_media = :id");
+            $req_join = DB::get()->prepare("select * from Music mus 
+            join Media m on mus.id_media = m.id_media 
+            where m.id_media = :id");
             $values = array("id" => $media->getId_media());
             $req_join->execute($values);
             while($data = $req_join->fetch(PDO::FETCH_ASSOC)){

@@ -60,23 +60,23 @@ EXECUTE PROCEDURE func_Update_Media_Avg_Note();
 
 
 CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
-    genre_media VARCHAR DEFAULT NULL,
+    genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
 ) RETURNS SETOF Media AS 
- $$
- BEGIN
+$$
+BEGIN
     RETURN QUERY
     SELECT DISTINCT ON (m.id_media) m.*
     FROM Media m
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
-    LEFT JOIN Genre g ON gm.id_genre = g.id_genre
     LEFT JOIN Author a ON a.id_author = m.id_author
-    WHERE (genre_media IS NULL OR g.genre = genre_media)
+    WHERE 
+        (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
         AND (type IS NULL OR b.book_type = type)
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
@@ -87,12 +87,12 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
         CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
- END;
- $$ 
- LANGUAGE PLPGSQL;
+END;
+$$ 
+LANGUAGE PLPGSQL;
 
- CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
-    genre_media VARCHAR DEFAULT NULL,
+CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
+    genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
@@ -106,9 +106,9 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 	 FROM Media m
 	 JOIN Movie mov ON mov.id_media = m.id_media
 	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
-	 LEFT JOIN Genre g ON gm.id_genre = g.id_genre
 	 LEFT JOIN Author a ON a.id_author = m.id_author
-	 WHERE (genre_media IS NULL OR g.genre = genre_media)
+	 WHERE 
+        (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
 		 AND (type IS NULL OR mov.movie_type = type) 
 		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
 	 ORDER BY 
@@ -125,8 +125,8 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 
 
 CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
-    genre_media VARCHAR DEFAULT NULL,
-    platform_game VARCHAR DEFAULT NULL,
+    genre_media_list INT[] DEFAULT NULL,
+    platform_game VARCHAR[] DEFAULT NULL,
     author_name VARCHAR DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
@@ -142,8 +142,8 @@ BEGIN
     LEFT JOIN Genre g ON gm.id_genre = g.id_genre
     LEFT JOIN PlayableOn po ON po.id_game = game.id_media
     LEFT JOIN Author a ON a.id_author = m.id_author
-    WHERE (genre_media IS NULL OR g.genre = genre_media)
-        AND (platform_game IS NULL OR po.platform = platform_game) 
+    WHERE (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
+        AND (platform_game IS NULL OR ARRAY(SELECT unnest(platform_game)) IS NULL OR po.platform = ANY(platform_game))
         AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
     ORDER BY 
         m.id_media,
@@ -159,12 +159,12 @@ LANGUAGE PLPGSQL;
 
 
 CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
-    genre_media IN VARCHAR DEFAULT NULL,
-    album_music IN VARCHAR DEFAULT NULL,
-    author_name IN VARCHAR DEFAULT NULL,
-    sort_by_title IN VARCHAR DEFAULT NULL,
-    sort_by_date IN VARCHAR DEFAULT NULL,
-    sort_by_note IN VARCHAR DEFAULT NULL
+    genre_media_list INT[] DEFAULT NULL,
+    album_music VARCHAR DEFAULT NULL,
+    author_name VARCHAR DEFAULT NULL,
+    sort_by_title VARCHAR DEFAULT NULL,
+    sort_by_date VARCHAR DEFAULT NULL,
+    sort_by_note VARCHAR DEFAULT NULL
 ) RETURNS SETOF Media AS
 $$
 BEGIN
@@ -175,7 +175,8 @@ BEGIN
         LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
         LEFT JOIN Genre g ON gm.id_genre = g.id_genre
         LEFT JOIN Author a ON a.id_author = m.id_author
-        WHERE (genre_media IS NULL OR g.genre = genre_media)
+        WHERE 
+            (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
             AND (album_music IS NULL OR mus.album LIKE '%' || album_music || '%') 
             AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
         ORDER BY

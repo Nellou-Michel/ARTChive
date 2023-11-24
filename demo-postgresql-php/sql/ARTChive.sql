@@ -105,8 +105,6 @@ CREATE TABLE PlayableOn (
     FOREIGN KEY (platform) REFERENCES Platform(platform)
 );
 
-
-
 -- Table pour les amis des utilisateurs
 CREATE TABLE Friend (
     id_user INT,
@@ -130,17 +128,6 @@ CREATE TABLE Post (
     FOREIGN KEY (id_media) REFERENCES Media(id_media),
     CONSTRAINT CHK_note_range CHECK (note BETWEEN 0 AND 10)
 );
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Valeurs de bases
@@ -192,8 +179,6 @@ INSERT INTO Genre (genre, category) VALUES ( 'Mystère', 'Book');
 INSERT INTO Genre (genre, category) VALUES ( 'Non-fiction', 'Book');
 
 
-
-
 -- Auteurs de livres
 INSERT INTO Author (name_author) VALUES ('J.K. Rowling'), ('Stephen King'), ('George R.R. Martin'), ('Agatha Christie'), ('J.R.R. Tolkien');
 
@@ -205,7 +190,6 @@ INSERT INTO Author (name_author) VALUES ('Beyoncé'), ('Ed Sheeran'), ('Taylor S
 
 -- Créateurs de jeux vidéo
 INSERT INTO Author (name_author) VALUES ('Shigeru Miyamoto'), ('Hideo Kojima'), ('Gabe Newell'), ('Tim Schafer'), ('Jade Raymond');
-
 
 
 INSERT INTO BookType (book_type) VALUES
