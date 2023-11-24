@@ -426,7 +426,7 @@ SELECT CreateNewMedia(
                 'minutes',
                 'Christopher Nolan',
                 9.5,
-                'NONE',
+                'https://imgs.search.brave.com/9jEC8JDuv_22P4o0RdXDQT0IjK76j_VY_D3d2p4un-U/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFyR0NtMFB5SEwu/anBn',
                 ARRAY[1, 6, 9],
                 'Movie',
                 'Long Métrage',
