@@ -33,7 +33,24 @@ class ControllerGame {
     public  function create() {
 
         $this->_view = new View(array('view','Media','Game','createGame.php'));
+        
         $this->_view->generate(array(null));
+    }
+
+
+    public function update(){
+        
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id = $_POST['id_media'];
+            $category = $_POST['category'];
+        }
+        ;
+
+        $mediaUpdate = GameModel::getGameById($id);
+   
+        $this->_view = new View(array('view','Media','Game','createGame.php'));
+        $this->_view->generate(array('mediaUpdate' => $mediaUpdate));
     }
 
 }

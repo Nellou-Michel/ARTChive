@@ -34,5 +34,20 @@ class ControllerMovie {
 
     }
 
+    public function update(){
+        
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id = $_POST['id_media'];
+            $category = $_POST['category'];
+        }
+        ;
+
+        $mediaUpdate = MovieModel::getMovieById($id);
+   
+        $this->_view = new View(array('view','Media','Movie','createMovie.php'));
+        $this->_view->generate(array('mediaUpdate' => $mediaUpdate));
+    }
+
 }
 ?>

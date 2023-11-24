@@ -71,6 +71,7 @@ $$
 BEGIN
     RETURN QUERY
     SELECT DISTINCT ON (m.id_media) m.*
+    SELECT DISTINCT ON (m.id_media) m.*
     FROM Media m
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -102,6 +103,7 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 	 $$
  BEGIN
      RETURN QUERY
+	 SELECT DISTINCT ON (m.id_media) m.*
 	 SELECT DISTINCT ON (m.id_media) m.*
 	 FROM Media m
 	 JOIN Movie mov ON mov.id_media = m.id_media
@@ -292,6 +294,107 @@ BEGIN
 
     -- Étape 4: Supprimer l'entrée de la table Media
     DELETE FROM Media WHERE id_media = media_id;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION UpdateMedia(
+    media_id INT,
+    media_name VARCHAR(255),
+    media_publication_date DATE,
+    media_description VARCHAR(255),
+    media_length INT,
+    media_unite VARCHAR(255),
+    media_author_idname VARCHAR(255),
+    media_average_note DECIMAL(3, 2),
+    media_file_path VARCHAR(255),
+    media_genre_ids INT[],
+    media_category VARCHAR(255),
+    media_type VARCHAR(255),
+    media_actors VARCHAR(500),
+    media_album VARCHAR (255),
+    media_platforms VARCHAR[]
+)
+RETURNS VOID AS $$
+DECLARE
+    genre_id INT;
+    platform VARCHAR;
+    author_id INT;
+BEGIN
+    -- Étape 1: Vérifier si l'auteur existe déjà
+    SELECT id_author INTO author_id FROM Author WHERE name_author = media_author_idname;
+
+    -- Étape 2: Si l'auteur n'existe pas, insérer le nouvel auteur
+    IF author_id IS NULL THEN
+        INSERT INTO Author (name_author) VALUES (media_author_idname)
+        RETURNING id_author INTO author_id;
+    END IF;
+    -- Mettez à jour la ligne dans la table Media en fonction de l'ID
+    UPDATE Media
+    SET
+        name_media = media_name,
+        publication_date = media_publication_date,
+        description = media_description,
+        length = media_length,
+        unite = media_unite,
+        id_author = author_id,
+        average_note = media_average_note,
+        file_path = media_file_path
+
+    WHERE
+        id_media = media_id;
+
+    -- Supprimez les anciennes associations GenreMedia pour cet ID de média
+    DELETE FROM GenreMedia
+    WHERE
+        id_media = media_id;
+
+    -- Insérez de nouvelles associations GenreMedia en fonction des nouveaux ID de genre
+    FOREACH genre_id IN ARRAY media_genre_ids
+    LOOP
+        INSERT INTO GenreMedia (id_genre, id_media) VALUES (genre_id, media_id);
+    END LOOP;
+
+    -- Vérifiez si c'est un jeu et mettez à jour les plateformes jouables
+    IF media_category = 'Game' THEN
+        -- Supprimez les anciennes associations PlayableOn pour cet ID de média
+        DELETE FROM PlayableOn
+        WHERE
+            id_game = media_id;
+
+        -- Insérez de nouvelles associations PlayableOn en fonction des nouvelles plateformes
+        FOREACH platform IN ARRAY media_platforms
+        LOOP
+            INSERT INTO PlayableOn (id_game, platform) VALUES (media_id, platform);
+        END LOOP;
+    END IF;
+
+
+    IF media_category = 'Movie' THEN 
+        UPDATE Movie 
+        SET 
+            movie_type = media_type,
+            actors = media_actors
+        WHERE
+            id_media = media_id;
+    END IF;
+
+    IF media_category = 'Book' THEN 
+        UPDATE Book 
+        SET book_type = media_type
+        WHERE
+            id_media = media_id;
+    END IF;
+
+    IF media_category = 'Music' THEN 
+        UPDATE Music 
+        SET album = media_album
+        WHERE
+            id_media = media_id;
+    END IF;
 
 END;
 $$ LANGUAGE plpgsql;
