@@ -3,10 +3,10 @@
 <div class="container-md">
     <div class="col-lg-12">
         <div class="flex-row">
-            <div class="col-sm-6">
+            <div class="col-sm-7">
                 <h3 class="mb-3">Créer un Nouveau Média</h3>
                 <form class="needs-validation" action="?controller=media&action=created" method="post" novalidate>
-                    <div class="row g-3">
+                    <div class="flex-row row">
 
                         <div class="col-xxl-12">
                             <label for="name_media" class="form-label" >Nom du Média</label>
@@ -48,7 +48,7 @@
 
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <label class="form-label" for="length">Durée</label>
                             <input type="text" class="form-control" name="length">
                             <div class="invalid-feedback">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <label class="form-label" for="unite">Unité</label>
                             <select class="form-control" id="unite" name="unite">
                                 <option value="minutes">Minutes</option>
