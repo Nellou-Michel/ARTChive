@@ -74,5 +74,21 @@ class BookModel extends MediaModel{
         return $book_list;
     }
 
-
+    public static function getBookById($id){
+        $req = DB::get()->prepare("SELECT * FROM Media,Book WHERE Media.id_media = :id_media AND Book.id_media = :id_media");
+        $values = array("id_media" => $id);
+        $req->execute($values);
+        
+        $mediaData = $req->fetch(PDO::FETCH_ASSOC);
+    
+        // Attention, si il n'y a pas de résultat, on renvoie false
+        if (!$mediaData) {
+            echo "Pas de média trouvé";
+            return false;
+        }
+    
+        // Créez une instance de MediaModel et initialisez-la avec les données du média
+        $media = new BookModel($mediaData);
+        return $media;
+    }
 }

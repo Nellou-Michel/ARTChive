@@ -12,7 +12,10 @@
                 <label>Par Note : </label>
                 <input type="radio" name="sort_by" value="note"><br><br>
 
-                <span>Décroissant :</span> <input type="checkbox" name="descending"><br>
+                <label>Croissant : </label>
+                <input checked type="radio" name="order" value="asc">
+                <label>Décroissant : </label>
+                <input type="radio" name="order" value="desc"><br><br>
             </div>
         </div>
     </div>

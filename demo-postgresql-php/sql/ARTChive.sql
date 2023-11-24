@@ -29,7 +29,7 @@ CREATE TABLE Media (
     description VARCHAR(255),
     length INT,
     unite VARCHAR(255),
-    average_note DECIMAL(3, 2),
+    average_note DECIMAL(3, 3),
     file_path VARCHAR(255),
     FOREIGN KEY (id_author) REFERENCES Author(id_author)
 );

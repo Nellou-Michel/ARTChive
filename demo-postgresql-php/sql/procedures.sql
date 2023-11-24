@@ -62,7 +62,7 @@ EXECUTE PROCEDURE func_Update_Media_Avg_Note();
 CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -70,8 +70,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-    SELECT DISTINCT ON (m.id_media) m.*
-    SELECT DISTINCT ON (m.id_media) m.*
+    SELECT m.*
     FROM Media m
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -79,15 +78,14 @@ BEGIN
     WHERE 
         (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
         AND (type IS NULL OR b.book_type = type)
-        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+        AND (author_id IS NULL OR a.id_author = author_id)
     ORDER BY 
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
-        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC,
-        m.id_media;
+        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
 END;
 $$ 
 LANGUAGE PLPGSQL;
@@ -95,7 +93,7 @@ LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -103,8 +101,7 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 	 $$
  BEGIN
      RETURN QUERY
-	 SELECT DISTINCT ON (m.id_media) m.*
-	 SELECT DISTINCT ON (m.id_media) m.*
+	 SELECT m.*
 	 FROM Media m
 	 JOIN Movie mov ON mov.id_media = m.id_media
 	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -112,9 +109,8 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 	 WHERE 
         (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
 		 AND (type IS NULL OR mov.movie_type = type) 
-		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+		 AND (author_id IS NULL OR a.id_author = author_id)
 	 ORDER BY 
-        m.id_media,
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
 		CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -129,7 +125,7 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     platform_game VARCHAR[] DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -137,7 +133,7 @@ CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-    SELECT DISTINCT ON (m.id_media) m.*
+    SELECT m.*
     FROM Media m
     JOIN Game game ON game.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -146,9 +142,8 @@ BEGIN
     LEFT JOIN Author a ON a.id_author = m.id_author
     WHERE (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
         AND (platform_game IS NULL OR ARRAY(SELECT unnest(platform_game)) IS NULL OR po.platform = ANY(platform_game))
-        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+        AND (author_id IS NULL OR a.id_author = author_id)
     ORDER BY 
-        m.id_media,
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -163,7 +158,7 @@ LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     album_music VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -171,7 +166,7 @@ CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-        SELECT DISTINCT ON (m.id_media) m.*
+        SELECT m.*
         FROM Media m
         JOIN Music mus ON mus.id_media = m.id_media
         LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -180,9 +175,8 @@ BEGIN
         WHERE 
             (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
             AND (album_music IS NULL OR mus.album LIKE '%' || album_music || '%') 
-            AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+            AND (author_id IS NULL OR a.id_author = author_id)
         ORDER BY
-			m.id_media,
             CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
             CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -297,9 +291,6 @@ BEGIN
 
 END;
 $$ LANGUAGE plpgsql;
-
-
-
 
 CREATE OR REPLACE FUNCTION UpdateMedia(
     media_id INT,

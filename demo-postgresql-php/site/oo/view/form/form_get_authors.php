@@ -11,7 +11,7 @@
 
                         <div id='author_selection' class="col-12">
                             <label for="id_author" class="form-label">Auteur</label>
-                            <input class="form-control"list="list_author" name="id_author" textContent="ok"/>
+                            <input list="list_author" name="id_author" value="<?= (isset($mediaUpdate) != null) ? $mediaUpdate->getName_Author() : "" ?>"/>
                         </div>
 
                         <script>
@@ -40,6 +40,8 @@
                                 dataList.appendChild(option);
 
                             document.getElementById('author_selection').appendChild(dataList);
-                            }
+  }
+
+                        
                         </script>
                         </div>

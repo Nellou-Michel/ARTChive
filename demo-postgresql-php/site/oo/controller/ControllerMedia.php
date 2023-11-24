@@ -16,6 +16,14 @@ class ControllerMedia {
     }
 
 
+    public  function create() {
+
+    }
+
+    public function update() {
+
+    } 
+
     // Ajoutez ici d'autres fonctions pour gérer les actions CRUD
 
     public function created(){
@@ -111,8 +119,13 @@ class ControllerMedia {
         }
     }
 
-    public static function check_if_set_or_not_null_post_and_equalsto($var, $value){
-       return ControllerMedia::check_if_set_or_not_null_post($var)==$value;
+    public static function check_if_set_or_not_null_post_and_equalsto($var, $val, $order){
+        $result =ControllerMedia::check_if_set_or_not_null_post($var);
+       if($result!=null && $result==$val){
+            echo ($var."=".$order);
+            return $order;
+       }
+       return null;
       
     }
 
