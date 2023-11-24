@@ -73,21 +73,11 @@ class ControllerMedia {
        
         if(isset($_POST[$var])){
             if($_POST[$var]==""){
-                echo("(".$var ." = NULL\n)");
                 return null;
-            }
-            if(is_array($_POST[$var])){
-                echo ("(".$var." = liste... L'ERREUR EST DUE AU FAIT QUE LE MODEL RECUPERE UNE LISTE(genre[] ou platform[] et qu'il accèpte encore 1 genre ou 1 platforme, à changer...\n)");
-
-            }
-            else{
-                echo ("(".$var." = ".$_POST[$var]."\n)");
-
             }
             return $_POST[$var];
         }
         else{
-            echo("(".$var." not set\n)");
             return null;
         }
     }
