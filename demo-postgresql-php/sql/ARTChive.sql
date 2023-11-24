@@ -26,11 +26,11 @@ CREATE TABLE Media (
     name_media VARCHAR(255),
     id_author INT,
     publication_date DATE,
-    description VARCHAR(255),
+    description VARCHAR(5000),
     length INT,
     unite VARCHAR(255),
     average_note DECIMAL(3, 2),
-    file_path VARCHAR(255),
+    file_path VARCHAR(1000),
     FOREIGN KEY (id_author) REFERENCES Author(id_author)
 );
 
@@ -144,37 +144,35 @@ CREATE TABLE Post (
 
 
 -- Valeurs de bases
-INSERT INTO MovieType (movie_type) VALUES 
+INSERT INTO MovieType (movie_type) VALUES
 ('Long Métrage'),
 ('Documentaire'),
 ('Court-métrage'),
 ('Série'),
-('Animation'),
-('Film d action'),
-('Comédie'),
-('Drame'),
-('Horreur'),
-('Science-fiction'),
-('Fantasy'),
-('Mystère'),
-('Thriller'),
-('Crime'),
-('Romance'),
-('Aventure'),
-('Animation pour adultes'),
-('Historique'),
-('Guerre'),
-('Biographie');
+('Animation');
 
 
 
-INSERT INTO Genre (genre, category) VALUES ('Action', 'Game');
 INSERT INTO Genre (genre, category) VALUES ('Aventure', 'Game');
 INSERT INTO Genre (genre, category) VALUES ('Stratégie', 'Game');
 INSERT INTO Genre (genre, category) VALUES ('RPG', 'Game');
 
 -- Pour les films
 INSERT INTO Genre (genre, category) VALUES ('Action', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Biographie', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Guerre', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Historique', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Animation pour adultes', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Aventure', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Comédie', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Drame', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Horreur', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Science-fiction', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Fantasy', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Mystère', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Thriller', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Crime', 'Movie');
+INSERT INTO Genre (genre, category) VALUES ('Romance', 'Movie');
 INSERT INTO Genre (genre, category) VALUES ('Drame', 'Movie');
 INSERT INTO Genre (genre, category) VALUES ('Science-fiction', 'Movie');
 INSERT INTO Genre (genre, category) VALUES ('Comédie', 'Movie');
@@ -186,10 +184,30 @@ INSERT INTO Genre (genre, category) VALUES ( 'Jazz', 'Music');
 INSERT INTO Genre (genre, category) VALUES ( 'Classique', 'Music');
 
 -- Pour les livres
-INSERT INTO Genre (genre, category) VALUES ( 'Roman', 'Book');
 INSERT INTO Genre (genre, category) VALUES ( 'Science-fiction', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Romance', 'Book');
 INSERT INTO Genre (genre, category) VALUES ( 'Mystère', 'Book');
-INSERT INTO Genre (genre, category) VALUES ( 'Non-fiction', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Horreur', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Fantasy', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Drame', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Aventure', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Science', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Thriller', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Historique', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Humour', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Éducatif', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Art', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Jeunesse', 'Book');
+INSERT INTO Genre (genre, category) VALUES ( 'Cuisine', 'Book');
+
+INSERT INTO BookType (book_type) VALUES
+                                     ('Roman'),
+                                     ('Nouvelle'),
+                                     ('BD'),
+                                     ('Manga'),
+                                     ('Essai'),
+                                     ('Poésie'),
+                                     ('Theatre');
 
 
 
@@ -205,30 +223,6 @@ INSERT INTO Author (name_author) VALUES ('Beyoncé'), ('Ed Sheeran'), ('Taylor S
 
 -- Créateurs de jeux vidéo
 INSERT INTO Author (name_author) VALUES ('Shigeru Miyamoto'), ('Hideo Kojima'), ('Gabe Newell'), ('Tim Schafer'), ('Jade Raymond');
-
-
-
-INSERT INTO BookType (book_type) VALUES
-    ('Science-fiction'),
-    ('Romance'),
-    ('Mystère'),
-    ('Horreur'),
-    ('Fantasy'),
-    ('Drame'),
-    ('Aventure'),
-    ('Biographie'),
-    ('Thriller'),
-    ('Historique'),
-    ('Poésie'),
-    ('Humour'),
-    ('Science'),
-    ('Éducatif'),
-    ('Auto-assistance'),
-    ('Cuisine'),
-    ('Art'),
-    ('Jeunesse'),
-    ('Informatique'),
-    ('Manga');
 
 
 -- Plateformes de jeux
