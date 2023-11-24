@@ -16,9 +16,10 @@ class ControllerMusic {
     
         $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
         $author = ControllerMedia::check_if_set_or_not_null_post("author");
-        $sb_title =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title");
-        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date");
-        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note");
+        $order= ControllerMedia::check_if_set_or_not_null_post("order");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title",$order);
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date",$order);
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note",$order);
         $album = ControllerMedia::check_if_set_or_not_null_post("album");
 
         $arrayAll = MusicModel::getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note);
