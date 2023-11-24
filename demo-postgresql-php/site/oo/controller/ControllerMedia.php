@@ -73,27 +73,22 @@ class ControllerMedia {
        
         if(isset($_POST[$var])){
             if($_POST[$var]==""){
-                echo("(".$var ." = NULL\n)");
                 return null;
-            }
-            if(is_array($_POST[$var])){
-                echo ("(".$var." = liste... L'ERREUR EST DUE AU FAIT QUE LE MODEL RECUPERE UNE LISTE(genre[] ou platform[] et qu'il accèpte encore 1 genre ou 1 platforme, à changer...\n)");
-
-            }
-            else{
-                echo ("(".$var." = ".$_POST[$var]."\n)");
-
             }
             return $_POST[$var];
         }
         else{
-            echo("(".$var." not set\n)");
             return null;
         }
     }
 
-    public static function check_if_set_or_not_null_post_and_equalsto($var, $value){
-       return ControllerMedia::check_if_set_or_not_null_post($var)==$value;
+    public static function check_if_set_or_not_null_post_and_equalsto($var, $val, $order){
+        $result =ControllerMedia::check_if_set_or_not_null_post($var);
+       if($result!=null && $result==$val){
+            echo ($var."=".$order);
+            return $order;
+       }
+       return null;
       
     }
 
