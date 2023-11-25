@@ -399,7 +399,7 @@ $$ LANGUAGE plpgsql;
                 'J.R.R. Tolkien',           -- Nom de l'auteur
                 9.5,                        -- Note moyenne
                 'https://imgs.search.brave.com/kvSyb7qnNyAFspmQETAV8ID-8x3GbDT2oVq599IFO9c/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3VsdHVyYS5jb20v/Y2RuLWNnaS9pbWFn/ZS93aWR0aD0yMTAv/bWVkaWEvcGltL1RJ/VEVMSVZFLzY4Xzk3/ODI4NDIyODIxNThf/MV83NS5qcGc',   -- Chemin de l'image
-                ARRAY[1, 6, 12],             -- Genres du livre (Action, Aventure, Fantasy)
+                ARRAY[30, 32],             -- Genres du livre (Action, Aventure, Fantasy)
                 'Book',                     -- Catégorie du média
                 'Roman',                    -- Type spécifique de média (ici, un roman)
                 NULL,                       -- Acteurs (n'est pas applicable ici)
@@ -416,7 +416,7 @@ $$ LANGUAGE plpgsql;
                 'J.K. Rowling',
                 9.0,
                 'https://imgs.search.brave.com/gJYdOqS10SuBedXqBLhuMjjQKFOE7OEBi3FEAEkAjvY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTAy/MzBfNjcxMTYyLmpw/Zw',
-                ARRAY[1, 6, 9],
+                ARRAY[30,39,32],
                 'Book',
                 'Poésie',
                 NULL,
@@ -433,7 +433,7 @@ $$ LANGUAGE plpgsql;
                 'George Orwell',
                 8.5,
                 'https://imgs.search.brave.com/z7zP_9zUvXh6Izd2jplstDDmuKlvgLqu9dJ2DpohZO0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTk4/NF82MTc1LmpwZw   ',
-                ARRAY[2, 7, 10],
+                ARRAY[31,33],
                 'Book',
                 'Nouvelle',
                 NULL,
@@ -450,7 +450,7 @@ $$ LANGUAGE plpgsql;
                 'J.R.R. Tolkien',
                 9.2,
                 'https://imgs.search.brave.com/ISdW16XocgzhWK_J9meyNqh1A6gNOj0T43tCN0tjetc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZXBhZ2luZS5m/ci84MjIvOTc4MjI1/MzE4MzgyMl8xXzc1/LmpwZw',
-                ARRAY[1, 6, 12],
+                ARRAY[30, 32],
                 'Book',
                 'BD',
                 NULL,
@@ -467,7 +467,7 @@ $$ LANGUAGE plpgsql;
                 'Fiodor Dostoïevski',
                 8.8,
                 'https://imgs.search.brave.com/glTWEzO3mNe3BoDiPhMVRCqhRukqlx4L8z4rl-R0NFw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9wcm9k/dWN0cy1pbWFnZXMu/ZGktc3RhdGljLmNv/bS9pbWFnZS9mZWRv/ci1kb3N0b2lldnNr/aS1jcmltZS1ldC1j/aGF0aW1lbnQvOTc4/MjI1MzA4MjUwNy0y/MDB4MzAzLTEuanBn',
-                ARRAY[3, 8, 11],
+                ARRAY[31,28,34],
                 'Book',
                 'Manga',
                 NULL,
@@ -484,7 +484,7 @@ $$ LANGUAGE plpgsql;
                 'Mario Puzo',
                 9.1,
                 'https://imgs.search.brave.com/-2kqEePYpzEyvdh9vRzV8LSbDD8_sg7913weNZDEsBQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzQxMktLUktDS0FM/LmpwZw',
-                ARRAY[2, 6, 8],
+                ARRAY[28,32],
                 'Book',
                 'BD',
                 NULL,
@@ -502,7 +502,7 @@ $$ LANGUAGE plpgsql;
                 'Christopher Nolan',
                 9.3,
                 'https://imgs.search.brave.com/2yHOIgKlrnVufeg-kjJ-vz2TZF-bFJjAsyWscwLjMDM/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9raW5l/cG9saXMuYmUvZnIv/c2l0ZXMva2luZXBv/bGlzLmJlLmZyL2Zp/bGVzL3N0eWxlcy9r/aW5lcG9saXNfZmls/dGVyX21vdmllX3Bv/c3Rlci9wdWJsaWMv/cG9zdGVycy9JbmNl/cHRpb25fcG9zdGVy/LmpwZw',
-                ARRAY[2, 7, 10],
+                ARRAY[20,16,15],
                 'Movie',
                 'Animation',
                 'Leonardo DiCaprio, Ellen Page, Tom Hardy',
@@ -519,7 +519,7 @@ $$ LANGUAGE plpgsql;
                 'Christopher Nolan',
                 9.5,
                 'https://imgs.search.brave.com/9jEC8JDuv_22P4o0RdXDQT0IjK76j_VY_D3d2p4un-U/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFyR0NtMFB5SEwu/anBn',
-                ARRAY[1, 6, 9],
+                ARRAY[6,14,13],
                 'Movie',
                 'Long Métrage',
                 'Christian Bale, Heath Ledger, Aaron Eckhart',
@@ -536,7 +536,7 @@ $$ LANGUAGE plpgsql;
                 'Quentin Tarantino',
                 9.0,
                 'https://imgs.search.brave.com/gRpfFBEoqNYkT7vasvhVWlOvyo-CwacYszqdHN5CFlk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFtbGdFN25VZEwu/anBn',
-                ARRAY[3, 8, 11],
+                ARRAY[17,9,7],
                 'Movie',
                 'Documentaire',
                 'John Travolta, Uma Thurman, Samuel L. Jackson',
@@ -553,7 +553,7 @@ $$ LANGUAGE plpgsql;
                 'Frank Darabont',
                 9.7,
                 'https://imgs.search.brave.com/2qSyceu44kSBqzaTdfv17HVgVtYrnJHa5KBkuXWFN0s/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFBendnTFQyV0wu/anBn',
-                ARRAY[1, 3, 8],
+                ARRAY[17,9,7],
                 'Movie',
                 'Court-métrage',
                 'Tim Robbins, Morgan Freeman, Bob Gunton',
@@ -571,7 +571,7 @@ $$ LANGUAGE plpgsql;
                 'Shigeru Miyamoto',
                 9.5,
                 'https://imgs.search.brave.com/kJWWAWlt0xSvX5byYkQEXTrkRIrixizmgBlbP_qlGm0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NTFhVjlvVHVhTUwu/anBn',
-                ARRAY[1, 6], -- Genres: Aventure, Action
+                ARRAY[1], -- Genres: Aventure, Action
                 'Game',
                 'Action-Adventure',
                 NULL, -- Pas d'acteurs pour un jeu
@@ -588,7 +588,7 @@ $$ LANGUAGE plpgsql;
                 'J.R.R. Tolkien',
                 9.8,
                 'https://imgs.search.brave.com/iHOFFf5hGw75bE61vstgmBw0CLkQuuzEdopwVfTKmCA/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLmpl/dXhhY3R1cy5jb20v/ZGF0YXMvamV1eC90/L2gvdGhlLXdpdGNo/ZXItMy10cmFxdWUt/c2F1dmFnZS9wL3Ro/ZS13aXRjaGVyLTMt/dHJhcXVlLXNhLTUz/OTE4ZjcwMDI4YjEu/anBn',
-                ARRAY[7, 8], -- Genres: RPG, Aventure
+                ARRAY[1,3], -- Genres: RPG, Aventure
                 'Game',
                 'Action-RPG',
                 NULL, -- Pas d'acteurs pour un jeu
@@ -622,7 +622,7 @@ $$ LANGUAGE plpgsql;
                 'Hideo Kojima',
                 8.2,
                 'https://imgs.search.brave.com/JtYI1J8RPNR55W_ddZvPcwlOYTxs01i6xiwe9aX_7bQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZS5hcGkucGxheXN0/YXRpb24uY29tL3Z1/bGNhbi9hcC9ybmQv/MjAyMTExLzMwMTMv/YnhTajRqTzBLQnFV/Z0FiSDN6dU5qQ2pl/LmpwZw',
-                ARRAY[1, 4], -- Genres: Action, RPG
+                ARRAY[1, 3], -- Genres: Action, RPG
                 'Game',
                 'Action-RPG',
                 NULL, -- Pas d'acteurs pour un jeu
@@ -640,7 +640,7 @@ $$ LANGUAGE plpgsql;
                 'Freddie Mercury',
                 9.8,
                 'https://imgs.search.brave.com/gMvu_H4qmAMvpTd7_gMnybA6hXwHFfzD033xlb2p4kA/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dWRpc2NvdmVybXVz/aWMuY29tL3dwLWNv/bnRlbnQvcGx1Z2lu/cy93cC15b3V0dWJl/LWx5dGUvbHl0ZUNh/Y2hlLnBocD9vcmln/VGh1bWJVcmw9aHR0/cHM6Ly9pLnl0aW1n/LmNvbS92aS9mSjly/VXpJTWNaUS8wLmpw/Zw',
-                ARRAY[1, 2], -- Genres: Pop, Rock
+                ARRAY[22,23], -- Genres: Pop, Rock
                 'Music',
                 'A Night at the Opera', -- Album
                 NULL, -- Pas d'acteurs pour un morceau de musique
@@ -657,7 +657,7 @@ $$ LANGUAGE plpgsql;
                 'Ed Sheeran',
                 8.5,
                 'https://imgs.search.brave.com/RDhuTrUw4M4oxZKsLuYOcK7RC3gvmrKrGVoCviqxpfg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/QjFUbFBTWTViS1Mu/anBn',
-                ARRAY[1], -- Genre: Pop
+                ARRAY[22], -- Genre: Pop
                 'Music',
                 '÷ (Divide)', -- Album
                 NULL, -- Pas d'acteurs pour un morceau de musique
@@ -674,7 +674,7 @@ $$ LANGUAGE plpgsql;
                 'Michael Jackson',
                 9.6,
                 'https://imgs.search.brave.com/m7U0uxsIjcQnhFKScxEX43IKUWBEwrPv2ad61Ot0quQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFNVkgxYno0Ykwu/anBn',
-                ARRAY[1, 2], -- Genres: Pop, Rock
+                ARRAY[22,23], -- Genres: Pop, Rock
                 'Music',
                 'Bad', -- Album
                 NULL, -- Pas d'acteurs pour un morceau de musique
@@ -691,7 +691,7 @@ $$ LANGUAGE plpgsql;
                 'Robert Plant',
                 9.7,
                 'https://imgs.search.brave.com/xgwn2AQtFPi-SxoFiVB-E6Gw-Qy2Qm72clJxwIVMaGo/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9hdXJh/bGNyYXZlLmNvbS93/cC1jb250ZW50L3Bs/dWdpbnMvd3AteW91/dHViZS1seXRlL2x5/dGVDYWNoZS5waHA_/b3JpZ1RodW1iVXJs/PWh0dHBzOi8vaS55/dGltZy5jb20vdmkv/UWtGM294emlVSTQv/MC5qcGc',
-                ARRAY[2], -- Genre: Rock
+                ARRAY[22], -- Genre: Rock
                 'Music',
                 'Led Zeppelin IV', -- Album
                 NULL, -- Pas d'acteurs pour un morceau de musique
