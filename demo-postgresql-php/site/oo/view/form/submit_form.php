@@ -1,6 +1,6 @@
 <div class="col-4">
                             <br>
-                            <input type="submit" value="Créer" class="form-control btn-bd uwu"> </input>
+                            <input type="submit" value="<?= (isset($mediaUpdate) != null) ? "Modifier" : "Créer" ?>" class="form-control btn-bd uwu"> </input>
                         </div>
 
                         <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

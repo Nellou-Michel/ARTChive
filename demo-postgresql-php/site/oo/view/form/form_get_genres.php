@@ -5,34 +5,21 @@
                             
                             $arrayType = MediaModel::getAllGenresByCategory($category); // Appel de la fonction statique
 
-                            echo '<div class="row">';
-                            echo '<div class="col-md-6">';
+                            // Récupérer les genres du mediaUpdate
+                            if(isset($mediaUpdate)){
+                                $mediaUpdateGenres = array();
+                                foreach ($mediaUpdate->getGenres() as $genreModel) {
+                                    $mediaUpdateGenres[] = $genreModel->getGenre();
+                                }
+                            }
 
-                            $count = count($arrayType);
-                            for ($i = 0; $i < $count; $i += 2) {
-                                $type = $arrayType[$i];
+                            foreach ($arrayType as $type) {
                                 echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="genre_id[]" id="genre_' . $type->getId_genre() . '" value="' . $type->getId_genre() . '">';
+                                echo '<input class="form-check-input" type="checkbox" name="genre_id[]" id="genre_' . $type->getId_genre() . '" value="' . $type->getId_genre() . '"';
+                                echo (isset($mediaUpdate) && in_array($type->getGenre(), $mediaUpdateGenres) ? ' checked' : '');
+                                echo '>';
                                 echo '<label class="form-check-label" for="genre_' . $type->getId_genre() . '">' . $type->getGenre() . '</label>';
                                 echo '</div>';
                             }
-
-                            echo '</div>';
-
-                            echo '<div class="col-md-6">';
-
-                            for ($i = 1; $i < $count; $i += 2) {
-                                $type = $arrayType[$i];
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="genre_id[]" id="genre_' . $type->getId_genre() . '" value="' . $type->getId_genre() . '">';
-                                echo '<label class="form-check-label" for="genre_' . $type->getId_genre() . '">' . $type->getGenre() . '</label>';
-                                echo '</div>';
-                            }
-
-                            echo '</div>';
-                            echo '</div>';
-
-
-
                             ?>
                         </div>

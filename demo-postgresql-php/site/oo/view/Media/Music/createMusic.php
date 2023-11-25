@@ -1,7 +1,14 @@
 <!-- Ajout du form de base d'un média -->
 <?php
-    $this->_t="Créer Musique";
+ 
     $category = "Music";
+
+    if(isset($mediaUpdate)){
+        $this->_t="Modifier musique";
+    }
+    else{
+        $this->_t="Créer musique";
+    }
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -15,7 +22,7 @@ PUIS DE L AJOUTER DANS BOOK (OU MUSIC,MOVIES etcc) -->
     <input type="text" name="category" value=<?= $category?> style="display:none;">
 
         <label for="album" class="form-label">(Nom de l'album)</label>
-        <input type="text" class="form-control" id="album" name="album">
+        <input type="text" class="form-control" id="album" name="album" value="<?= (isset($mediaUpdate) != null) ? $mediaUpdate->getAlbum() : "" ?>">
             <div class="invalid-feedback">
                     Selectionnez un nom de média valide
             </div>

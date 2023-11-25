@@ -16,7 +16,6 @@
                 <input checked type="radio" name="order" value="asc">
                 <label>Décroissant : </label>
                 <input type="radio" name="order" value="desc"><br><br>
-
             </div>
         </div>
     </div>

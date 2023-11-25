@@ -29,6 +29,25 @@ class GameModel extends MediaModel{
         $req->closeCursor();
     }
 
+    
+    public static function getGameById($id){
+        $req = DB::get()->prepare("SELECT * FROM Media,Game WHERE Media.id_media = :id_media AND Game.id_media = :id_media");
+        $values = array("id_media" => $id);
+        $req->execute($values);
+        
+        $mediaData = $req->fetch(PDO::FETCH_ASSOC);
+    
+        // Attention, si il n'y a pas de résultat, on renvoie false
+        if (!$mediaData) {
+            echo "Pas de média trouvé";
+            return false;
+        }
+    
+        // Créez une instance de MediaModel et initialisez-la avec les données du média
+        $media = new GameModel($mediaData);
+        return $media;
+    }
+
     //return toutes les platforms pour lequel ce jeu est jouable
     public function getPlatforms(){
 

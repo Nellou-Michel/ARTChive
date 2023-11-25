@@ -62,7 +62,7 @@ EXECUTE PROCEDURE func_Update_Media_Avg_Note();
 CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -70,7 +70,7 @@ CREATE OR REPLACE FUNCTION Get_Books_By_Genre_Type_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-    SELECT DISTINCT ON (m.id_media) m.*
+    SELECT m.*
     FROM Media m
     JOIN Book b ON b.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -78,15 +78,14 @@ BEGIN
     WHERE 
         (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
         AND (type IS NULL OR b.book_type = type)
-        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+        AND (author_id IS NULL OR a.id_author = author_id)
     ORDER BY 
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
         CASE WHEN sort_by_date = 'desc' THEN m.publication_date END DESC,
         CASE WHEN sort_by_note = 'asc' THEN m.average_note END ASC,
-        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC,
-        m.id_media;
+        CASE WHEN sort_by_note = 'desc' THEN m.average_note END DESC;
 END;
 $$ 
 LANGUAGE PLPGSQL;
@@ -94,7 +93,7 @@ LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     type VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -102,7 +101,7 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 	 $$
  BEGIN
      RETURN QUERY
-	 SELECT DISTINCT ON (m.id_media) m.*
+	 SELECT m.*
 	 FROM Media m
 	 JOIN Movie mov ON mov.id_media = m.id_media
 	 LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -110,9 +109,8 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 	 WHERE 
         (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
 		 AND (type IS NULL OR mov.movie_type = type) 
-		 AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
-	 ORDER BY 
-        m.id_media,
+		 AND (author_id IS NULL OR a.id_author = author_id)
+	 ORDER BY
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
 		CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -127,7 +125,7 @@ CREATE OR REPLACE FUNCTION Get_Movies_By_Genre_Type_Author_Date_Note(
 CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     platform_game VARCHAR[] DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -135,7 +133,7 @@ CREATE OR REPLACE FUNCTION Get_Games_By_Genre_Platform_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-    SELECT DISTINCT ON (m.id_media) m.*
+    SELECT m.*
     FROM Media m
     JOIN Game game ON game.id_media = m.id_media
     LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -144,9 +142,8 @@ BEGIN
     LEFT JOIN Author a ON a.id_author = m.id_author
     WHERE (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
         AND (platform_game IS NULL OR ARRAY(SELECT unnest(platform_game)) IS NULL OR po.platform = ANY(platform_game))
-        AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
-    ORDER BY 
-        m.id_media,
+        AND (author_id IS NULL OR a.id_author = author_id)
+    ORDER BY
         CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
         CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
         CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -161,7 +158,7 @@ LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
     genre_media_list INT[] DEFAULT NULL,
     album_music VARCHAR DEFAULT NULL,
-    author_name VARCHAR DEFAULT NULL,
+    author_id INT DEFAULT NULL,
     sort_by_title VARCHAR DEFAULT NULL,
     sort_by_date VARCHAR DEFAULT NULL,
     sort_by_note VARCHAR DEFAULT NULL
@@ -169,7 +166,7 @@ CREATE OR REPLACE FUNCTION Get_Musics_By_Genre_Album_Author_Date_Note(
 $$
 BEGIN
     RETURN QUERY
-        SELECT DISTINCT ON (m.id_media) m.*
+        SELECT m.*
         FROM Media m
         JOIN Music mus ON mus.id_media = m.id_media
         LEFT JOIN GenreMedia gm ON m.id_media = gm.id_media
@@ -178,9 +175,8 @@ BEGIN
         WHERE 
             (genre_media_list IS NULL OR ARRAY(SELECT unnest(genre_media_list)) IS NULL OR gm.id_genre = ANY(genre_media_list))
             AND (album_music IS NULL OR mus.album LIKE '%' || album_music || '%') 
-            AND (author_name IS NULL OR a.name_author LIKE '%' || author_name || '%')
+            AND (author_id IS NULL OR a.id_author = author_id)
         ORDER BY
-			m.id_media,
             CASE WHEN sort_by_title = 'asc' THEN m.name_media END ASC,
             CASE WHEN sort_by_title = 'desc' THEN m.name_media END DESC,
             CASE WHEN sort_by_date = 'asc' THEN m.publication_date END ASC,
@@ -294,113 +290,209 @@ BEGIN
     DELETE FROM Media WHERE id_media = media_id;
 
 END;
-
 $$ LANGUAGE plpgsql;
 
-   --LIVRES
-SELECT CreateNewMedia(
-            'Le Seigneur des Anneaux',  -- Nom du média
-            '1954-07-29',               -- Date de publication
-            'Un chef-d''œuvre de la littérature fantastique.',  -- Description
-            120,                        -- Durée (en minutes, ajustez selon vos besoins)
-            'minutes',                  -- Unité de la durée
-            'J.R.R. Tolkien',           -- Nom de l'auteur
-            9.5,                        -- Note moyenne
-            'https://imgs.search.brave.com/kvSyb7qnNyAFspmQETAV8ID-8x3GbDT2oVq599IFO9c/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3VsdHVyYS5jb20v/Y2RuLWNnaS9pbWFn/ZS93aWR0aD0yMTAv/bWVkaWEvcGltL1RJ/VEVMSVZFLzY4Xzk3/ODI4NDIyODIxNThf/MV83NS5qcGc',   -- Chemin de l'image
-            ARRAY[1, 6, 12],             -- Genres du livre (Action, Aventure, Fantasy)
-            'Book',                     -- Catégorie du média
-            'Roman',                    -- Type spécifique de média (ici, un roman)
-            NULL,                       -- Acteurs (n'est pas applicable ici)
-            NULL,                       -- Album (n'est pas applicable ici)
-            NULL                        -- Plateformes jouables (n'est pas applicable ici)
-    );
+CREATE OR REPLACE FUNCTION UpdateMedia(
+    media_id INT,
+    media_name VARCHAR(255),
+    media_publication_date DATE,
+    media_description VARCHAR(255),
+    media_length INT,
+    media_unite VARCHAR(255),
+    media_author_idname VARCHAR(255),
+    media_average_note DECIMAL(3, 2),
+    media_file_path VARCHAR(255),
+    media_genre_ids INT[],
+    media_category VARCHAR(255),
+    media_type VARCHAR(255),
+    media_actors VARCHAR(500),
+    media_album VARCHAR (255),
+    media_platforms VARCHAR[]
+)
+RETURNS VOID AS $$
+DECLARE
+    genre_id INT;
+    platform VARCHAR;
+    author_id INT;
+BEGIN
+    -- Étape 1: Vérifier si l'auteur existe déjà
+    SELECT id_author INTO author_id FROM Author WHERE name_author = media_author_idname;
 
-SELECT CreateNewMedia(
-            'Harry Potter à l école des sorciers',
-            '1997-06-26',
-            'Premier livre de la série Harry Potter.',
-            309,
-            'minutes',
-            'J.K. Rowling',
-            9.0,
-            'https://imgs.search.brave.com/gJYdOqS10SuBedXqBLhuMjjQKFOE7OEBi3FEAEkAjvY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTAy/MzBfNjcxMTYyLmpw/Zw',
-            ARRAY[1, 6, 9],
-            'Book',
-            'Poésie',
-            NULL,
-            NULL,
-            NULL
-    );
+    -- Étape 2: Si l'auteur n'existe pas, insérer le nouvel auteur
+    IF author_id IS NULL THEN
+        INSERT INTO Author (name_author) VALUES (media_author_idname)
+        RETURNING id_author INTO author_id;
+    END IF;
+    -- Mettez à jour la ligne dans la table Media en fonction de l'ID
+    UPDATE Media
+    SET
+        name_media = media_name,
+        publication_date = media_publication_date,
+        description = media_description,
+        length = media_length,
+        unite = media_unite,
+        id_author = author_id,
+        average_note = media_average_note,
+        file_path = media_file_path
 
-SELECT CreateNewMedia(
-            '1984',
-            '1949-06-08',
-            'Un roman d anticipation dystopique.',
-            328,
-            'pages',
-            'George Orwell',
-            8.5,
-            'https://imgs.search.brave.com/z7zP_9zUvXh6Izd2jplstDDmuKlvgLqu9dJ2DpohZO0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTk4/NF82MTc1LmpwZw   ',
-            ARRAY[2, 7, 10],
-            'Book',
-            'Nouvelle',
-            NULL,
-            NULL,
-            NULL
-    );
+    WHERE
+        id_media = media_id;
 
-SELECT CreateNewMedia(
-            'Le Hobbit',
-            '1937-09-21',
-            'Une aventure épique de fantasy.',
-            310,
-            'pages',
-            'J.R.R. Tolkien',
-            9.2,
-            'https://imgs.search.brave.com/ISdW16XocgzhWK_J9meyNqh1A6gNOj0T43tCN0tjetc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZXBhZ2luZS5m/ci84MjIvOTc4MjI1/MzE4MzgyMl8xXzc1/LmpwZw',
-            ARRAY[1, 6, 12],
-            'Book',
-            'BD',
-            NULL,
-            NULL,
-            NULL
-    );
+    -- Supprimez les anciennes associations GenreMedia pour cet ID de média
+    DELETE FROM GenreMedia
+    WHERE
+        id_media = media_id;
 
-SELECT CreateNewMedia(
-            'Crime et Châtiment',
-            '1866-12-22',
-            'Un chef-d œuvre de la littérature russe.',
-            545,
-            'pages',
-            'Fiodor Dostoïevski',
-            8.8,
-            'https://imgs.search.brave.com/glTWEzO3mNe3BoDiPhMVRCqhRukqlx4L8z4rl-R0NFw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9wcm9k/dWN0cy1pbWFnZXMu/ZGktc3RhdGljLmNv/bS9pbWFnZS9mZWRv/ci1kb3N0b2lldnNr/aS1jcmltZS1ldC1j/aGF0aW1lbnQvOTc4/MjI1MzA4MjUwNy0y/MDB4MzAzLTEuanBn',
-            ARRAY[3, 8, 11],
-            'Book',
-            'Manga',
-            NULL,
-            NULL,
-            NULL
-    );
+    -- Insérez de nouvelles associations GenreMedia en fonction des nouveaux ID de genre
+    FOREACH genre_id IN ARRAY media_genre_ids
+    LOOP
+        INSERT INTO GenreMedia (id_genre, id_media) VALUES (genre_id, media_id);
+    END LOOP;
 
-SELECT CreateNewMedia(
-            'Le Parrain',
-            '1969-03-10',
-            'Un roman policier qui a inspiré le célèbre film.',
-            448,
-            'pages',
-            'Mario Puzo',
-            9.1,
-            'https://imgs.search.brave.com/-2kqEePYpzEyvdh9vRzV8LSbDD8_sg7913weNZDEsBQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzQxMktLUktDS0FM/LmpwZw',
-            ARRAY[2, 6, 8],
-            'Book',
-            'BD',
-            NULL,
-            NULL,
-            NULL
-    );
+    -- Vérifiez si c'est un jeu et mettez à jour les plateformes jouables
+    IF media_category = 'Game' THEN
+        -- Supprimez les anciennes associations PlayableOn pour cet ID de média
+        DELETE FROM PlayableOn
+        WHERE
+            id_game = media_id;
 
-    --FILM
+        -- Insérez de nouvelles associations PlayableOn en fonction des nouvelles plateformes
+        FOREACH platform IN ARRAY media_platforms
+        LOOP
+            INSERT INTO PlayableOn (id_game, platform) VALUES (media_id, platform);
+        END LOOP;
+    END IF;
+
+
+    IF media_category = 'Movie' THEN
+        UPDATE Movie
+        SET
+            movie_type = media_type,
+            actors = media_actors
+        WHERE
+            id_media = media_id;
+    END IF;
+
+    IF media_category = 'Book' THEN
+        UPDATE Book
+        SET book_type = media_type
+        WHERE
+            id_media = media_id;
+    END IF;
+
+    IF media_category = 'Music' THEN
+        UPDATE Music
+        SET album = media_album
+        WHERE
+            id_media = media_id;
+    END IF;
+
+END;
+$$ LANGUAGE plpgsql;
+
+ SELECT CreateNewMedia(
+                'Le Seigneur des Anneaux',  -- Nom du média
+                '1954-07-29',               -- Date de publication
+                'Un chef-d''œuvre de la littérature fantastique.',  -- Description
+                120,                        -- Durée (en minutes, ajustez selon vos besoins)
+                'minutes',                  -- Unité de la durée
+                'J.R.R. Tolkien',           -- Nom de l'auteur
+                9.5,                        -- Note moyenne
+                'https://imgs.search.brave.com/kvSyb7qnNyAFspmQETAV8ID-8x3GbDT2oVq599IFO9c/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3VsdHVyYS5jb20v/Y2RuLWNnaS9pbWFn/ZS93aWR0aD0yMTAv/bWVkaWEvcGltL1RJ/VEVMSVZFLzY4Xzk3/ODI4NDIyODIxNThf/MV83NS5qcGc',   -- Chemin de l'image
+                ARRAY[1, 6, 12],             -- Genres du livre (Action, Aventure, Fantasy)
+                'Book',                     -- Catégorie du média
+                'Roman',                    -- Type spécifique de média (ici, un roman)
+                NULL,                       -- Acteurs (n'est pas applicable ici)
+                NULL,                       -- Album (n'est pas applicable ici)
+                NULL                        -- Plateformes jouables (n'est pas applicable ici)
+        );
+
+ SELECT CreateNewMedia(
+                'Harry Potter à l école des sorciers',
+                '1997-06-26',
+                'Premier livre de la série Harry Potter.',
+                309,
+                'minutes',
+                'J.K. Rowling',
+                9.0,
+                'https://imgs.search.brave.com/gJYdOqS10SuBedXqBLhuMjjQKFOE7OEBi3FEAEkAjvY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTAy/MzBfNjcxMTYyLmpw/Zw',
+                ARRAY[1, 6, 9],
+                'Book',
+                'Poésie',
+                NULL,
+                NULL,
+                NULL
+        );
+
+ SELECT CreateNewMedia(
+                '1984',
+                '1949-06-08',
+                'Un roman d anticipation dystopique.',
+                328,
+                'pages',
+                'George Orwell',
+                8.5,
+                'https://imgs.search.brave.com/z7zP_9zUvXh6Izd2jplstDDmuKlvgLqu9dJ2DpohZO0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFiZWxpby5jb20v/Y291di9DVlRfMTk4/NF82MTc1LmpwZw   ',
+                ARRAY[2, 7, 10],
+                'Book',
+                'Nouvelle',
+                NULL,
+                NULL,
+                NULL
+        );
+
+ SELECT CreateNewMedia(
+                'Le Hobbit',
+                '1937-09-21',
+                'Une aventure épique de fantasy.',
+                310,
+                'pages',
+                'J.R.R. Tolkien',
+                9.2,
+                'https://imgs.search.brave.com/ISdW16XocgzhWK_J9meyNqh1A6gNOj0T43tCN0tjetc/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZXBhZ2luZS5m/ci84MjIvOTc4MjI1/MzE4MzgyMl8xXzc1/LmpwZw',
+                ARRAY[1, 6, 12],
+                'Book',
+                'BD',
+                NULL,
+                NULL,
+                NULL
+        );
+
+ SELECT CreateNewMedia(
+                'Crime et Châtiment',
+                '1866-12-22',
+                'Un chef-d œuvre de la littérature russe.',
+                545,
+                'pages',
+                'Fiodor Dostoïevski',
+                8.8,
+                'https://imgs.search.brave.com/glTWEzO3mNe3BoDiPhMVRCqhRukqlx4L8z4rl-R0NFw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9wcm9k/dWN0cy1pbWFnZXMu/ZGktc3RhdGljLmNv/bS9pbWFnZS9mZWRv/ci1kb3N0b2lldnNr/aS1jcmltZS1ldC1j/aGF0aW1lbnQvOTc4/MjI1MzA4MjUwNy0y/MDB4MzAzLTEuanBn',
+                ARRAY[3, 8, 11],
+                'Book',
+                'Manga',
+                NULL,
+                NULL,
+                NULL
+        );
+
+ SELECT CreateNewMedia(
+                'Le Parrain',
+                '1969-03-10',
+                'Un roman policier qui a inspiré le célèbre film.',
+                448,
+                'pages',
+                'Mario Puzo',
+                9.1,
+                'https://imgs.search.brave.com/-2kqEePYpzEyvdh9vRzV8LSbDD8_sg7913weNZDEsBQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzQxMktLUktDS0FM/LmpwZw',
+                ARRAY[2, 6, 8],
+                'Book',
+                'BD',
+                NULL,
+                NULL,
+                NULL
+        );
+
+ --FILM
  SELECT CreateNewMedia(
                 'Inception',
                 '2010-07-08',
@@ -416,7 +508,7 @@ SELECT CreateNewMedia(
                 'Leonardo DiCaprio, Ellen Page, Tom Hardy',
                 NULL,
                 NULL
-    );
+        );
 
  SELECT CreateNewMedia(
                 'The Dark Knight',
@@ -469,7 +561,7 @@ SELECT CreateNewMedia(
                 NULL
         );
 
-    --JEUX
+ --JEUX
  SELECT CreateNewMedia(
                 'The Legend of Zelda: Breath of the Wild',
                 '2017-03-03',
@@ -538,7 +630,7 @@ SELECT CreateNewMedia(
                 ARRAY['PC', 'PlayStation 4', 'Xbox One'] -- Plateformes
         );
 
-    --MUSIC
+ --MUSIC
  SELECT CreateNewMedia(
                 'Bohemian Rhapsody',
                 '1975-10-31',
@@ -606,4 +698,3 @@ SELECT CreateNewMedia(
                 NULL, -- Pas de type pour un morceau de musique
                 NULL -- Pas de plateformes pour un morceau de musique
         );
-

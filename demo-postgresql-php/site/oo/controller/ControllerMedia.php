@@ -15,9 +15,14 @@ class ControllerMedia {
         
     }
 
+
     public  function create() {
 
     }
+
+    public function update() {
+
+    } 
 
     // Ajoutez ici d'autres fonctions pour gérer les actions CRUD
 
@@ -36,8 +41,6 @@ class ControllerMedia {
             // Récupérez le tableau d'ID de genre depuis le formulaire
             // Récupérez le tableau d'ID de genre depuis le formulaire
             $genreIdArray = isset($_POST["genre_id"]) ? $_POST["genre_id"] : array();
-            
-
             $category = $_POST["category"];
             $type = isset($_POST["type"]) ? $_POST["type"] : null;
             $album = isset($_POST["album"]) ? $_POST["album"] : null;
@@ -51,6 +54,40 @@ class ControllerMedia {
 
 
         $this->_view = new View(array('view','Media','createdMedia.php'));
+        $this->_view->generate(array(null));
+    }
+
+
+
+
+    public function updated() {
+        // Récupérer les données du formulaire ou de la requête
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupérez les données du formulaire
+            $id = $_POST["id_media"];
+            $name = $_POST["name_media"];
+            $publicationDate = $_POST["publication_date"];
+            $description = $_POST["description"];
+            $length = $_POST["length"];
+            $unit = $_POST["unite"];
+            $authorId = $_POST["id_author"];
+            $averageNote = $_POST["average_note"];
+            $filePath = $_POST["file_path"];
+            // Récupérez le tableau d'ID de genre depuis le formulaire
+            // Récupérez le tableau d'ID de genre depuis le formulaire
+            $genreIdArray = isset($_POST["genre_id"]) ? $_POST["genre_id"] : array();
+            $category = $_POST["category"];
+            $type = isset($_POST["type"]) ? $_POST["type"] : null;
+            $album = isset($_POST["album"]) ? $_POST["album"] : null;
+            $actors = isset($_POST["actors"]) ? $_POST["actors"] : null;
+            $platforms = isset($_POST["platform"]) ? $_POST["platform"] :array();
+
+            // Appeler la méthode de mise à jour du modèle
+            MediaModel::update($id, $name, $publicationDate, $description, $length, $unit, $authorId, $averageNote, $filePath, $genreIdArray, $category, $type, $actors, $album, $platforms);      
+        }
+
+        // Rediriger ou afficher une vue
+        $this->_view = new View(array('view','Media','modifiedMedia.php'));
         $this->_view->generate(array(null));
     }
 

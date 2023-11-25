@@ -1,7 +1,14 @@
 <!-- Ajout du form de base d'un média -->
 <?php
-    $this->_t="Créer jeu";
     $category = "Game";
+
+    if(isset($mediaUpdate)){
+        $this->_t="Modifier jeu";
+    }
+    else{
+        $this->_t="Créer jeu";
+    }
+
     require_once FILE::build_path(array('view','form','header_forme.php'));
     require FILE::build_path(array('view','form','body_form.php'));
 
@@ -19,5 +26,4 @@ PUIS DE L AJOUTER DANS Game (OU MUSIC,MOVIES etcc) -->
 <!-- Ajout du submit button, c'est la fin du formulaire -->
 <?php
     require FILE::build_path(array('view','form','submit_form.php'));
-
-    ?>
+?>
