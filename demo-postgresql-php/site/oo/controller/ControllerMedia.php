@@ -122,7 +122,6 @@ class ControllerMedia {
     public static function check_if_set_or_not_null_post_and_equalsto($var, $val, $order){
         $result =ControllerMedia::check_if_set_or_not_null_post($var);
        if($result!=null && $result==$val){
-            echo ($var."=".$order);
             return $order;
        }
        return null;
