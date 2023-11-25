@@ -12,7 +12,17 @@ class ControllerBook {
 
 
     public function readAll(){
-        $arrayAll = BookModel::getAllBooks();
+      
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $order= ControllerMedia::check_if_set_or_not_null_post("order");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title",$order);
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date",$order);
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note",$order);
+        $type = ControllerMedia::check_if_set_or_not_null_post("type");
+
+        $arrayAll = BookModel::getAllBooksWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+        // $arrayAll = BookModel::getAllBooks();
 
         //Appel de la vue 'list Book'
         $this->_view = new View(array('view','Media','Book','listBook.php'));

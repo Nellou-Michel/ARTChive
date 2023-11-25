@@ -29,81 +29,12 @@
                             </div>
                         </div>
 
-                    
-                        <?php
-                        // Récupérez la liste complète d'auteurs une seule fois
-                        require_once FILE::build_path(array('model','AuthorModel.php'));
-                        $suggestedAuthors = AuthorModel::getAll("author","AuthorModel");
-                        foreach ($suggestedAuthors as $author) {
-                            $authorsHashMap[$author->getId_author()] = $author->getName_author();
-                            $authorsNames[] = $author->getName_author();
-                        }
-                        
-                        ?>
+                        <!-- FORM AUTHORS -->
+                        <?php require_once FILE::build_path(array('view','form','form_get_authors.php')); ?>
 
-                        <div id='author_selection' class="col-12">
-                            <label for="id_author" class="form-label">Auteur</label>
-                            <input list="list_author" name="id_author" value="<?= (isset($mediaUpdate) != null) ? $mediaUpdate->getName_Author() : "" ?>"/>
-                        </div>
-
-                        <script>
-                            function trouverCleParValeur(objet, valeurRecherchee) {
-                                for (const cle in objet) {
-                                    if (objet[cle] === valeurRecherchee) {
-                                        return cle;
-                                    }
-                                }
-                                // Si la valeur n'est pas trouvée, vous pouvez retourner null ou une autre valeur par défaut.
-                                return null;
-                            }
-
-                            var listAuthorNames = <?php echo json_encode($authorsNames); ?>;
-                            var authorNameIdMap = <?php echo json_encode($authorsHashMap); ?>;
-                            var dataList = document.createElement('datalist');
-                            dataList.id = 'list_author';
-
-                            // Ajout d'options à la datalist
-                            
-                            for (var i = 0; i < listAuthorNames.length; i++) {
-                                var option = document.createElement('option');
-                                option.value = listAuthorNames[i];
-                                //option.textContent = listAuthorNames[i];
-                                //option.value = trouverCleParValeur(authorNameIdMap, listAuthorNames[i]);
-                                dataList.appendChild(option);
-
-                            document.getElementById('author_selection').appendChild(dataList);
-  }
-
-                        
-                        </script>
-                        </div>
                       
-
-                        <div class="col-12">
-                            <label class="form-label">Genres</label>
-                            <?php
-                            require_once FILE::build_path(array('model', 'MediaModel.php'));
-                            
-                            $arrayType = MediaModel::getAllGenresByCategory($category); // Appel de la fonction statique
-
-                            // Récupérer les genres du mediaUpdate
-                            if(isset($mediaUpdate)){
-                                $mediaUpdateGenres = array();
-                                foreach ($mediaUpdate->getGenres() as $genreModel) {
-                                    $mediaUpdateGenres[] = $genreModel->getGenre();
-                                }
-                            }
-                            
-                            foreach ($arrayType as $type) {
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="genre_id[]" id="genre_' . $type->getId_genre() . '" value="' . $type->getId_genre() . '"';
-                                echo (isset($mediaUpdate) && in_array($type->getGenre(), $mediaUpdateGenres) ? ' checked' : '');
-                                echo '>';
-                                echo '<label class="form-check-label" for="genre_' . $type->getId_genre() . '">' . $type->getGenre() . '</label>';
-                                echo '</div>';
-                            }
-                            ?>
-                        </div>
+                        <!-- FORM GENRES -->
+                        <?php require_once FILE::build_path(array('view','form','form_get_genres.php')); ?>
 
 
 
@@ -130,7 +61,7 @@
 
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <label class="form-label" for="length">Durée</label>
                             <input type="text" class="form-control" name="length" value="<?= (isset($mediaUpdate) != null) ? $mediaUpdate->getLength() : "" ?>">
                             <div class="invalid-feedback">
@@ -138,7 +69,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <label class="form-label" for="unite">Unité</label>
                             <select class="form-control" id="unite" name="unite">
                                 <option <?= (isset($mediaUpdate) != null && $mediaUpdate->getUnite()=="minutes") ? "selected" : "" ?> value="minutes">Minutes</option>

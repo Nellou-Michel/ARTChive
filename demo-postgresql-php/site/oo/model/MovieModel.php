@@ -46,6 +46,39 @@ class MovieModel extends MediaModel{
         $req->closeCursor();
     }
 
+    public static function getAllMoviesWithFilter($genre_list, $type, $author, $sb_title, $sb_date, $sb_note) {
+        $media_list = [];
+        $movie_list = [];
+        $req = DB::get()->prepare("select * from get_movies_by_genre_type_author_date_note(
+            :genre, :type, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
+        $values = array(
+        "genre" => $genre_list == NULL ? NULL : '{' . implode(',', $genre_list) . '}',  
+        "type" => $type, 
+        "author" => $author,
+        "sort_by_title" => $sb_title,
+        "sort_by_date" => $sb_date,
+        "sort_by_note" => $sb_note
+        );
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        foreach ($media_list as $media) {
+            $req_join = DB::get()->prepare("select * from Movie mov
+            join Media m on  mov.id_media = m.id_media 
+            where m.id_media = :id");
+            $values = array("id" => $media->getId_media());
+            $req_join->execute($values);
+            while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
+                $movie = new MovieModel($data);
+                if (!in_array($movie, $movie_list)) {
+                    $movie_list[] = $movie;
+                }
+            }
+        }
+        return $movie_list;
+    }
+
     public static function getMovieById($id){
         $req = DB::get()->prepare("SELECT * FROM Media,Movie WHERE Media.id_media = :id_media AND Movie.id_media = :id_media");
         $values = array("id_media" => $id);

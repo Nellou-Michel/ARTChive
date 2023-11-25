@@ -12,17 +12,17 @@ class ControllerMedia {
 
 
     public function readAll(){
-        $medias = MediaModel::getAllMedias();
+        
+    }
 
-        //Marche mais pas sécurisé
-        //require_once FILE::build_path(array('view','Media','listMedia.php'));
 
-        //Appel de la vue 'list Media'
-        $this->_view = new View('list','Media');
-        $this->_view->generate(array('medias' => $medias));
+    public  function create() {
 
     }
 
+    public function update() {
+
+    } 
 
     // Ajoutez ici d'autres fonctions pour gérer les actions CRUD
 
@@ -106,12 +106,28 @@ class ControllerMedia {
     }
 
 
-    public function create(){
-
+    public static function check_if_set_or_not_null_post($var){
+       
+        if(isset($_POST[$var])){
+            if($_POST[$var]==""){
+                return null;
+            }
+            return $_POST[$var];
+        }
+        else{
+            return null;
+        }
     }
-    public function update(){
 
+    public static function check_if_set_or_not_null_post_and_equalsto($var, $val, $order){
+        $result =ControllerMedia::check_if_set_or_not_null_post($var);
+       if($result!=null && $result==$val){
+            return $order;
+       }
+       return null;
+      
     }
+
 
 
 }

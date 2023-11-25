@@ -8,6 +8,22 @@ $category="Game";
 <a href="?controller=game&action=create" class="btn btn-primary button_mode_top" id="btn_top">+ Ajouter un jeu</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 <a href="?controller=game&action=create" class="button_mode_bot" id="btn_bot"><p>+</p></a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
 
+<br>
+<!-- Appel du début du form des filtres -->
+<?php
+require FILE::build_path(array('view','form','header_form_filter.php'));
+?>
+<!-- Filtre spécifique -->
+<!-- AJout du platform listé pour créer un jeu -->
+<?php
+    require FILE::build_path(array('view','form','form_get_platform.php'));
+?>
+     
+<!-- Fin du form des filtres -->
+<?php
+require FILE::build_path(array('view','form','ending_form_filter.php'));
+?>
+
 
 
 <div class="row mb-2">
@@ -19,7 +35,7 @@ foreach ($arrayAll as $obj): ?>
     
     
     <div class="col-md-6">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative maxed-h">
         
         
         <!-- Appel de la liste de base du média -->

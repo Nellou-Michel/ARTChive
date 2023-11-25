@@ -18,10 +18,18 @@ class ControllerMovie {
     }
 
     public function readAll(){
-       
-        $arrayAll = MovieModel::getAllMovies();
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $order= ControllerMedia::check_if_set_or_not_null_post("order");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title",$order);
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date",$order);
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note",$order);
+        $type = ControllerMedia::check_if_set_or_not_null_post("type");
 
-        //Appel de la vue 'list Book'
+        $arrayAll = MovieModel::getAllMoviesWithFilter($genre, $type, $author, $sb_title, $sb_date, $sb_note);
+       //$arrayAll = MovieModel::getAllMovies();
+
+        //Appel de la vue 'list Movie'
         $this->_view = new View(array('view','Media','Movie','listMovie.php'));
         $this->_view->generate(array('arrayAll' => $arrayAll));
 

@@ -37,6 +37,39 @@ class MusicModel extends MediaModel{
         $req->closeCursor();
     }
 
+    public static function getAllMusicsWithFilter($genre_list, $album, $author, $sb_title, $sb_date, $sb_note) {
+        $media_list = [];
+        $music_list = [];
+        $req = DB::get()->prepare("select * from get_musics_by_genre_album_author_date_note(
+            :genre, :album, :author, :sort_by_title, :sort_by_date, :sort_by_note)");
+        $values = array(
+        "genre" => $genre_list == NULL ? NULL : '{' . implode(',', $genre_list) . '}',
+        "album" => $album, 
+        "author" => $author,
+        "sort_by_title" => $sb_title,
+        "sort_by_date" => $sb_date,
+        "sort_by_note" => $sb_note
+        );
+        $req->execute($values);
+        while($data = $req->fetch(PDO::FETCH_ASSOC)){
+            $media_list[] = new MediaModel($data);
+        }
+        foreach ($media_list as $media) {
+            $req_join = DB::get()->prepare("select * from Music mus 
+            join Media m on mus.id_media = m.id_media 
+            where m.id_media = :id");
+            $values = array("id" => $media->getId_media());
+            $req_join->execute($values);
+            while($data = $req_join->fetch(PDO::FETCH_ASSOC)){
+                $music = new MusicModel($data);
+                if (!in_array($music, $music_list)) {
+                    $music_list[] = $music;
+                }
+            }
+        }
+        return $music_list;
+    }
+
     public static function getMusicById($id){
         $req = DB::get()->prepare("SELECT * FROM Media,Music WHERE Media.id_media = :id_media AND Music.id_media = :id_media");
         $values = array("id_media" => $id);

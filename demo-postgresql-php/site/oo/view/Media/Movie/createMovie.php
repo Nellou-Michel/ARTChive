@@ -27,27 +27,11 @@ PUIS DE L AJOUTER DANS Movie (OU MUSIC,MOVIES etcc) -->
                     Selectionnez un nom d'acteur valide
 </div>
 
-    <div class="col-12">
-        <label for="type" class="form-label">Type</label>
-        <select class="form-control" name="type" id="type" onchange="showInputMovie(this);">
-            <option  value="">Sélectionnez un Type</option>
-            <option value="+">+</option>
-          
-            <?php
-            
-            require_once FILE::build_path(array('model','MovieTypeModel.php'));
-        
-            $arrayType = MovieTypeModel::getAll("movieType","MovieTypeModel"); // Appel de la fonction statique
+<!-- Ajout formulaire de typeMovie -->
+<?php
+    require FILE::build_path(array('view','form','form_get_type_movie.php'));
 
-            foreach ($arrayType as $type) : ?>
-            <option <?= (isset($mediaUpdate) && $mediaUpdate->getMovie_type() == $type->getMovie_type()) ? "selected" : "" ?> value="<?= $type->getMovie_type() ?>">
-                <?= $type->getMovie_type() ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-
-        </div>
-       
+    ?>
      
 
 <!-- Ajout du submit button, c'est la fin du formulaire -->

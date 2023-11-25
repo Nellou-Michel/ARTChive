@@ -13,10 +13,20 @@ class ControllerMusic {
 
 
     public function readAll(){
-       
-        $arrayAll = MusicModel::getAllMusics();
+    
+        $genre = ControllerMedia::check_if_set_or_not_null_post("genre_id");
+        $author = ControllerMedia::check_if_set_or_not_null_post("author");
+        $order= ControllerMedia::check_if_set_or_not_null_post("order");
+        $sb_title = ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","title",$order);
+        $sb_date =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","date",$order);
+        $sb_note =   ControllerMedia::check_if_set_or_not_null_post_and_equalsto("sort_by","note",$order);
+        $album = ControllerMedia::check_if_set_or_not_null_post("album");
 
-        //Appel de la vue 'list Book'
+        $arrayAll = MusicModel::getAllMusicsWithFilter($genre, $album, $author, $sb_title, $sb_date, $sb_note);
+        //$arrayAll = MusicModel::getAllMusics();
+
+
+        //Appel de la vue 'list Music'
         $this->_view = new View(array('view','Media','Music','listMusic.php'));
         $this->_view->generate(array('arrayAll' => $arrayAll));
 

@@ -23,9 +23,8 @@
                         echo ' <li>'.$genre->getGenre().'('.$genre->getCategory().')</li> ' ;
                     }
                     echo('</ul>');
-
-
                 ?>
+
                 <div class="mb-1 text-body-secondary">Date de publication : <?= $obj->getPublication_date() ?></div>
                
 <!-- début du média = nom, auteur, unité, genres, date de publication -->

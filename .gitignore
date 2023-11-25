@@ -118,6 +118,6 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 #docker datas
-demo-postgresql-php/docker/data/postgres/data/
+demo-postgresql-php/docker/*
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
