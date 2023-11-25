@@ -40,7 +40,6 @@
         <div class="col-lg-6 px-0">
             <h1 class="display-5 fst-italic">Bienvenue sur ARTchive !</h1>
             <p class="lead my-3">Explorez les films, les jeux et les livres préférés de chacun. Découvrez, partagez et connectez-vous avec d'autres passionnés. Rejoignez notre communauté culturelle aujourd'hui ! </p>
-            <a href="votre-lien" class="btn btn-primary">Commencer</a> <!-- Remplacez 'votre-lien' par l'URL souhaitée -->
         </div>
     </div>
 </head>
